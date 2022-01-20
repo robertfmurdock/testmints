@@ -1,5 +1,4 @@
 import com.zegreatrob.testmints.plugins.BuildConstants.kotlinVersion
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.zegreatrob.testmints.plugins.multiplatform")
@@ -11,7 +10,7 @@ kotlin {
 
     targets {
         js { nodejs() }
-        jvm()
+        jvm {}
     }
 
     sourceSets {
@@ -58,14 +57,8 @@ kotlin {
 }
 
 tasks {
-
     val jvmTest by getting(Test::class) {
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-
         useJUnitPlatform()
-    }
-
-    withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
     }
 }

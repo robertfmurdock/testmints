@@ -1,6 +1,5 @@
 package com.zegreatrob.testmints.plugins
 
-import org.gradle.kotlin.dsl.*
 import java.nio.charset.Charset
 import java.util.*
 
@@ -79,8 +78,6 @@ tasks {
         }
     }
 }
-
-fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")
 
 fun Project.isMacRelease() = findProperty("release-target") == "mac"
 
