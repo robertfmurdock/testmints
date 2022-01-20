@@ -12,12 +12,7 @@ dependencies {
         api(project(":action-async"))
         api(project(":minspy"))
         api(project(":mindiff"))
-        api(project(":minjson"))
         api(project(":report"))
-        api(project(":minreact"))
-        api(project(":minenzyme"))
-        api(project(":react-data-loader"))
-        api(project(":wdio"))
     }
 }
 
