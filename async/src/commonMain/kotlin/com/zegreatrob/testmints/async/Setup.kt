@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 
-class Setup<C : Any, SC : Any>(
+class Setup<out C : Any, out SC : Any>(
     private val contextProvider: suspend (SC) -> C,
     private val scope: CoroutineScope,
     private val additionalActions: suspend C.() -> Unit,

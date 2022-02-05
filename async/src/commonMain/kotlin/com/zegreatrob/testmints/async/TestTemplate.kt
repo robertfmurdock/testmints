@@ -5,7 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 
-class TestTemplate<SC : Any>(
+class TestTemplate<out SC : Any>(
     val reporterProvider: ReporterProvider,
     private val templateScope: CoroutineScope = mintScope(),
     val wrapper: suspend (TestFunc<SC>) -> Unit
