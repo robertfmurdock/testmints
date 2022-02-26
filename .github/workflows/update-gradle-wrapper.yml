@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: '25'
       - name: Update Gradle Wrapper
         id: update-gradle-wrapper
         uses: gradle-update/update-gradle-wrapper-action@v1
