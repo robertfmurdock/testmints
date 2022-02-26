@@ -11,9 +11,18 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: '25'
-      - name: Update Gradle Wrapper
-        id: update-gradle-wrapper
-        uses: gradle-update/update-gradle-wrapper-action@v1
+      - uses: burrunan/gradle-cache-action@v1
+        name: Update Deps
+        with:
+          gradle-version: current
+          arguments: wrapper --distribution-type all
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: "create-pull-request/${{github.job}}/${{github.run_id}}"
+          commit-message: "[create-pull-request] ${{github.workflow}}"
+          token: ${{ secrets.TESTMINTS_PAT }}
       - name: Enable Pull Request Automerge
         uses: peter-evans/enable-pull-request-automerge@v1
         with:
