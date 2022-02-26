@@ -24,8 +24,9 @@ jobs:
           commit-message: "[create-pull-request] ${{github.workflow}}"
           token: ${{ secrets.TESTMINTS_PAT }}
       - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
         uses: peter-evans/enable-pull-request-automerge@v1
         with:
           token: ${{ secrets.TESTMINTS_PAT }}
-          pull-request-number: ${{ steps.update-gradle-wrapper.pull_request_data.number }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
           merge-method: rebase
