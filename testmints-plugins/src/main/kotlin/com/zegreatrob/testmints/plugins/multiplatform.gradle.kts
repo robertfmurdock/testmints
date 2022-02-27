@@ -2,6 +2,7 @@ package com.zegreatrob.testmints.plugins
 
 plugins {
     kotlin("multiplatform")
+    id("org.jmailen.kotlinter")
 }
 
 repositories {

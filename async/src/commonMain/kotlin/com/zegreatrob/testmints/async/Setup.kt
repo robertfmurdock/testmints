@@ -79,7 +79,6 @@ class Setup<out C : Any, out SC : Any>(
                     waitForJobsToFinish(context.exerciseScope)
                 }
             }
-
 }
 
 private fun Throwable.wrapCause() = CancellationException("Test failure.", this)

@@ -8,5 +8,4 @@ object Assertions {
     } catch (expected: Exception) {
         expected
     }
-
 }

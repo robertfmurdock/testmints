@@ -10,5 +10,4 @@ class Exercise<out C : Any, out R>(
     }
 
     infix fun verifyAnd(assertionFunctions: suspend C.(R) -> Unit) = Verify(runTestAsync(assertionFunctions))
-
 }

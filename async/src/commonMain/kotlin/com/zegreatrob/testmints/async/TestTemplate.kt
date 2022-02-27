@@ -51,7 +51,6 @@ class TestTemplate<out SC : Any>(
         contextProvider: suspend (SC) -> C,
         additionalActions: suspend C.() -> Unit = {}
     ) = Setup(contextProvider, mintScope(), additionalActions, reporterProvider.reporter, wrapper)
-
 }
 
 operator fun <C : Any> TestTemplate<Unit>.invoke(

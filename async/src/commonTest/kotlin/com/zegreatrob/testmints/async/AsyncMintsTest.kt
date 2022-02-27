@@ -3,7 +3,12 @@ package com.zegreatrob.testmints.async
 import com.zegreatrob.testmints.CompoundMintTestException
 import com.zegreatrob.testmints.captureException
 import com.zegreatrob.testmints.report.MintReporter
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -50,7 +55,6 @@ class AsyncMintsTest {
 
             fun testThatFails() = asyncSetup() exercise {
             } verify { fail("LOL") }
-
         }) exercise {
             captureException {
                 waitForTest { testThatFails() }
@@ -68,7 +72,6 @@ class AsyncMintsTest {
                     fail("LOL")
                 }
             }
-
         }) exercise {
             captureException { waitForTest { testThatFailsWithCoroutine() } }
         } verify { result ->
@@ -79,7 +82,6 @@ class AsyncMintsTest {
         fun verifyShouldThrowErrorWhenFailureOccurs() = asyncSetup(object {
 
             fun failingTest() = asyncSetup().exercise {}.verify { fail("LOL") }
-
         }) exercise {
             captureException { waitForTest { failingTest() } }
         } verify { result ->
@@ -97,7 +99,6 @@ class AsyncMintsTest {
             }) exercise {
                 actualValue = value
             } verify {}
-
         }) exercise {
             waitForTest { testThatSharesScopeExample() }
         } verify {
@@ -114,7 +115,6 @@ class AsyncMintsTest {
             } verify { result ->
                 actualValue = result
             }
-
         }) exercise {
             waitForTest { testThatForwardsResultOfExerciseToVerify() }
         } verify {
@@ -132,7 +132,6 @@ class AsyncMintsTest {
             } verify {
                 actualValue = value
             }
-
         }) exercise {
             waitForTest { testThatUsesSetupObjectInVerify() }
         } verify {
@@ -145,7 +144,6 @@ class AsyncMintsTest {
 
             fun testThatFailsDuringVerify(assertionError: AssertionError) = asyncSetup().exercise {
             } verify { throw assertionError }
-
         }) exercise {
             captureException { waitForTest { testThatFailsDuringVerify(assertionError) } }
         } verify { result ->
@@ -159,7 +157,6 @@ class AsyncMintsTest {
             fun testThatFailsDuringExercise() = asyncSetup() exercise {
                 throw assertionError
             } verify {}
-
         }) exercise {
             captureException { waitForTest { testThatFailsDuringExercise() } }
         } verify { result ->
@@ -303,7 +300,6 @@ class AsyncMintsTest {
 
             fun failingTestThatExplodesInTeardown() = asyncSetup() exercise {
             } verifyAnd { throw verifyFailure } teardown { throw teardownException }
-
         }) exercise {
             captureException { waitForTest { failingTestThatExplodesInTeardown() } }
         } verify { result ->
@@ -324,7 +320,6 @@ class AsyncMintsTest {
             fun testThatExplodeInSetupClosure() = asyncSetup {
                 throw setupException
             } exercise { exerciseOrVerifyTriggered = true } verify { exerciseOrVerifyTriggered = true }
-
         }) exercise {
             captureException { waitForTest { testThatExplodeInSetupClosure() } }
         } verify { result ->
@@ -357,7 +352,6 @@ class AsyncMintsTest {
                     .exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -375,7 +369,6 @@ class AsyncMintsTest {
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
                     .exercise { calls.add(Steps.Exercise) }
                     .verify { calls.add(Steps.Verify) }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -414,7 +407,6 @@ class AsyncMintsTest {
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
                     .exercise { calls.add(Steps.Exercise) }
                     .verify { calls.add(Steps.Verify) }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -441,7 +433,6 @@ class AsyncMintsTest {
                 }) { calls.add(Steps.Setup) }
                     .exercise { calls.add(Steps.Exercise) }
                     .verify { calls.add(Steps.Verify) }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -465,7 +456,6 @@ class AsyncMintsTest {
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
                     .exercise { contextReceived = this; calls.add(Steps.Exercise) }
                     .verify { calls.add(Steps.Verify) }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -493,7 +483,6 @@ class AsyncMintsTest {
                 }.exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -523,7 +512,6 @@ class AsyncMintsTest {
                 }.exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -554,7 +542,6 @@ class AsyncMintsTest {
                     .exercise { }
                     .verifyAnd { }
                     .teardown { }
-
             }) exercise {
                 captureException { waitForTest { testThatFailsBecauseOfBadTemplate() } }
             } verify { result ->
@@ -576,7 +563,6 @@ class AsyncMintsTest {
                     .exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify); fail("This test fails.") }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 captureException { waitForTest { testThatFails() } }
             } verify {
@@ -593,7 +579,6 @@ class AsyncMintsTest {
 
                 fun failingTestThatExplodesInTeardown() = customSetup() exercise {} verifyAnd {
                 } teardown { throw teardownException }
-
             }) exercise {
                 captureException { waitForTest { failingTestThatExplodesInTeardown() } }
             } verify { result ->
@@ -618,7 +603,6 @@ class AsyncMintsTest {
                 fun testThatSucceeds() = customSetup { }
                     .exercise { }
                     .verify { }
-
             }) exercise {
                 waitForTest { testThatSucceeds() }
             } verify {
@@ -666,7 +650,8 @@ class AsyncMintsTest {
                         "wrapTeardown",
                         "wrapSetup",
                         "wrapTeardown"
-                    ), calls
+                    ),
+                    calls
                 )
             }
 
@@ -703,7 +688,6 @@ class AsyncMintsTest {
             }
 
             private suspend fun List<() -> Any?>.runSuite() = forEach { waitForTest { it() } }
-
         }
     }
 
@@ -728,7 +712,6 @@ class AsyncMintsTest {
             }
 
             fun exampleTest() = asyncSetup() exercise {} verifyAnd {} teardown {}
-
         }) exercise {
             waitForTest { exampleTest() }
         } verify {
@@ -773,7 +756,6 @@ class AsyncMintsTest {
             val expectedObject = object {}
 
             fun simpleTest() = asyncSetup(expectedObject) exercise { } verify {}
-
         }) exercise {
             waitForTest { simpleTest() }
         } verify {
@@ -791,7 +773,6 @@ class AsyncMintsTest {
             }
             val expectedResult = object {}
             fun simpleTest() = asyncSetup() exercise { expectedResult } verify {}
-
         }) exercise {
             waitForTest { simpleTest() }
         } verify {
@@ -801,7 +782,7 @@ class AsyncMintsTest {
         @Test
         fun verifyFinishWillWaitUntilVerifyIsComplete() = asyncSetup(object : AsyncMintDispatcher {
             val verifyState = mutableListOf<String>()
-            var result : String? = null
+            var result: String? = null
             override val reporter = object : MintReporter {
                 override fun verifyFinish() {
                     result = verifyState.joinToString("")
@@ -811,14 +792,13 @@ class AsyncMintsTest {
             val expectedException = Exception("end in failure")
 
             fun simpleTest() = asyncSetup() exercise { expectedResult } verify {
-                    verifyState.add("a")
-                    delay(20)
-                    verifyState.add("b")
-                    delay(20)
-                    verifyState.add("c")
-                    throw expectedException
-                }
-
+                verifyState.add("a")
+                delay(20)
+                verifyState.add("b")
+                delay(20)
+                verifyState.add("c")
+                throw expectedException
+            }
         }) exercise {
             captureException { waitForTest { simpleTest() } }
         } verify { exception ->
@@ -826,5 +806,4 @@ class AsyncMintsTest {
             assertEquals("abc", result)
         }
     }
-
 }
