@@ -1,5 +1,11 @@
 # <img src="test-mint-2.png" alt="Logo" width="100"> testmints [![CircleCI](https://circleci.com/gh/robertfmurdock/testmints.svg?style=svg)](https://circleci.com/gh/robertfmurdock/testmints) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob.testmints/standard/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob/testmints)
 
+![Gradle Lib Updates](https://github.com/robertfmurdock/testmints/actions/workflows/update-gradle-wrapper.yml/badge.svg?branch=master)
+
+![Latest Release](https://img.shields.io/github/v/release/robertfmurdock/testmints)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/robertfmurdock/testmints)
+
+
 Do your tests have a great personality but have bad breath? Just looking for a way to freshen up your tests after a big meal of refactoring?
 
 Testmints is here for you.
@@ -127,7 +133,7 @@ An essay about an attempt to embed those priorities in the test code itself.
 
 ## Where did minenzyme, minreact, or react-data-loader go?
 
-Those now live in https://github.com/robertfmurdock/jsmints, under new version numbers. Those were never really intended to be part of the testmints multiplatform suite, so it made sense to give them their own home.
+Those now live in https://github.com/robertfmurdock/testmints, under new version numbers. Those were never really intended to be part of the testmints multiplatform suite, so it made sense to give them their own home.
 
 ## Acknowledgements
 
