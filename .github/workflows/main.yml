@@ -1,0 +1,37 @@
+name: Build
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+jobs:
+  build-job:
+    name: "Build"
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
+      GITHUB_TOKEN: ${{ secrets.TESTMINTS_PAT }}
+      GRGIT_USER: ${{ secrets.TESTMINTS_PAT }}
+      ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+    steps:
+      - run: cat /etc/hosts
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: c-hive/gha-yarn-cache@v2
+        with:
+          directory: kotlin-js-store
+      - uses: burrunan/gradle-cache-action@v1
+        name: Build
+        with:
+          arguments: check
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: test-output
+          path: |
+            build/test-output/

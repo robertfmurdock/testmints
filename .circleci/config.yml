@@ -14,7 +14,7 @@ jobs:
       - checkout
       - restore_cache:
           key: testmints-cache-10-{{ .Branch }}
-      - run: "./gradlew check release closeAndReleaseSonatypeStagingRepository --stacktrace"
+      - run: "./gradlew check release --stacktrace"
       - save_cache:
           key: testmints-cache-10-{{ .Branch }}
           paths:
@@ -34,7 +34,7 @@ jobs:
       - restore_cache:
           key: testmints-mac-cache-5-{{ .Branch }}
       - run: "git tag -d $(git describe) || echo 'no fail'"
-      - run: "./gradlew -P release-target=mac release closeAndReleaseSonatypeStagingRepository"
+      - run: "./gradlew -P release-target=mac release"
       - save_cache:
           key: testmints-mac-cache-5-{{ .Branch }}
           paths:
