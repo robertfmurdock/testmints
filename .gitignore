@@ -3,6 +3,7 @@ node_modules
 build
 data
 .DS_Store
+.cache-proxy
 
 # The following is based on https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
 
