@@ -36,3 +36,33 @@ jobs:
           name: test-output
           path: |
             build/test-output/
+  build-job-mac:
+    name: "Build"
+    runs-on: macos-latest
+    env:
+      GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
+      GITHUB_TOKEN: ${{ secrets.TESTMINTS_PAT }}
+      GRGIT_USER: ${{ secrets.TESTMINTS_PAT }}
+      ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: c-hive/gha-yarn-cache@v2
+        with:
+          directory: kotlin-js-store
+      - uses: burrunan/gradle-cache-action@v1
+        name: Build
+        with:
+          arguments: -P release-target=mac
+      - run: git status
+        if: ${{ always() }}
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: test-output
+          path: |
+            build/test-output/
