@@ -18,13 +18,13 @@ jobs:
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
     steps:
-      - run: cat /etc/hosts
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: c-hive/gha-yarn-cache@v2
         with:
           directory: kotlin-js-store
+      - run: git status
       - uses: burrunan/gradle-cache-action@v1
         name: Build
         with:

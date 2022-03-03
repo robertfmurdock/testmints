@@ -14,7 +14,7 @@ jobs:
       - checkout
       - restore_cache:
           key: testmints-cache-10-{{ .Branch }}
-      - run: "./gradlew check release --stacktrace"
+      - run: "./gradlew check --stacktrace"
       - save_cache:
           key: testmints-cache-10-{{ .Branch }}
           paths:
