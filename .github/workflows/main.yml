@@ -7,7 +7,7 @@ on:
       - '**'
 jobs:
   build-job:
-    name: "Build"
+    name: "Build Linux"
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
@@ -37,7 +37,7 @@ jobs:
           path: |
             build/test-output/
   build-job-mac:
-    name: "Build"
+    name: "Build Mac"
     runs-on: macos-latest
     env:
       GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
