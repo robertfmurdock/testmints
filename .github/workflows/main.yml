@@ -21,6 +21,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - uses: testspace-com/setup-testspace@v1
+        with:
+          domain: robertfmurdock
       - uses: c-hive/gha-yarn-cache@v2
         with:
           directory: kotlin-js-store
@@ -36,6 +39,10 @@ jobs:
           name: test-output
           path: |
             build/test-output/
+      - name: Push result to Testspace server
+        if: always()
+        run: |
+          testspace */**/build/test-results/**/*.xml
   build-job-mac:
     name: "Build Mac"
     runs-on: macos-latest
@@ -51,6 +58,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - uses: testspace-com/setup-testspace@v1
+        with:
+          domain: robertfmurdock
       - uses: c-hive/gha-yarn-cache@v2
         with:
           directory: kotlin-js-store
@@ -66,3 +76,7 @@ jobs:
           name: test-output
           path: |
             build/test-output/
+      - name: Push result to Testspace server
+        if: always()
+        run: |
+          testspace */**/build/test-results/**/*.xml
