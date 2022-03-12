@@ -45,7 +45,7 @@ jobs:
           testspace **/build/test-results/**/*.xml
   build-job-mac:
     name: "Build Mac"
-    runs-on: macos-latest
+    runs-on: macos-10.15
     env:
       GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
       GITHUB_TOKEN: ${{ secrets.TESTMINTS_PAT }}
