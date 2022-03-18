@@ -40,7 +40,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("reflect", "1.5.0"))
-                implementation("org.slf4j:slf4j-simple:2.0.0-alpha6")
+                implementation("org.slf4j:slf4j-simple:2.0.0-alpha7")
                 implementation("org.jetbrains.kotlin:kotlin-test")
 
                 implementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
