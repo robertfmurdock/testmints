@@ -1,4 +1,4 @@
-# <img src="test-mint-2.png" alt="Logo" width="100"> testmints [![CircleCI](https://circleci.com/gh/robertfmurdock/testmints.svg?style=svg)](https://circleci.com/gh/robertfmurdock/testmints) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob.testmints/standard/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob/testmints)
+# <img src="test-mint-2.png" alt="Logo" width="100"> testmints ![Build](https://github.com/robertfmurdock/testmints/actions/workflows/main.yml/badge.svg?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob.testmints/standard/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob/testmints)
 
 ![Gradle Lib Updates](https://github.com/robertfmurdock/testmints/actions/workflows/update-gradle-wrapper.yml/badge.svg?branch=master)
 
