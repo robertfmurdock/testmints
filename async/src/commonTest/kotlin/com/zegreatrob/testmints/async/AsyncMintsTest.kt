@@ -212,7 +212,7 @@ class AsyncMintsTest {
         }
 
         @Test
-        fun setupObjectCanBeCreatedInSuspendClosure() = asyncSetup({
+        fun setupObjectCanBeCreatedInSuspendClosure() = asyncSetup.with({
             val asyncProducedValue = CompletableDeferred(Random.nextInt()).await()
             object {
                 val asyncProducedValue = asyncProducedValue
@@ -426,7 +426,7 @@ class AsyncMintsTest {
 
                 var sharedContextReceived = 0
 
-                fun testThatSucceeds() = customSetup({ sc ->
+                fun testThatSucceeds() = customSetup.with({ sc ->
                     object {}.also {
                         sharedContextReceived = sc
                     }
@@ -478,7 +478,7 @@ class AsyncMintsTest {
 
                 var sharedContextReceived: Any? = null
 
-                fun testThatSucceeds() = extendedSetup({ sc -> sharedContextReceived = sc }) {
+                fun testThatSucceeds() = extendedSetup.with({ sc -> sharedContextReceived = sc }) {
                     calls.add(Steps.Setup)
                 }.exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }
@@ -507,7 +507,7 @@ class AsyncMintsTest {
 
                 var sharedContextReceived: Any? = null
 
-                fun testThatSucceeds() = extendedSetup({ sc -> sharedContextReceived = sc }) {
+                fun testThatSucceeds() = extendedSetup.with({ sc -> sharedContextReceived = sc }) {
                     calls.add(Steps.Setup)
                 }.exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }

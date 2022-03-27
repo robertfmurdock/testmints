@@ -47,7 +47,7 @@ interface SetupSyntax : ReporterProvider {
 
 internal fun Any.chooseTestScope() = if (this is ScopeMint) testScope else mintScope()
 
-val asyncSetup get() = AsyncMints.asyncSetup
+val asyncSetup: TestTemplate<Unit> get() = AsyncMints.asyncSetup
 
 fun <SC : Any> asyncTestTemplate(sharedSetup: suspend () -> SC, sharedTeardown: suspend (SC) -> Unit = {}) =
     AsyncMints.asyncTestTemplate(sharedSetup, sharedTeardown)

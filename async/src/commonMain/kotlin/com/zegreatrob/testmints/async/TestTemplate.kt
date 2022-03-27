@@ -47,35 +47,32 @@ class TestTemplate<out SC : Any>(
         })
     }
 
-    operator fun <C : Any> invoke(
+    operator fun <C : Any> invoke(context: C, additionalActions: suspend C.() -> Unit = {}) = Setup(
+        { context },
+        context.chooseTestScope(),
+        additionalActions,
+        reporterProvider.reporter,
+        wrapper
+    )
+
+    operator fun invoke(additionalActions: suspend SC.() -> Unit = {}) = Setup(
+        { it },
+        mintScope(),
+        additionalActions,
+        reporterProvider.reporter,
+        wrapper
+    )
+
+    fun <C : Any> with(
         contextProvider: suspend (SC) -> C,
         additionalActions: suspend C.() -> Unit = {}
     ) = Setup(contextProvider, mintScope(), additionalActions, reporterProvider.reporter, wrapper)
 }
 
-operator fun <C : Any> TestTemplate<Unit>.invoke(
+fun <C : Any> TestTemplate<Unit>.with(
     contextProvider: suspend () -> C,
     additionalAction: suspend C.() -> Unit = {}
 ): Setup<C, Unit> {
     val unitSharedContextAdapter: suspend (Unit) -> C = { contextProvider() }
-    return invoke(unitSharedContextAdapter, additionalAction)
+    return with(unitSharedContextAdapter, additionalAction)
 }
-
-operator fun <SC : Any, C : Any> TestTemplate<SC>.invoke(
-    context: C,
-    additionalActions: suspend C.() -> Unit = {}
-) = Setup(
-    { context },
-    context.chooseTestScope(),
-    additionalActions,
-    reporterProvider.reporter,
-    wrapper
-)
-
-operator fun <C : Any> TestTemplate<C>.invoke(additionalActions: suspend C.() -> Unit = {}) = Setup(
-    { it },
-    mintScope(),
-    additionalActions,
-    reporterProvider.reporter,
-    wrapper
-)
