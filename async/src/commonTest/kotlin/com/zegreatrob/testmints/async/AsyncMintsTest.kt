@@ -277,7 +277,7 @@ class AsyncMintsTest {
         fun tearDownShouldHaveAccessToScopeOfSetupObjectAndResult() = asyncSetup(object {
             val expectedValue: Int = Random.nextInt()
             val expectedResult: Int = Random.nextInt()
-            val valueCollector = mutableListOf<Pair<Int, Int>>()
+            val valueCollector = mutableListOf<Pair<Int, Int?>>()
         }) exercise {
             fun testThatSendsContextToTeardown() = asyncSetup(object {
                 val value = expectedValue
@@ -306,6 +306,26 @@ class AsyncMintsTest {
             when (result) {
                 is CompoundMintTestException -> {
                     assertEquals(verifyFailure.message, result.exceptions["Failure"]?.message)
+                    assertEquals(teardownException.message, result.exceptions["Teardown exception"]?.message)
+                }
+                else -> fail("was not correct exception type.")
+            }
+        }
+
+        @Test
+        fun whenExceptionOccursInExerciseAndExceptionOccursInTeardownBothAreReported() = asyncSetup(object {
+            val exerciseFailure = AssertionError("Got 'em")
+            val teardownException = Exception("Oh man, not good. ${Random.nextInt()}")
+
+            fun failingTestThatExplodesInTeardown() = asyncSetup() exercise {
+                throw exerciseFailure
+            } verifyAnd { } teardown { throw teardownException }
+        }) exercise {
+            captureException { waitForTest { failingTestThatExplodesInTeardown() } }
+        } verify { result ->
+            when (result) {
+                is CompoundMintTestException -> {
+                    assertEquals(exerciseFailure.message, result.exceptions["Exercise exception"]?.message)
                     assertEquals(teardownException.message, result.exceptions["Teardown exception"]?.message)
                 }
                 else -> fail("was not correct exception type.")

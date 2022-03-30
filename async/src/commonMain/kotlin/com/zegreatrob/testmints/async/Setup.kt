@@ -26,21 +26,28 @@ class Setup<out C : Any, out SC : Any>(
     private suspend fun <R> runTest(
         exerciseFunc: suspend C.() -> R,
         verifyFunc: suspend C.(R) -> Unit,
-        teardownFunc: suspend C.(R) -> Unit
+        teardownFunc: suspend C.(R?) -> Unit
     ) {
+        var exerciseProblem: Throwable? = null
         var verifyFailure: Throwable? = null
         var teardownException: Throwable? = null
         val wrapperException = checkedInvoke(wrapper) { sharedContext ->
             val context = performSetup(sharedContext)
-            val result = performExercise(context, exerciseFunc)
-            verifyFailure = performVerify(context, result, verifyFunc)
+            val result = try {
+                performExercise(context, exerciseFunc)
+            } catch (uhOh: Throwable) {
+                exerciseProblem = uhOh
+                null
+            }
+            verifyFailure = if (result != null) performVerify(context, result, verifyFunc) else null
+
             teardownException = performTeardown(context, result, teardownFunc)
         }
         reporter.teardownFinish()
-        handleTeardownExceptions(verifyFailure, teardownException, wrapperException)
+        handleTeardownExceptions(exerciseProblem, verifyFailure, teardownException, wrapperException)
     }
 
-    private suspend fun <R> performTeardown(context: C, result: R, teardownFunc: suspend C.(R) -> Unit): Throwable? {
+    private suspend fun <R> performTeardown(context: C, result: R?, teardownFunc: suspend C.(R?) -> Unit): Throwable? {
         reporter.teardownStart()
         return captureException { teardownFunc(context, result) }
     }
@@ -84,11 +91,12 @@ class Setup<out C : Any, out SC : Any>(
 private fun Throwable.wrapCause() = CancellationException("Test failure.", this)
 
 private fun handleTeardownExceptions(
+    exerciseProblem: Throwable?,
     failure: Throwable?,
     teardownException: Throwable?,
     templateTeardownException: Throwable?
 ) {
-    val problems = exceptionDescriptionMap(failure, teardownException, templateTeardownException)
+    val problems = exceptionDescriptionMap(exerciseProblem, failure, teardownException, templateTeardownException)
 
     if (problems.size == 1) {
         throw problems.values.first()
@@ -98,18 +106,21 @@ private fun handleTeardownExceptions(
 }
 
 private fun exceptionDescriptionMap(
+    exerciseProblem: Throwable?,
     failure: Throwable?,
     teardownException: Throwable?,
     templateTeardownException: Throwable?
-) = descriptionMap(failure, teardownException, templateTeardownException)
+) = descriptionMap(exerciseProblem, failure, teardownException, templateTeardownException)
     .mapNotNull { (descriptor, exception) -> exception?.let { descriptor to exception } }
     .toMap()
 
 private fun descriptionMap(
+    exerciseProblem: Throwable?,
     failure: Throwable?,
     teardownException: Throwable?,
     templateTeardownException: Throwable?
 ) = mapOf(
+    "Exercise exception" to exerciseProblem,
     "Failure" to failure,
     "Teardown exception" to teardownException,
     "Template teardown exception" to templateTeardownException
