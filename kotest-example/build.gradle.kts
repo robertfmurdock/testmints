@@ -3,7 +3,7 @@ import com.zegreatrob.testmints.plugins.BuildConstants
 plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.platforms")
-    id("io.kotest.multiplatform") version "5.2.1"
+    id("io.kotest.multiplatform") version "5.2.3"
 }
 
 kotlin {
