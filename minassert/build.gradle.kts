@@ -16,6 +16,13 @@ kotlin {
             }
         }
 
+        val commonTest by getting {
+            dependencies {
+                implementation(project(":standard"))
+                implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
+            }
+        }
+
         val nativeCommonMain by creating {
             dependsOn(commonMain)
         }

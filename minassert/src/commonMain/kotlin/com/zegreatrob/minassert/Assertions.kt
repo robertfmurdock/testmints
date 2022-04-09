@@ -3,6 +3,7 @@ package com.zegreatrob.minassert
 import com.zegreatrob.mindiff.stringDiff
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 fun <T> T?.assertIsEqualTo(expected: T, message: String? = null) =
     assertEquals(expected, this, message.appendDiff(expected, this))
@@ -13,6 +14,6 @@ private fun <T> String?.appendDiff(expected: T, t1: T?): String {
 
 fun <T> T?.assertIsNotEqualTo(expected: T, message: String? = null) = assertNotEquals(expected, this, message)
 
-fun <T> List<T>.assertContains(item: T) = contains(item)
-    .assertIsEqualTo(true, "${this.map { "$item" }} did not contain $item")
-    .let { this }
+fun <T> List<T>.assertContains(item: T): List<T>  = also {
+    assertTrue("${map { "$it" }} did not contain $item") { contains(item) }
+}
