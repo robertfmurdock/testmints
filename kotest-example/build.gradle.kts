@@ -19,7 +19,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
-                implementation("io.kotest:kotest-framework-engine:5.2.2")
+                implementation("io.kotest:kotest-framework-engine:5.2.3")
             }
         }
 
@@ -37,7 +37,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation("io.kotest:kotest-runner-junit5-jvm:5.2.2")
+                implementation("io.kotest:kotest-runner-junit5-jvm:5.2.3")
             }
         }
     }
