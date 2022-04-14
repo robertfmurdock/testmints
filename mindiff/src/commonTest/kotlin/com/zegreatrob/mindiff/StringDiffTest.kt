@@ -1,8 +1,8 @@
 package com.zegreatrob.mindiff
 
-import com.zegreatrob.minassert.assertIsEqualTo
 import com.zegreatrob.testmints.setup
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class StringDiffTest {
 
@@ -13,7 +13,7 @@ class StringDiffTest {
     }) exercise {
         stringDiff(l, r)
     } verify { result ->
-        result.assertIsEqualTo("")
+        assertEquals("", result)
     }
 
     class WhenStartsSameEndsDifferent {
@@ -26,22 +26,21 @@ class StringDiffTest {
         fun willIndicateWhereFirstDifferenceOccurs() = setup(Setup) exercise {
             stringDiff(l, r)
         } verify { result ->
-            result.split("\n")[0]
-                .assertIsEqualTo("Difference at index 3.")
+            val t = result.split("\n")[0]
+            assertEquals("Difference at index 3.", t)
         }
 
         @Test
         fun willShowDifferenceSection() = setup(Setup) exercise {
             stringDiff(l, r)
         } verify { result ->
-            result.split("\n")
+            val expected = listOf(
+                "E: man",
+                "A: lady"
+            )
+            val takeLast = result.split("\n")
                 .takeLast(2)
-                .assertIsEqualTo(
-                    listOf(
-                        "E: man",
-                        "A: lady"
-                    )
-                )
+            assertEquals(expected, takeLast)
         }
     }
 
@@ -55,22 +54,21 @@ class StringDiffTest {
         fun willIndicateWhereFirstDifferenceOccurs() = setup(Setup) exercise {
             stringDiff(l, r)
         } verify { result ->
-            result.split("\n")[0]
-                .assertIsEqualTo("Difference at index 4.")
+            val t = result.split("\n")[0]
+            assertEquals("Difference at index 4.", t)
         }
 
         @Test
         fun willShowDifferenceSection() = setup(Setup) exercise {
             stringDiff(l, r)
         } verify { result ->
-            result.split("\n")
+            val expected = listOf(
+                "E: man",
+                "A: lady"
+            )
+            val takeLast = result.split("\n")
                 .takeLast(2)
-                .assertIsEqualTo(
-                    listOf(
-                        "E: man",
-                        "A: lady"
-                    )
-                )
+            assertEquals(expected, takeLast)
         }
     }
 
@@ -85,14 +83,14 @@ class StringDiffTest {
             stringDiff(l, r)
         } verify { result ->
             val lines = result.split("\n")
-            lines[0].assertIsEqualTo("Difference at index 4.")
-            lines.slice(1..2)
-                .assertIsEqualTo(
-                    listOf(
-                        "E: man",
-                        "A: lady"
-                    )
-                )
+            val t = lines[0]
+            assertEquals("Difference at index 4.", t)
+            val expected = listOf(
+                "E: man",
+                "A: lady"
+            )
+            val slice = lines.slice(1..2)
+            assertEquals(expected, slice)
         }
 
         @Test
@@ -100,14 +98,14 @@ class StringDiffTest {
             stringDiff(l, r)
         } verify { result ->
             val lines = result.split("\n")
-            lines[3].assertIsEqualTo("Difference at index 39.")
-            lines.slice(4..5)
-                .assertIsEqualTo(
-                    listOf(
-                        "E: jig",
-                        "A: salsa"
-                    )
-                )
+            val t = lines[3]
+            assertEquals("Difference at index 39.", t)
+            val expected = listOf(
+                "E: jig",
+                "A: salsa"
+            )
+            val slice = lines.slice(4..5)
+            assertEquals(expected, slice)
 
         }
 

@@ -1,8 +1,8 @@
 package com.zegreatrob.mindiff
 
-import com.zegreatrob.minassert.assertIsEqualTo
 import com.zegreatrob.testmints.setup
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class DiffTest {
 
@@ -13,7 +13,7 @@ class DiffTest {
     }) exercise {
         diff(l, r)
     } verify { result ->
-        result.assertIsEqualTo(".")
+        assertEquals(".", result)
     }
 
     @Test
@@ -23,7 +23,7 @@ class DiffTest {
     }) exercise {
         diff(l, r)
     } verify { result ->
-        result.assertIsEqualTo("x")
+        assertEquals("x", result)
     }
 
     @Test
@@ -33,7 +33,7 @@ class DiffTest {
     }) exercise {
         diff(l, r)
     } verify { result ->
-        result.assertIsEqualTo(".......xxxxxxxx")
+        assertEquals(".......xxxxxxxx", result)
     }
 
     @Test
@@ -43,6 +43,6 @@ class DiffTest {
     }) exercise {
         diff(l, r)
     } verify { result ->
-        result.assertIsEqualTo("x..x.x.x....x..xxxxxxx")
+        assertEquals("x..x.x.x....x..xxxxxxx", result)
     }
 }

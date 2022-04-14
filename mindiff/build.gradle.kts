@@ -19,7 +19,6 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(project(":standard"))
-                implementation(project(":minassert"))
                 implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
             }
         }
