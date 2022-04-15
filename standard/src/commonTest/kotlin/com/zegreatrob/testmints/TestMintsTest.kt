@@ -56,6 +56,20 @@ class TestMintsTest {
         }
 
         @Test
+        fun whenExerciseReturnsLegalNullWillStillRunVerify() = setup(object {
+            var verifyWasCalled = false
+            fun testThatReturnsNull() = setup() exercise {
+                null
+            } verify {
+                verifyWasCalled = true
+            }
+        }) exercise {
+            testThatReturnsNull()
+        } verify {
+            assertEquals(true, verifyWasCalled)
+        }
+
+        @Test
         fun verifyShouldReceiveTheResultOfExerciseAsParameter() = setup(object {
             val expectedValue = Random.nextInt()
             var actualValue: Int? = null

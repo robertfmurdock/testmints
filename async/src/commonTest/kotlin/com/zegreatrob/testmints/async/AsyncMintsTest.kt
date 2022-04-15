@@ -5,6 +5,7 @@ import com.zegreatrob.testmints.captureException
 import com.zegreatrob.testmints.report.MintReporter
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -48,6 +49,7 @@ class AsyncMintsTest {
         }
     }
 
+    @ExperimentalCoroutinesApi
     class Features {
 
         @Test
@@ -185,6 +187,21 @@ class AsyncMintsTest {
             asyncGuy.doThingAsync()
         } verify { result: Int ->
             assertEquals(expected, result)
+        }
+
+        @Test
+        fun whenExerciseReturnsLegalNullWillStillRunVerify() = asyncSetup(object {
+
+            var verifyWasCalled = false
+            fun testThatReturnsNull() = asyncSetup() exercise {
+                null
+            } verify {
+                verifyWasCalled = true
+            }
+        }) exercise {
+            waitForTest { testThatReturnsNull() }
+        } verify {
+            assertEquals(true, verifyWasCalled)
         }
 
         @Test

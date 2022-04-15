@@ -35,11 +35,12 @@ class Setup<out C : Any, out SC : Any>(
             val context = performSetup(sharedContext)
             val result = try {
                 performExercise(context, exerciseFunc)
+                    .let { Result.success(it) }
             } catch (uhOh: Throwable) {
                 exerciseProblem = uhOh
-                null
+                Result.failure(uhOh)
             }
-            verifyFailure = if (result != null) performVerify(context, result, verifyFunc) else null
+            verifyFailure = if (result.isSuccess) performVerify(context, result.getOrThrow(), verifyFunc) else null
 
             teardownException = performTeardown(context, result, teardownFunc)
         }
@@ -47,9 +48,10 @@ class Setup<out C : Any, out SC : Any>(
         handleTeardownExceptions(exerciseProblem, verifyFailure, teardownException, wrapperException)
     }
 
-    private suspend fun <R> performTeardown(context: C, result: R?, teardownFunc: suspend C.(R?) -> Unit): Throwable? {
+    private suspend fun <R> performTeardown(context: C, result: Result<R>, teardownFunc: suspend C.(R?) -> Unit):
+        Throwable? {
         reporter.teardownStart()
-        return captureException { teardownFunc(context, result) }
+        return captureException { teardownFunc(context, result.getOrNull()) }
     }
 
     private suspend fun <R> runCodeUnderTest(context: C, codeUnderTest: suspend C.() -> R): R {
