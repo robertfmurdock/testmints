@@ -89,3 +89,15 @@ val macTargets = listOf(
 fun PublicationContainer.nonMacPublications() = matching { !macTargets.contains(it.name) }
 
 fun PublicationContainer.jvmPublication(): NamedDomainObjectSet<Publication> = matching { it.name == "jvm" }
+
+
+dependencyLocking {
+    lockAllConfigurations()
+    lockMode.set(LockMode.STRICT)
+}
+
+buildscript {
+    configurations.classpath {
+        resolutionStrategy.activateDependencyLocking()
+    }
+}
