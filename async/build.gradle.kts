@@ -1,4 +1,3 @@
-
 import com.zegreatrob.testmints.plugins.BuildConstants.kotlinVersion
 
 plugins {
@@ -9,8 +8,14 @@ plugins {
 }
 
 kotlin {
-
     sourceSets {
+        all {
+            languageSettings {
+                optIn("kotlinx.coroutines.DelicateCoroutinesApi")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
+
         val commonMain by getting {
             dependencies {
                 api(project(":standard"))
@@ -50,6 +55,5 @@ kotlin {
                 dependsOn(commonMain)
             }
         }
-
     }
 }

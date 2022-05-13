@@ -5,7 +5,6 @@ import com.zegreatrob.testmints.captureException
 import com.zegreatrob.testmints.report.MintReporter
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -49,7 +48,6 @@ class AsyncMintsTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     class Features {
 
         @Test

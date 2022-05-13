@@ -5,6 +5,16 @@ plugins {
     id("org.jmailen.kotlinter")
 }
 
+kotlin {
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                allWarningsAsErrors = true
+            }
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 }
