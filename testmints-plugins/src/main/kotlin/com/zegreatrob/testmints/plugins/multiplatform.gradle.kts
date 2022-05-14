@@ -6,13 +6,14 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinPackageJsonTask
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 
 plugins {
     kotlin("multiplatform")
-    id("org.jmailen.kotlinter")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 kotlin {
@@ -25,6 +26,10 @@ kotlin {
     }
 }
 
+ktlint {
+    version.set("0.45.2")
+}
+
 repositories {
     mavenCentral()
 }
@@ -33,6 +38,9 @@ dependencies {
     "commonMainImplementation"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.1"))
 }
 
+tasks.withType(KotlinNativeSimulatorTest::class).configureEach {
+    outputs.cacheIf { true }
+}
 tasks.withType(KotlinNpmCachesSetup::class).configureEach {
     outputs.cacheIf { true }
 }
