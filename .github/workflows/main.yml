@@ -24,13 +24,12 @@ jobs:
       - uses: testspace-com/setup-testspace@v1
         with:
           domain: robertfmurdock
-      - uses: c-hive/gha-yarn-cache@v2
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
         with:
-          directory: kotlin-js-store
-      - uses: burrunan/gradle-cache-action@v1
-        name: Build
-        with:
-          arguments: release check --scan
+          cache-read-only: ${{ github.ref != 'refs/heads/master' }}
+      - name: Build
+        run: ./gradlew release check --scan
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
@@ -61,14 +60,12 @@ jobs:
       - uses: testspace-com/setup-testspace@v1
         with:
           domain: robertfmurdock
-      - uses: c-hive/gha-yarn-cache@v2
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
         with:
-          directory: kotlin-js-store
-      - uses: burrunan/gradle-cache-action@v1
-        name: Build
-        with:
-          properties: org.gradle.parallel=false
-          arguments: release -P release-target=mac --scan
+          cache-read-only: ${{ github.ref != 'refs/heads/master' }}
+      - name: Build
+        run: ./gradlew release -P org.gradle.parallel=false -P release-target=mac --scan
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
