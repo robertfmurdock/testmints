@@ -13,9 +13,10 @@ class Setup<out C : Any, out SC : Any>(
     private val scope: CoroutineScope,
     private val additionalActions: suspend C.() -> Unit,
     private val reporter: MintReporter,
+    private val timeoutMs: Long,
     private val wrapper: suspend (TestFunc<SC>) -> Unit
 ) {
-    infix fun <R> exercise(exerciseFunc: suspend C.() -> R) = Exercise<C, R> { verifyFunc ->
+    infix fun <R> exercise(exerciseFunc: suspend C.() -> R) = Exercise<C, R>(timeoutMs) { verifyFunc ->
         { teardownFunc ->
             scope.async { runTest(exerciseFunc, verifyFunc, teardownFunc) }.apply {
                 invokeOnCompletion { cause -> scope.cancel(cause?.wrapCause()) }

@@ -30,7 +30,7 @@ jobs:
       - uses: burrunan/gradle-cache-action@v1
         name: Build
         with:
-          arguments: release check
+          arguments: release check --scan
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
@@ -67,7 +67,7 @@ jobs:
       - uses: burrunan/gradle-cache-action@v1
         name: Build
         with:
-          arguments: release -P release-target=mac
+          arguments: release -P release-target=mac --scan
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2

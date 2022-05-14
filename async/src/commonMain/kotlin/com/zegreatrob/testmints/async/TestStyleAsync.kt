@@ -3,7 +3,9 @@ package com.zegreatrob.testmints.async
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.test.runTest
 
-fun finalTransform(deferred: () -> Deferred<Unit>) = runTest { deferred().await() }
+fun finalTransform(timeoutMs: Long, deferred: () -> Deferred<Unit>) = runTest(dispatchTimeoutMs = timeoutMs) {
+    deferred().await()
+}
 
 expect suspend fun waitForTest(testFunction: () -> Unit)
 

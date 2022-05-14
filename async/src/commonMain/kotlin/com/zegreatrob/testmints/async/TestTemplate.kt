@@ -23,7 +23,7 @@ class TestTemplate<out SC : Any>(
         }
 
     fun extend(sharedSetup: suspend () -> Unit = {}, sharedTeardown: suspend () -> Unit = {}) = TestTemplate<SC>(
-        reporterProvider
+        reporterProvider,
     ) { test ->
         wrapper {
             sharedSetup()
@@ -47,32 +47,37 @@ class TestTemplate<out SC : Any>(
         })
     }
 
-    operator fun <C : Any> invoke(context: C, additionalActions: suspend C.() -> Unit = {}) = Setup(
-        { context },
-        context.chooseTestScope(),
-        additionalActions,
-        reporterProvider.reporter,
-        wrapper
-    )
+    operator fun <C : Any> invoke(context: C, timeoutMs: Long = 60_000L, additionalActions: suspend C.() -> Unit = {}) =
+        Setup(
+            { context },
+            context.chooseTestScope(),
+            additionalActions,
+            reporterProvider.reporter,
+            timeoutMs,
+            wrapper
+        )
 
-    operator fun invoke(additionalActions: suspend SC.() -> Unit = {}) = Setup(
+    operator fun invoke(timeoutMs: Long = 60_000L, additionalActions: suspend SC.() -> Unit = {}) = Setup(
         { it },
         mintScope(),
         additionalActions,
         reporterProvider.reporter,
+        timeoutMs,
         wrapper
     )
 
     fun <C : Any> with(
         contextProvider: suspend (SC) -> C,
+        timeoutMs: Long = 60_000L,
         additionalActions: suspend C.() -> Unit = {}
-    ) = Setup(contextProvider, mintScope(), additionalActions, reporterProvider.reporter, wrapper)
+    ) = Setup(contextProvider, mintScope(), additionalActions, reporterProvider.reporter, timeoutMs, wrapper)
 }
 
 fun <C : Any> TestTemplate<Unit>.with(
     contextProvider: suspend () -> C,
+    timeoutMs: Long = 60_000L,
     additionalAction: suspend C.() -> Unit = {}
 ): Setup<C, Unit> {
     val unitSharedContextAdapter: suspend (Unit) -> C = { contextProvider() }
-    return with(unitSharedContextAdapter, additionalAction)
+    return with(unitSharedContextAdapter, timeoutMs, additionalAction)
 }
