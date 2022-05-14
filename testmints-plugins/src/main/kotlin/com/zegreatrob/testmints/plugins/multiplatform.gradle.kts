@@ -38,6 +38,10 @@ dependencies {
     "commonMainImplementation"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.1"))
 }
 
+
+tasks.withType(org.jetbrains.kotlin.gradle.targets.js.npm.PublicPackageJsonTask::class).configureEach {
+    outputs.cacheIf { true }
+}
 tasks.withType(KotlinNativeSimulatorTest::class).configureEach {
     outputs.cacheIf { true }
 }
