@@ -2,7 +2,6 @@ package com.zegreatrob.testmints
 
 import com.zegreatrob.testmints.report.ReporterProvider
 
-
 interface StandardMintDispatcher : ReporterProvider {
 
     val setup get() = TestTemplate<Unit>(this) { it(Unit) }
@@ -22,10 +21,8 @@ interface StandardMintDispatcher : ReporterProvider {
 
     fun testTemplateSimple(wrapper: (() -> Unit) -> Unit): TestTemplate<Unit> =
         testTemplate(wrapper = { wrapper { it(Unit) } })
-
 }
 
 typealias ExerciseFunc<C, R> = C.() -> R
 typealias VerifyFunc<C, R> = C.(R) -> Any
 typealias TeardownFunc<C, R> = C.(R) -> Unit
-

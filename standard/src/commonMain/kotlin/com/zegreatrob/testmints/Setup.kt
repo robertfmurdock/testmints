@@ -62,7 +62,6 @@ class Setup<C : Any, SC : Any>(
         additionalSetupActions(context)
         return context
     }
-
 }
 
 private fun <C : Any, R> ExerciseFunc<C, R>.makeReporting(reporter: MintReporter): ExerciseFunc<C, R> = {

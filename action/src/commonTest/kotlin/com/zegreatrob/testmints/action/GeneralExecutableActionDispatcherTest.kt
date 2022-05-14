@@ -16,10 +16,10 @@ class GeneralExecutableActionDispatcherTest {
     }
 
     @Test
-    fun syntaxAllowsInterceptionOfActionExecutionIncludingReplacingResult() = setup(object :
-            GeneralExecutableActionDispatcherSyntax {
+    fun syntaxAllowsInterceptionOfActionExecutionIncludingReplacingResult() = setup(
+        object : GeneralExecutableActionDispatcherSyntax {
             val expectedReplacedResult = 127
-            override val generalDispatcher = generalDispatcherSpy().apply { spyWillReturn(expectedReplacedResult) }
+            override val generalDispatcher = GeneralDispatcherSpy().apply { spyWillReturn(expectedReplacedResult) }
             val action = DivideAction(6, 7)
             val divideDispatcherSpy = SpyData<DivideAction, Int>()
             val divideDispatcher = divideDispatcherSpy::spyFunction
@@ -33,7 +33,7 @@ class GeneralExecutableActionDispatcherTest {
             .assertIsEqualTo(emptyList<Any>())
     }
 
-    private fun generalDispatcherSpy() = object :
+    class GeneralDispatcherSpy :
         GeneralExecutableActionDispatcher,
         Spy<Pair<ExecutableAction<*, *>, *>, Any> by SpyData() {
         @Suppress("UNCHECKED_CAST")

@@ -22,7 +22,6 @@ class TestMintsTest {
         } verify { result ->
             assertEquals(expected, result)
         }
-
     }
 
     class Features {
@@ -30,7 +29,6 @@ class TestMintsTest {
         fun verifyShouldThrowErrorWhenFailureOccurs() = setup(object {
 
             fun simulatedTestThatFailsInVerify() = setup() exercise {} verify { fail("LOL") }
-
         }) exercise {
             captureException { simulatedTestThatFailsInVerify() }
         } verify { result ->
@@ -48,7 +46,6 @@ class TestMintsTest {
                 actualValue = value
             } verify {
             }
-
         }) exercise {
             testThatUsesContextInExercise()
         } verify {
@@ -77,7 +74,6 @@ class TestMintsTest {
             fun testThatPassesResultToVerify() = setup() exercise { expectedValue } verify { result ->
                 actualValue = result
             }
-
         }) exercise {
             testThatPassesResultToVerify()
         } verify {
@@ -94,7 +90,6 @@ class TestMintsTest {
             }) exercise {} verify {
                 actualValue = value
             }
-
         }) exercise {
             testThatUsesContextInVerify()
         } verify {
@@ -129,7 +124,6 @@ class TestMintsTest {
 
             fun failingTestThatExplodesInTeardown() = setup() exercise {
             } verifyAnd { throw verifyFailure } teardown { throw teardownException }
-
         }) exercise {
             captureException { failingTestThatExplodesInTeardown() }
         } verify { result ->
@@ -139,7 +133,8 @@ class TestMintsTest {
                         "Failure" to verifyFailure,
                         "Teardown exception" to teardownException
                     )
-                ), result
+                ),
+                result
             )
         }
 
@@ -151,7 +146,6 @@ class TestMintsTest {
             fun testThatExplodeInSetupClosure() = setup {
                 throw setupException
             } exercise { exerciseOrVerifyTriggered = true } verify { exerciseOrVerifyTriggered = true }
-
         }) exercise {
             captureException { testThatExplodeInSetupClosure() }
         } verify { result ->
@@ -184,7 +178,6 @@ class TestMintsTest {
                     .exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 testThatSucceeds()
             } verify {
@@ -202,7 +195,6 @@ class TestMintsTest {
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
                     .exercise { calls.add(Steps.Exercise) }
                     .verify { calls.add(Steps.Verify) }
-
             }) exercise {
                 testThatSucceeds()
             } verify {
@@ -221,7 +213,6 @@ class TestMintsTest {
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
                     .exercise { calls.add(Steps.Exercise) }
                     .verify { calls.add(Steps.Verify) }
-
             }) exercise {
                 testThatSucceeds()
             } verify {
@@ -244,7 +235,6 @@ class TestMintsTest {
                 fun testThatSucceeds() = customSetup(contextProvider = { sc -> sharedContextReceived = sc }) {
                     calls.add(Steps.Setup)
                 } exercise { calls.add(Steps.Exercise) } verify { calls.add(Steps.Verify) }
-
             }) exercise {
                 testThatSucceeds()
             } verify {
@@ -292,7 +282,6 @@ class TestMintsTest {
                 }.exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 testThatSucceeds()
             } verify {
@@ -320,7 +309,6 @@ class TestMintsTest {
                 }.exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify) }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 testThatSucceeds()
             } verify {
@@ -335,7 +323,6 @@ class TestMintsTest {
                 fun testThatFailsBecauseOfBadTemplate() = customSetup()
                     .exercise { }
                     .verify { }
-
             }) exercise {
                 captureException { testThatFailsBecauseOfBadTemplate() }
             } verify { result ->
@@ -353,7 +340,6 @@ class TestMintsTest {
                     .exercise { }
                     .verifyAnd { }
                     .teardown { }
-
             }) exercise {
                 captureException { testThatFailsBecauseOfBadTemplate() }
             } verify { result ->
@@ -374,7 +360,6 @@ class TestMintsTest {
                     .exercise { calls.add(Steps.Exercise) }
                     .verifyAnd { calls.add(Steps.Verify); fail("This test fails.") }
                     .teardown { calls.add(Steps.Teardown) }
-
             }) exercise {
                 captureException { testThatFails() }
             } verify {
@@ -389,7 +374,6 @@ class TestMintsTest {
 
                 fun failingTestThatExplodesInTeardown() = customSetup() exercise {} verifyAnd {
                 } teardown { throw teardownException }
-
             }) exercise {
                 captureException { failingTestThatExplodesInTeardown() }
             } verify { result ->
@@ -446,7 +430,8 @@ class TestMintsTest {
                         "wrapTeardown",
                         "wrapSetup",
                         "wrapTeardown"
-                    ), calls
+                    ),
+                    calls
                 )
             }
 
@@ -462,7 +447,6 @@ class TestMintsTest {
                 fun testThatSucceeds() = customSetup { }
                     .exercise { }
                     .verify { }
-
             }) exercise {
                 testThatSucceeds()
             } verify {
@@ -518,7 +502,6 @@ class TestMintsTest {
             }
 
             private fun List<() -> Any?>.runSuite() = forEach { it() }
-
         }
 
         class ReporterFeatures {
@@ -542,7 +525,6 @@ class TestMintsTest {
                     override fun teardownStart() = record(Call.TeardownStart)
                     override fun teardownFinish() = record(Call.TeardownFinish)
                 }
-
             }) exercise {
                 simpleTest()
             } verify {
@@ -587,7 +569,6 @@ class TestMintsTest {
                 val expectedObject = object {}
 
                 fun simpleTest() = setup(expectedObject) exercise { } verify {}
-
             }) exercise {
                 simpleTest()
             } verify {
@@ -626,7 +607,6 @@ class TestMintsTest {
                     verifyState.add("abc")
                     throw expectedException
                 }
-
             }) exercise {
                 captureException { simpleTest() }
             } verify { exception ->
@@ -634,6 +614,5 @@ class TestMintsTest {
                 assertEquals("abc", result)
             }
         }
-
     }
 }

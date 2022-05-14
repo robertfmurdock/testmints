@@ -44,5 +44,4 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
 
     operator fun invoke(additionalSetupActions: SC.() -> Unit = {}): Setup<SC, SC> =
         Setup({ it }, reporterProvider.reporter, additionalSetupActions, wrapper)
-
 }
