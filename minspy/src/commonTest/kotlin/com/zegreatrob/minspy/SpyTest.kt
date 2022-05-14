@@ -48,5 +48,4 @@ class SpyTest {
         result.assertIsEqualTo(Unit)
         spy.callCount.assertIsEqualTo(3)
     }
-
 }

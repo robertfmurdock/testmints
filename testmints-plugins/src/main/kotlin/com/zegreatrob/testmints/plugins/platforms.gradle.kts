@@ -1,7 +1,7 @@
 package com.zegreatrob.testmints.plugins
 
 plugins {
-    kotlin("multiplatform")
+    id("com.zegreatrob.testmints.plugins.multiplatform")
 }
 
 repositories {

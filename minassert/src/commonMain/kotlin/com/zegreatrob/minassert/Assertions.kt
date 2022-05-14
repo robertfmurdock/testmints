@@ -14,6 +14,6 @@ private fun <T> String?.appendDiff(expected: T, t1: T?): String {
 
 fun <T> T?.assertIsNotEqualTo(expected: T, message: String? = null) = assertNotEquals(expected, this, message)
 
-fun <T> List<T>.assertContains(item: T): List<T>  = also {
+fun <T> List<T>.assertContains(item: T): List<T> = also {
     assertTrue("${map { "$it" }} did not contain $item") { contains(item) }
 }

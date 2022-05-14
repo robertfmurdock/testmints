@@ -106,11 +106,6 @@ class StringDiffTest {
             )
             val slice = lines.slice(4..5)
             assertEquals(expected, slice)
-
         }
-
     }
-
-
 }
-

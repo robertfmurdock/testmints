@@ -9,7 +9,6 @@ interface Spy<I, O> {
 
     val spyReturnWhenGivenValues: MutableMap<I, O>
 
-
     @Suppress("unused")
     infix fun spyWillReturn(values: Collection<O>) {
         spyReturnValues += values
