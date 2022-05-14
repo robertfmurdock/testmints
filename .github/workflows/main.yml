@@ -67,6 +67,7 @@ jobs:
       - uses: burrunan/gradle-cache-action@v1
         name: Build
         with:
+          properties: org.gradle.parallel=false
           arguments: release -P release-target=mac --scan
       - run: git status
         if: ${{ always() }}
