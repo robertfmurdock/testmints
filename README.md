@@ -139,3 +139,5 @@ Those now live in https://github.com/robertfmurdock/jsmints, under new version n
 ## Acknowledgements
 
 Logo courtesy of Abs King!
+
+Thanks for all the feedback on the library to anybody who's tried it. I hope it continues to be useful, and or inspires even better ideas!
