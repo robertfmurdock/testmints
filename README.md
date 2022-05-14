@@ -134,7 +134,7 @@ An essay about an attempt to embed those priorities in the test code itself.
 
 ## Where did minenzyme, minreact, or react-data-loader go?
 
-Those now live in https://github.com/robertfmurdock/jsmints, under new version numbers. Those were never really intended to be part of the testmints multiplatform suite, so it made sense to give them their own home.
+Those now live in the [JsMints repo!](https://github.com/robertfmurdock/jsmints), under new version numbers. Those were never really intended to be part of the testmints multiplatform suite, so it made sense to give them their own home.
 
 ## Acknowledgements
 
