@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    "commonMainImplementation"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.1"))
+    "commonMainImplementation"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.2"))
 }
 
 
