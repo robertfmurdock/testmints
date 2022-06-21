@@ -19,8 +19,6 @@ kotlin {
                 implementation(project(":action"))
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                implementation("org.jetbrains.kotlinx:atomicfu:0.18.0")
-                implementation("org.jetbrains.kotlin:atomicfu:1.6.21")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
             }
         }

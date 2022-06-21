@@ -22,8 +22,6 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
                 implementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                implementation("org.jetbrains.kotlinx:atomicfu:0.18.0")
-                implementation("org.jetbrains.kotlin:atomicfu:1.6.21")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-test")
             }
         }
