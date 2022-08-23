@@ -19,7 +19,7 @@ kotlin {
                 implementation(project(":action"))
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
             }
         }
         getByName("commonTest") {
@@ -42,7 +42,7 @@ kotlin {
         getByName("jvmTest") {
             dependencies {
                 implementation(kotlin("reflect", "1.5.0"))
-                implementation("org.slf4j:slf4j-simple:1.7.36")
+                implementation("org.slf4j:slf4j-simple:2.0.0")
                 implementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.9.0")
             }
