@@ -1,9 +1,11 @@
 import com.zegreatrob.minassert.assertContains
 import com.zegreatrob.minassert.assertIsEqualTo
+import com.zegreatrob.minassert.assertIsNotEqualTo
 import com.zegreatrob.testmints.setup
 import kotlin.test.Test
 
 class AssertionsTest {
+
     @Test
     fun onFailureContainsMessageIsCorrect() = setup(object {
         val actual = listOf("A", "B", "C")
@@ -14,5 +16,17 @@ class AssertionsTest {
         result.exceptionOrNull()
             ?.message
             ?.assertIsEqualTo("[A, B, C] did not contain Z")
+    }
+
+    @Test
+    fun assertNotEqualWorks() = setup(object {
+        val thing = "a"
+        val sameThing = "a"
+    }) exercise {
+        runCatching { thing.assertIsNotEqualTo(sameThing) }
+    } verify { result ->
+        result.exceptionOrNull()
+            ?.message
+            ?.assertIsEqualTo("Two values were unexpectedly identical: a")
     }
 }

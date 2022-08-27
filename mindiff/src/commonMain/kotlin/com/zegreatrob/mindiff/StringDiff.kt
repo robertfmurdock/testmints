@@ -22,6 +22,7 @@ private fun differentSectionDescription(l: String, r: String, firstDiffIndex: In
 
     return if (eDiffRange.length > 20) {
         splitIntoTwoDiffSections(firstDiffIndex, eDiffRange, aDiffRange)
+            .ifEmpty { diffDescription(index = firstDiffIndex, eDiff = eDiffRange, aDiff = aDiffRange) }
     } else {
         diffDescription(index = firstDiffIndex, eDiff = eDiffRange, aDiff = aDiffRange)
     }

@@ -108,4 +108,17 @@ class StringDiffTest {
             assertEquals(expected, slice)
         }
     }
+
+    class WhenDifferencesAreExtreme {
+        @Test
+        fun willReportSomethingInsteadOfFallingBackToNothing() = setup(object {
+            val l = "gdsqvpydhwphokmvkkphwscjuliox"
+            val r = "auvfbokjkrlvtosbanispdspaipemigklgp"
+        }) exercise {
+            stringDiff(l, r)
+        } verify { result ->
+            val t = result.split("\n")[0]
+            assertEquals(t, "Difference at index 0.")
+        }
+    }
 }
