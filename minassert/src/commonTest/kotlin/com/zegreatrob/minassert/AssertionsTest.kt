@@ -1,6 +1,5 @@
-import com.zegreatrob.minassert.assertContains
-import com.zegreatrob.minassert.assertIsEqualTo
-import com.zegreatrob.minassert.assertIsNotEqualTo
+package com.zegreatrob.minassert
+
 import com.zegreatrob.testmints.setup
 import kotlin.test.Test
 
