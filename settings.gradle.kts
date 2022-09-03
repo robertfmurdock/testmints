@@ -14,6 +14,7 @@ include("minspy")
 include("mindiff")
 include("report")
 include("testmints-bom")
+include("dependency-bom")
 
 includeBuild("testmints-plugins")
 

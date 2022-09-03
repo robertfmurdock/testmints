@@ -1,23 +1,17 @@
-import com.zegreatrob.testmints.plugins.BuildConstants.kotlinVersion
-
 plugins {
     id("com.zegreatrob.testmints.plugins.multiplatform")
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.publish")
+    id("com.zegreatrob.testmints.plugins.platforms")
 }
 
 kotlin {
 
-    targets {
-        js { nodejs() }
-        jvm {}
-    }
-
     sourceSets {
         getByName("commonMain") {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
             }
         }
         getByName("commonTest") {
@@ -33,14 +27,14 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("reflect", kotlinVersion))
+                implementation(kotlin("reflect"))
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("reflect", "1.5.0"))
-                implementation("org.slf4j:slf4j-simple:2.0.0")
+                implementation(kotlin("reflect"))
+                implementation("org.slf4j:slf4j-simple")
                 implementation("org.jetbrains.kotlin:kotlin-test")
 
                 implementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
@@ -50,7 +44,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
             }
         }
     }
@@ -61,4 +55,8 @@ tasks {
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
         useJUnitPlatform()
     }
+}
+
+dependencies {
+    "jvmMainApi"(platform(project(":dependency-bom")))
 }
