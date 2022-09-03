@@ -1,6 +1,7 @@
 # <img src="test-mint-2.png" alt="Logo" width="100"> testmints ![Build](https://github.com/robertfmurdock/testmints/actions/workflows/main.yml/badge.svg?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob.testmints/standard/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.zegreatrob/testmints)
 
 [![Gradle Libraries Update](https://github.com/robertfmurdock/testmints/actions/workflows/gradle-update.yml/badge.svg)](https://github.com/robertfmurdock/testmints/actions/workflows/gradle-update.yml)
+[![Gradle Libraries Update](https://github.com/robertfmurdock/testmints/actions/workflows/gradle-plugins-update.yml/badge.svg)](https://github.com/robertfmurdock/testmints/actions/workflows/gradle-plugins-update.yml)
 ![Gradle Wrapper Update](https://github.com/robertfmurdock/testmints/actions/workflows/update-gradle-wrapper.yml/badge.svg?branch=master)
 
 ![Latest Release](https://img.shields.io/github/v/release/robertfmurdock/testmints)

@@ -17,7 +17,7 @@ jobs:
       - uses: burrunan/gradle-cache-action@v1
         name: Update Deps
         with:
-          arguments: useLatestVersions
+          arguments: :standard:useLatestVersions :async:useLatestVersions :dependency-bom:useLatestVersions
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3

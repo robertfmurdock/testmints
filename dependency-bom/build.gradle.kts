@@ -1,5 +1,6 @@
 plugins {
     `java-platform`
+    id("com.zegreatrob.testmints.plugins.versioning")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
