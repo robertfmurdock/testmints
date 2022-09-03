@@ -1,4 +1,4 @@
-import com.zegreatrob.testmints.plugins.BuildConstants
+
 
 plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
@@ -12,13 +12,13 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":report"))
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common:${BuildConstants.kotlinVersion}")
-                implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+                implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
+                implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
 
@@ -36,7 +36,7 @@ kotlin {
 
         getByName("jsMain") {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js:${BuildConstants.kotlinVersion}")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
             }
         }
     }

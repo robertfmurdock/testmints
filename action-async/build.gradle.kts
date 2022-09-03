@@ -17,9 +17,9 @@ kotlin {
         getByName("commonMain") {
             dependencies {
                 implementation(project(":action"))
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
             }
         }
         getByName("commonTest") {
@@ -41,16 +41,16 @@ kotlin {
 
         getByName("jvmTest") {
             dependencies {
-                implementation(kotlin("reflect", "1.5.0"))
-                implementation("org.slf4j:slf4j-simple:2.0.0")
-                implementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-                implementation("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+                implementation(kotlin("reflect"))
+                implementation("org.slf4j:slf4j-simple")
+                implementation("org.junit.jupiter:junit-jupiter-api")
+                implementation("org.junit.jupiter:junit-jupiter-engine")
             }
         }
 
         getByName("jsMain") {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
             }
         }
     }

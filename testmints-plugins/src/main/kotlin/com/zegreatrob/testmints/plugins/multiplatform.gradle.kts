@@ -36,11 +36,11 @@ repositories {
 }
 
 dependencies {
-    "commonMainImplementation"(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
-    "commonMainImplementation"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
-    "commonMainImplementation"(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
+    "commonMainApi"(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
+    "commonMainApi"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
+    "commonMainApi"(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
+    "commonMainApi"(platform("org.junit:junit-bom:5.9.0"))
 }
-
 
 tasks.withType(org.jetbrains.kotlin.gradle.targets.js.npm.PublicPackageJsonTask::class).configureEach {
     outputs.cacheIf { true }

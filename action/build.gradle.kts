@@ -36,9 +36,8 @@ kotlin {
                 implementation(kotlin("reflect"))
                 implementation("org.slf4j:slf4j-simple")
                 implementation("org.jetbrains.kotlin:kotlin-test")
-
-                implementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-                implementation("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+                implementation("org.junit.jupiter:junit-jupiter-api")
+                implementation("org.junit.jupiter:junit-jupiter-engine")
             }
         }
 

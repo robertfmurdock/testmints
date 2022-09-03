@@ -1,5 +1,3 @@
-import com.zegreatrob.testmints.plugins.BuildConstants
-
 plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.publish")
@@ -11,8 +9,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common:${BuildConstants.kotlinVersion}")
-                implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+                implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
 
@@ -20,7 +18,7 @@ kotlin {
             dependencies {
                 implementation(project(":standard"))
                 implementation(project(":minassert"))
-                implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
+                implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
 
@@ -34,7 +32,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js:${BuildConstants.kotlinVersion}")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
             }
         }
     }

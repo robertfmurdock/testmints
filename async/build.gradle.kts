@@ -1,5 +1,3 @@
-import com.zegreatrob.testmints.plugins.BuildConstants.kotlinVersion
-
 plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.publish")
@@ -19,15 +17,15 @@ kotlin {
             dependencies {
                 api(project(":standard"))
                 api(project(":report"))
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
-                implementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+                implementation("org.jetbrains.kotlin:kotlin-test")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-test")
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+                implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
 
