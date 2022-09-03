@@ -40,6 +40,7 @@ dependencies {
     "commonMainApi"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
     "commonMainApi"(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
     "commonMainApi"(platform("org.junit:junit-bom:5.9.0"))
+    "commonMainApi"(platform(project(":dependency-bom")))
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.targets.js.npm.PublicPackageJsonTask::class).configureEach {

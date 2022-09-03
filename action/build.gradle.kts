@@ -55,7 +55,3 @@ tasks {
         useJUnitPlatform()
     }
 }
-
-dependencies {
-    "jvmMainApi"(platform(project(":dependency-bom")))
-}
