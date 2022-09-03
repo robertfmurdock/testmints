@@ -1,6 +1,7 @@
 plugins {
     `java-platform`
     id("com.zegreatrob.testmints.plugins.versioning")
+    id("com.zegreatrob.testmints.plugins.publish")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -15,5 +16,13 @@ ktlint {
 dependencies {
     constraints {
         api("org.slf4j:slf4j-simple:2.0.0")
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("bom") {
+            from(components["javaPlatform"])
+        }
     }
 }
