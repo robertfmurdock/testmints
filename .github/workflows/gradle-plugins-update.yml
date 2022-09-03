@@ -1,4 +1,4 @@
-name: Gradle Libraries Update
+name: Gradle Plugins Update
 on:
   schedule:
     - cron: "0 15 * * *"
@@ -17,13 +17,13 @@ jobs:
       - uses: burrunan/gradle-cache-action@v1
         name: Update Deps
         with:
-          arguments: useLatestVersions
+          arguments: :testmints-plugins:useLatestVersions
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
           branch: "create-pull-request/${{github.job}}/${{github.run_id}}"
-          commit-message: "[patch] libraries ${{github.workflow}}"
+          commit-message: "[patch] plugins ${{github.workflow}}"
           token: ${{ secrets.TESTMINTS_PAT }}
       - name: Enable Pull Request Automerge
         if: steps.cpr.outputs.pull-request-operation == 'created'
