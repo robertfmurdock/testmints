@@ -5,10 +5,8 @@ org-jetbrains-annotations = "org.jetbrains:annotations:13.0"
 org-jetbrains-kotlin-kotlin-gradle-plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10"
 org-jetbrains-kotlin-kotlin-stdlib = "org.jetbrains.kotlin:kotlin-stdlib:1.6.21"
 org-jlleitschuh-gradle-ktlint-gradle = "org.jlleitschuh.gradle:ktlint-gradle:11.0.0"
-se-patrikerdes-gradle-use-latest-versions-plugin = "se.patrikerdes:gradle-use-latest-versions-plugin:0.2.18"
 
 [plugins]
 com-github-ben-manes-versions = "com.github.ben-manes.versions:0.42.0"
 org-jetbrains-kotlin-jvm = "org.jetbrains.kotlin.jvm:1.7.10"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.6.1"
-se-patrikerdes-use-latest-versions = "se.patrikerdes.use-latest-versions:0.2.18"

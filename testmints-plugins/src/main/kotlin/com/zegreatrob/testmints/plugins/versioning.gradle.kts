@@ -3,7 +3,6 @@ package com.zegreatrob.testmints.plugins
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    id("se.patrikerdes.use-latest-versions")
     id("com.github.ben-manes.versions")
 }
 
