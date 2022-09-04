@@ -9,6 +9,7 @@ repositories {
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+    alias(libs.plugins.org.jetbrains.kotlin.jvm)
     alias(libs.plugins.com.github.ben.manes.versions)
     alias(libs.plugins.se.patrikerdes.use.latest.versions)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)

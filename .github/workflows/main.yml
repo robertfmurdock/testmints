@@ -65,7 +65,7 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Build
-        run: ./gradlew release --scan -Dorg.gradle.parallel=false -Prelease-target=mac
+        run: ./gradlew release --no-build-cache --scan -Dorg.gradle.parallel=false -Prelease-target=mac
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
