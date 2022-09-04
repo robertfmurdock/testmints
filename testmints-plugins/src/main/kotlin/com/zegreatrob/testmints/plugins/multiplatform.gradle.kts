@@ -1,6 +1,5 @@
 package com.zegreatrob.testmints.plugins
 
-import com.zegreatrob.testmints.plugins.BuildConstants.kotlinVersion
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmCachesSetup
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinPackageJsonTask
@@ -36,10 +35,6 @@ repositories {
 }
 
 dependencies {
-    "commonMainApi"(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
-    "commonMainApi"(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
-    "commonMainApi"(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
-    "commonMainApi"(platform("org.junit:junit-bom:5.9.0"))
     "commonMainApi"(platform(project(":dependency-bom")))
 }
 
