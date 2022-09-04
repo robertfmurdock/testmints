@@ -18,12 +18,12 @@ javaPlatform {
 }
 
 dependencies {
-    api(platform("org.jetbrains.kotlin:kotlin-bom:${com.zegreatrob.testmints.plugins.BuildConstants.kotlinVersion}"))
-    api(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
-    api(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
-    api(platform("org.junit:junit-bom:5.9.0"))
+    api(platform(libs.org.jetbrains.kotlin.kotlin.bom))
+    api(platform(libs.org.jetbrains.kotlinx.kotlinx.coroutines.bom))
+    api(platform(libs.org.jetbrains.kotlinx.kotlinx.serialization.bom))
+    api(platform(libs.org.junit.junit.bom))
     constraints {
-        api("org.slf4j:slf4j-simple:2.0.0")
+        api(libs.org.slf4j.slf4j.simple)
     }
 }
 
