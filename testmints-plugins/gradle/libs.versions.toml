@@ -8,5 +8,5 @@ org-jlleitschuh-gradle-ktlint-gradle = "org.jlleitschuh.gradle:ktlint-gradle:11.
 
 [plugins]
 com-github-ben-manes-versions = "com.github.ben-manes.versions:0.42.0"
-org-jetbrains-kotlin-jvm = "org.jetbrains.kotlin.jvm:1.7.10"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.6.1"
+org-jetbrains-kotlin-jvm = "org.jetbrains.kotlin.jvm:1.7.10"
