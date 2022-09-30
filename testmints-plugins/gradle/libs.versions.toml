@@ -1,5 +1,5 @@
 [versions]
-org-jetbrains-kotlin = "1.7.20-RC"
+org-jetbrains-kotlin = "1.7.20"
 
 [libraries]
 com-github-ben-manes-gradle-versions-plugin = "com.github.ben-manes:gradle-versions-plugin:0.42.0"
@@ -14,5 +14,4 @@ org-jlleitschuh-gradle-ktlint-gradle = "org.jlleitschuh.gradle:ktlint-gradle:11.
 [plugins]
 com-github-ben-manes-versions = "com.github.ben-manes.versions:0.42.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.6.1"
-# @pin
-org-jetbrains-kotlin-jvm = "org.jetbrains.kotlin.jvm:1.7.20-RC"
+org-jetbrains-kotlin-jvm = "org.jetbrains.kotlin.jvm:1.7.20"
