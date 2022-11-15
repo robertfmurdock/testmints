@@ -1,5 +1,5 @@
 [libraries]
-com-pinterest-ktlint = "com.pinterest:ktlint:0.45.2"
+com-pinterest-ktlint = "com.pinterest:ktlint:0.47.1"
 # @pin
 org-jetbrains-kotlin-kotlin-bom = "org.jetbrains.kotlin:kotlin-bom:1.7.20"
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"
