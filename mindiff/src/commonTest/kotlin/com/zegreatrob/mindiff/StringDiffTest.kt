@@ -63,7 +63,7 @@ class StringDiffTest {
             stringDiff(l, r)
         } verify { result ->
             val expected = listOf(
-                "E: man",
+                "E: man ",
                 "A: lady"
             )
             val takeLast = result.split("\n")
@@ -101,7 +101,7 @@ class StringDiffTest {
             val t = lines[3]
             assertEquals("Difference at index 39.", t)
             val expected = listOf(
-                "E: jig",
+                "E: jig.",
                 "A: salsa"
             )
             val slice = lines.slice(4..5)
@@ -119,6 +119,22 @@ class StringDiffTest {
         } verify { result ->
             val t = result.split("\n")[0]
             assertEquals(t, "Difference at index 0.")
+        }
+    }
+
+    class ObservedProblemCases {
+
+        @Test
+        fun canHandleRadicalDifferencesInLengthAndProduceDiff() = setup(object {
+            val l = "{noLink= }"
+            val r = "{noLink= , canCancel= , canMarkLate= }"
+        }) exercise {
+            stringDiff(l, r)
+        } verify { result ->
+            val t = result.split("\n")
+            assertEquals(t[0], "Difference at index 9.")
+            assertEquals(t[1], "E: }")
+            assertEquals(t[2], "A: , canCancel= , canMarkLate")
         }
     }
 }

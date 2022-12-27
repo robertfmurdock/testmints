@@ -1,5 +1,6 @@
 package com.zegreatrob.mindiff
 
+import kotlin.math.max
 import kotlin.math.min
 
 fun stringDiff(l: String, r: String): String {
@@ -8,7 +9,6 @@ fun stringDiff(l: String, r: String): String {
     if (firstDiffIndex == -1) {
         return ""
     }
-
     return differentSectionDescription(l, r, firstDiffIndex)
         .joinToString("\n")
 }
@@ -17,8 +17,15 @@ private fun differentSectionDescription(l: String, r: String, firstDiffIndex: In
     val reverseDiff = diff(l.reversed(), r.reversed())
     val reverseDiffIndex = reverseDiff.firstDiffIndex()
 
-    val eDiffRange = l.diffRange(firstDiffIndex, reverseDiffIndex)
-    val aDiffRange = r.diffRange(firstDiffIndex, reverseDiffIndex)
+    val largestSize = max(l.length, r.length)
+    val lDiffFromMax = l.length - largestSize
+
+    println("firstDiffIndex $firstDiffIndex reverseDiffIndex $reverseDiffIndex lDiffFromMax $lDiffFromMax")
+
+    val endDiffIndex = largestSize - reverseDiffIndex
+
+    val eDiffRange = l.diffRange(firstDiffIndex, min(endDiffIndex, l.length))
+    val aDiffRange = r.diffRange(firstDiffIndex, min(endDiffIndex, r.length))
 
     return if (eDiffRange.length > 20) {
         splitIntoTwoDiffSections(firstDiffIndex, eDiffRange, aDiffRange)
@@ -57,8 +64,9 @@ private fun diffDescription(index: Int, eDiff: String, aDiff: String) = listOf(
     "A: $aDiff"
 )
 
-private fun String.diffRange(firstDiffIndex: Int, reverseDiffIndex: Int) = substring(
-    firstDiffIndex until length - reverseDiffIndex
-)
+private fun String.diffRange(firstDiffIndex: Int, endOfString: Int) =
+    (firstDiffIndex until endOfString).let {
+        substring(it)
+    }
 
 private fun String.firstDiffIndex() = indexOf("x")
