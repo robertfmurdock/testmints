@@ -102,7 +102,6 @@ class TestMintsTest {
             val expectedResult: Int = Random.nextInt()
             var teardownReceived: Pair<Int, Int>? = null
         }) exercise {
-
             fun testThatSendsContextToTeardown() = setup(object {
                 val value = expectedValue
             }) exercise {
@@ -390,11 +389,13 @@ class TestMintsTest {
             fun testTemplateCanBeExtended() = setup(object {
                 val calls = mutableListOf<String>()
                 val customSetup = testTemplate(
-                    sharedSetup = { calls.add("setup") }, sharedTeardown = { calls.add("teardown") }
+                    sharedSetup = { calls.add("setup") },
+                    sharedTeardown = { calls.add("teardown") }
                 )
 
                 val bolsteredCustomSetup = customSetup.extend(
-                    sharedSetup = { calls.add("inner setup") }, sharedTeardown = { calls.add("inner teardown") }
+                    sharedSetup = { calls.add("inner setup") },
+                    sharedTeardown = { calls.add("inner teardown") }
                 )
 
                 fun test() = bolsteredCustomSetup() exercise {} verify {}

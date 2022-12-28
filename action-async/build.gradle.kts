@@ -1,5 +1,3 @@
-import com.zegreatrob.testmints.plugins.BuildConstants.kotlinVersion
-
 plugins {
     id("com.zegreatrob.testmints.plugins.multiplatform")
     id("com.zegreatrob.testmints.plugins.versioning")
@@ -35,7 +33,7 @@ kotlin {
 
         getByName("jvmMain") {
             dependencies {
-                implementation(kotlin("reflect", kotlinVersion))
+                implementation(kotlin("reflect"))
             }
         }
 

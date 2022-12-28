@@ -7,7 +7,8 @@ fun diff(left: String, right: String) = indexes(left, right)
 
 private fun indexes(left: String, right: String) = (0 until max(left.length, right.length))
 
-private fun charDiff(lc: Char?, rc: Char?) = if (lc == rc)
+private fun charDiff(lc: Char?, rc: Char?) = if (lc == rc) {
     "."
-else
+} else {
     "x"
+}

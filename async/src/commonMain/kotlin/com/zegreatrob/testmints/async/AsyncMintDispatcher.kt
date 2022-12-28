@@ -11,11 +11,9 @@ interface AsyncMintDispatcher : SetupSyntax
 
 interface SetupSyntax : ReporterProvider {
 
-    val asyncSetup get() = TestTemplate<Unit>(this, mintScope(),) { it(Unit) }
+    val asyncSetup get() = TestTemplate(this, mintScope()) { it(Unit) }
 
-    fun asyncTestTemplate(sharedSetup: suspend () -> Unit, sharedTeardown: suspend () -> Unit) = TestTemplate<Unit>(
-        this,
-    ) {
+    fun asyncTestTemplate(sharedSetup: suspend () -> Unit, sharedTeardown: suspend () -> Unit) = TestTemplate(this) {
         sharedSetup()
         it(Unit)
         sharedTeardown()
@@ -24,7 +22,7 @@ interface SetupSyntax : ReporterProvider {
     fun <SC : Any> asyncTestTemplate(
         sharedSetup: suspend () -> SC,
         sharedTeardown: suspend (SC) -> Unit = {}
-    ) = TestTemplate<SC>(this,) {
+    ) = TestTemplate(this) {
         val sc = sharedSetup()
         it(sc)
         sharedTeardown(sc)
@@ -33,16 +31,14 @@ interface SetupSyntax : ReporterProvider {
     fun <SC : Any> asyncTestTemplate(beforeAll: suspend () -> SC): TestTemplate<SC> {
         val templateScope = mintScope()
         val deferred: Deferred<SC> = templateScope.async(start = CoroutineStart.LAZY) { beforeAll() }
-        return TestTemplate(this,) { it(deferred.await()) }
+        return TestTemplate(this) { it(deferred.await()) }
     }
 
-    fun asyncTestTemplateSimple(wrapper: suspend (suspend () -> Unit) -> Unit) = TestTemplate<Unit>(this,) {
+    fun asyncTestTemplateSimple(wrapper: suspend (suspend () -> Unit) -> Unit) = TestTemplate(this) {
         wrapper { it(Unit) }
     }
 
-    fun <SC : Any> asyncTestTemplate(wrapper: suspend (TestFunc<SC>) -> Unit) = TestTemplate(
-        this, mintScope(), wrapper
-    )
+    fun <SC : Any> asyncTestTemplate(wrapper: suspend (TestFunc<SC>) -> Unit) = TestTemplate(this, mintScope(), wrapper)
 }
 
 internal fun Any.chooseTestScope() = if (this is ScopeMint) testScope else mintScope()
@@ -55,7 +51,7 @@ fun <SC : Any> asyncTestTemplate(sharedSetup: suspend () -> SC, sharedTeardown: 
 fun <SC : Any> asyncTestTemplate(beforeAll: suspend () -> SC) = AsyncMints.asyncTestTemplate(beforeAll = beforeAll)
 
 fun asyncTestTemplate(sharedSetup: suspend () -> Unit, sharedTeardown: suspend () -> Unit) =
-    AsyncMints.asyncTestTemplate(sharedSetup, { sharedTeardown() })
+    AsyncMints.asyncTestTemplate(sharedSetup) { sharedTeardown() }
 
 @JvmName("asyncTestTemplateSimple")
 fun asyncTestTemplate(wrapper: suspend (suspend () -> Unit) -> Unit) = AsyncMints.asyncTestTemplateSimple(wrapper)

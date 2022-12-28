@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 
 plugins {
     kotlin("multiplatform")
-    id("org.jlleitschuh.gradle.ktlint")
+    id("org.jmailen.kotlinter")
 }
 
 kotlin {
@@ -24,10 +24,6 @@ kotlin {
             }
         }
     }
-}
-
-ktlint {
-    version.set("0.45.2")
 }
 
 repositories {

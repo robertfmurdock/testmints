@@ -1,5 +1,3 @@
-import com.zegreatrob.testmints.plugins.BuildConstants
-
 plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.platforms")
@@ -12,13 +10,13 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":standard"))
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common:${BuildConstants.kotlinVersion}")
-                implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
+                implementation(kotlin("stdlib"))
+                implementation(kotlin("test"))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test:${BuildConstants.kotlinVersion}")
+                implementation(kotlin("test"))
                 implementation("io.kotest:kotest-framework-engine:5.3.0")
             }
         }

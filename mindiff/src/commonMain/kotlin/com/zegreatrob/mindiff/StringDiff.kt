@@ -38,7 +38,6 @@ private fun differentSectionDescription(l: String, r: String, firstDiffIndex: In
 private fun splitIntoTwoDiffSections(originalFirstDiff: Int, eDiffRange: String, aDiffRange: String): List<String> {
     for (eIndex in 0 until min(eDiffRange.length, 20)) {
         for (aIndex in 0 until min(aDiffRange.length, 20)) {
-
             val diff = diff(eDiffRange.substring(eIndex), aDiffRange.substring(aIndex))
             val innerFirstDiffIndex = diff.firstDiffIndex()
 

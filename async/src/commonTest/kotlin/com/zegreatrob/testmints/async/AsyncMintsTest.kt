@@ -414,11 +414,13 @@ class AsyncMintsTest {
             fun testTemplateCanBeExtendedByCallingTestTemplateAgain() = asyncSetup(object {
                 val calls = mutableListOf<String>()
                 val customSetup = asyncTestTemplate(
-                    sharedSetup = { calls.add("setup") }, sharedTeardown = { calls.add("teardown") }
+                    sharedSetup = { calls.add("setup") },
+                    sharedTeardown = { calls.add("teardown") }
                 )
 
                 val bolsteredCustomSetup = customSetup.extend(
-                    sharedSetup = { calls.add("inner setup") }, sharedTeardown = { calls.add("inner teardown") }
+                    sharedSetup = { calls.add("inner setup") },
+                    sharedTeardown = { calls.add("inner teardown") }
                 )
 
                 fun test() = bolsteredCustomSetup() exercise {} verify {}
@@ -609,7 +611,8 @@ class AsyncMintsTest {
                 val teardownException = Exception("Oh man, not good.")
                 val templateTeardownException = Exception("Now we're really off-road")
                 val customSetup = asyncTestTemplate(
-                    sharedSetup = {}, sharedTeardown = { throw templateTeardownException }
+                    sharedSetup = {},
+                    sharedTeardown = { throw templateTeardownException }
                 )
 
                 fun failingTestThatExplodesInTeardown() = customSetup() exercise {} verifyAnd {

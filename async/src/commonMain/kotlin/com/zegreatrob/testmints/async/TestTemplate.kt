@@ -6,25 +6,23 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 
 class TestTemplate<out SC : Any>(
-    val reporterProvider: ReporterProvider,
+    private val reporterProvider: ReporterProvider,
     private val templateScope: CoroutineScope = mintScope(),
     val wrapper: suspend (TestFunc<SC>) -> Unit
 ) {
 
-    fun <SC2 : Any> extend(wrapper: suspend (SC, TestFunc<SC2>) -> Unit) = TestTemplate<SC2>(reporterProvider) { test ->
+    fun <SC2 : Any> extend(wrapper: suspend (SC, TestFunc<SC2>) -> Unit) = TestTemplate(reporterProvider) { test ->
         this.wrapper { sc1 -> wrapper(sc1, test) }
     }
 
     fun <SC2 : Any> extend(sharedSetup: suspend (SC) -> SC2, sharedTeardown: suspend (SC2) -> Unit = {}) =
-        extend<SC2> { sc1, test ->
+        extend { sc1, test ->
             val sc2 = sharedSetup(sc1)
             test(sc2)
             sharedTeardown(sc2)
         }
 
-    fun extend(sharedSetup: suspend () -> Unit = {}, sharedTeardown: suspend () -> Unit = {}) = TestTemplate<SC>(
-        reporterProvider,
-    ) { test ->
+    fun extend(sharedSetup: suspend () -> Unit = {}, sharedTeardown: suspend () -> Unit = {}) = TestTemplate(reporterProvider) { test ->
         wrapper {
             sharedSetup()
             test(it)

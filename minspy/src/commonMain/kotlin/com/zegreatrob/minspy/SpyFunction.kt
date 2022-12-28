@@ -15,10 +15,11 @@ fun <I, O> Spy<I, O>.spyFunction(input: I): O = spyReturnWhenGivenValues.fixedGe
     safePop(input)
 }.also { spyReceivedValues.add(input) }
 
-private fun <I, O> Spy<I, O>.safePop(input: I): O = if (spyReturnValues.size > 0)
+private fun <I, O> Spy<I, O>.safePop(input: I): O = if (spyReturnValues.size > 0) {
     spyReturnValues[0].also { spyReturnValues.removeAt(0) }
-else
+} else {
     fail("No values remaining given input $input")
+}
 
 private fun <K, V> Map<K, V>.fixedGetOrElse(input: K, function: () -> V) = if (containsKey(input)) {
     getValue(input)
