@@ -18,9 +18,6 @@ private fun differentSectionDescription(l: String, r: String, firstDiffIndex: In
     val reverseDiffIndex = reverseDiff.firstDiffIndex()
 
     val largestSize = max(l.length, r.length)
-    val lDiffFromMax = l.length - largestSize
-
-    println("firstDiffIndex $firstDiffIndex reverseDiffIndex $reverseDiffIndex lDiffFromMax $lDiffFromMax")
 
     val endDiffIndex = largestSize - reverseDiffIndex
 
