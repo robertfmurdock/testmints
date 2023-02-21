@@ -2,11 +2,11 @@
 org-jetbrains-kotlin = "1.8.10"
 
 [libraries]
-com-github-ben-manes-gradle-versions-plugin = "com.github.ben-manes:gradle-versions-plugin:0.45.0"
+com-github-ben-manes-gradle-versions-plugin = "com.github.ben-manes:gradle-versions-plugin:0.46.0"
 org-jetbrains-kotlin-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlin-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "org-jetbrains-kotlin" }
 org-jmailen-gradle-kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:3.13.0"
 
 [plugins]
-com-github-ben-manes-versions = "com.github.ben-manes.versions:0.45.0"
+com-github-ben-manes-versions = "com.github.ben-manes.versions:0.46.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.7.0"
