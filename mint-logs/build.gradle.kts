@@ -5,6 +5,15 @@ plugins {
 }
 
 kotlin {
+    js {
+        val compilation = compilations["test"]
+        binaries.executable(compilation)
+
+        compilation.packageJson {
+            customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
+        }
+    }
+
     sourceSets {
         all {
             languageSettings {
@@ -59,6 +68,14 @@ kotlin {
 }
 
 tasks {
+    jsTestProcessResources {
+        dependsOn(jsProcessResources)
+        from(jsProcessResources.map { it.outputs.files })
+    }
+    jsNodeTest {
+        dependsOn(jsTestTestProductionExecutableCompileSync)
+    }
+
     jvmTest {
         useJUnitPlatform()
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
