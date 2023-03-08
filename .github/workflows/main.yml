@@ -32,8 +32,10 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
-      - name: Build
-        run: ./gradlew release check --scan -Dorg.gradle.parallel=false
+      - name: Generate Version 🔢
+        run: ./gradlew calculateVersion -PexportToGithub=true --scan
+      - name: Build 🔨
+        run: ./gradlew release check -Pversion=${{ env.TAGGER_VERSION }} --scan
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
@@ -72,8 +74,10 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
-      - name: Build
-        run: ./gradlew release --no-build-cache --scan -Dorg.gradle.parallel=false -Prelease-target=mac
+      - name: Generate Version 🔢
+        run: ./gradlew calculateVersion -PexportToGithub=true --scan
+      - name: Build 🔨
+        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
