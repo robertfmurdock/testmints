@@ -28,9 +28,6 @@ tagger {
 
 tasks {
     if (isMacRelease()) {
-        "updateGithubRelease" {
-            enabled = false
-        }
         "prepare" {
             enabled = false
         }
