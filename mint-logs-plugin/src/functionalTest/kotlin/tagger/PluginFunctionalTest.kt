@@ -17,7 +17,10 @@ class PluginFunctionalTest {
 
     @Test
     fun willConfigureKotlinJs() {
-        settingsFile.writeText("""includeBuild("${System.getenv("ROOT_DIR")}")""")
+        settingsFile.writeText("""
+            rootProject.name = "testmints-functional-test"
+            includeBuild("${System.getenv("ROOT_DIR")}")
+            """.trimIndent())
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
             this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
@@ -54,9 +57,16 @@ class PluginFunctionalTest {
 
         val expected = """
 Test.example STANDARD_OUT
+    INFO: [testmints] {step=setup, state=start}
     setup
+    [info] INFO: [testmints] {step=setup, state=finish}
+    [info] INFO: [testmints] {step=exercise, state=start}
     exercise
-    verify"""
+    [info] INFO: [testmints] {step=exercise, state=finish}
+    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
+    verify
+    [info] INFO: [testmints] {step=verify, state=finish}
+    """.trim()
         assertTrue(
             result.output.trim().contains(expected)
         )

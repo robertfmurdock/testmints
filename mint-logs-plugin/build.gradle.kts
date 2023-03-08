@@ -20,6 +20,8 @@ dependencies {
     implementation(kotlin("test", libs.versions.org.jetbrains.kotlin.get()))
 }
 
+group = "com.zegreatrob.testmints"
+
 testing {
     suites {
         register("functionalTest", JvmTestSuite::class) {
@@ -59,7 +61,7 @@ signing {
 afterEvaluate {
     publishing.publications.withType<MavenPublication>().forEach {
         with(it) {
-            val scmUrl = "https://github.com/robertfmurdock/ze-great-tools"
+            val scmUrl = "https://github.com/robertfmurdock/testmints"
 
             pom.name.set(project.name)
             pom.description.set(project.name)
@@ -81,8 +83,8 @@ afterEvaluate {
             }
             pom.scm {
                 url.set(scmUrl)
-                connection.set("git@github.com:robertfmurdock/ze-great-tools.git")
-                developerConnection.set("git@github.com:robertfmurdock/ze-great-tools.git")
+                connection.set("git@github.com:robertfmurdock/testmints.git")
+                developerConnection.set("git@github.com:robertfmurdock/testmints.git")
             }
         }
     }
