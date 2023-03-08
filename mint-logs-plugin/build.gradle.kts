@@ -17,8 +17,9 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("gradle-plugin", libs.versions.org.jetbrains.kotlin.get()))
-    implementation(kotlin("test", libs.versions.org.jetbrains.kotlin.get()))
+    implementation(platform(project(":dependency-bom")))
+    implementation(kotlin("gradle-plugin"))
+    implementation(kotlin("test"))
 }
 
 group = "com.zegreatrob.testmints"
