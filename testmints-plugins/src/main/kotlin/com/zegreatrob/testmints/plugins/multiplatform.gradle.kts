@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 
 plugins {
     kotlin("multiplatform")
+    id("com.zegreatrob.testmints.plugins.reports")
     id("org.jmailen.kotlinter")
 }
 

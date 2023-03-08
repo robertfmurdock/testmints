@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.com.gradle.plugin.publish)
     base
     id("com.zegreatrob.testmints.plugins.versioning")
+    id("com.zegreatrob.testmints.plugins.reports")
     id("org.jetbrains.kotlin.jvm")
     signing
 }
