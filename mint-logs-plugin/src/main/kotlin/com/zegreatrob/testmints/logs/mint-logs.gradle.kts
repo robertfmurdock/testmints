@@ -10,17 +10,6 @@ plugins {
 
 afterEvaluate {
 
-    val kotlinJs = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
-
-    kotlinJs?.js {
-        val compilation = compilations["test"]
-        binaries.executable(compilation)
-
-        compilation.packageJson {
-            customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
-        }
-    }
-
     val hooksConfiguration: Configuration by configurations.creating {
         isCanBeResolved = true
         isCanBeConsumed = false
@@ -30,40 +19,40 @@ afterEvaluate {
         attributes.attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class.java, Category.LIBRARY))
     }
 
-    dependencies {
-        "testImplementation"("com.zegreatrob.testmints:mint-logs")
-        hooksConfiguration("com.zegreatrob.testmints:mint-logs") {
-            attributes {
+    val kotlinJs = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 
+    kotlinJs?.js {
+        val compilation = compilations["test"]
+        binaries.executable(compilation)
+
+        compilation.packageJson {
+            customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
+        }
+
+        tasks {
+            val copySync = named("testTestProductionExecutableCompileSync", Copy::class) {
+                from(zipTree(hooksConfiguration.resolve().first()))
+            }
+
+            named("nodeTest") {
+                dependsOn("testTestProductionExecutableCompileSync")
+            }
+        }
+    }
+    val kotlinJvm = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+
+    kotlinJvm?.apply {
+        tasks {
+            named("test", Test::class) {
+                useJUnitPlatform()
+                systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
             }
         }
     }
 
-    tasks {
-        val copySync = named("testTestProductionExecutableCompileSync", Copy::class) {
-            from(
-                zipTree(
-                    hooksConfiguration.resolve()
-                        .first()
-                )
-            )
-        }
-
-        val debugMe by registering {
-            dependsOn("testTestProductionExecutableCompileSync")
-            doLast {
-                copySync.get().destinationDir.listFiles()
-                    .joinToString("\n") { it.absolutePath }
-                    .also { println("compileDirectoryContents=[$it]") }
-            }
-        }
-
-
-        named("nodeTest") {
-            dependsOn("testTestProductionExecutableCompileSync", debugMe)
-
-        }
-
+    dependencies {
+        "testImplementation"("com.zegreatrob.testmints:mint-logs")
+        hooksConfiguration("com.zegreatrob.testmints:mint-logs")
     }
 
 }

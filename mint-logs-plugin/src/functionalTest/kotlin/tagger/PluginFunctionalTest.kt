@@ -71,4 +71,71 @@ Test.example STANDARD_OUT
             result.output.trim().contains(expected)
         )
     }
+
+    @Test
+    fun willConfigureKotlinJvm() {
+        settingsFile.writeText("""
+            rootProject.name = "testmints-functional-test"
+            includeBuild("${System.getenv("ROOT_DIR")}")
+            """.trimIndent())
+        testFile.parentFile.mkdirs()
+        testFile.writeBytes(
+            this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
+        )
+        buildFile.writeText(
+            """
+            plugins {
+                kotlin("jvm")
+                id("com.zegreatrob.testmints.logs.mint-logs")
+            }
+            
+            repositories {
+                mavenCentral()
+            }
+            
+            dependencies {
+                implementation(kotlin("test"))
+                implementation("com.zegreatrob.testmints:standard")
+                implementation("org.slf4j:slf4j-simple:2.0.6")
+            }
+            """.trimIndent()
+        )
+
+        val runner = GradleRunner.create()
+        runner.forwardOutput()
+        runner.withPluginClasspath()
+        runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
+        runner.withProjectDir(projectDir)
+        val result = runner.build()
+
+        val expected = """
+Test > example() STANDARD_ERROR
+    [Test worker] INFO testmints - {step=test, state=start}
+    [Test worker] INFO testmints - {step=setup, state=start}
+
+Test > example() STANDARD_OUT
+    setup
+
+Test > example() STANDARD_ERROR
+    [Test worker] INFO testmints - {step=setup, state=finish}
+    [Test worker] INFO testmints - {step=exercise, state=start}
+
+Test > example() STANDARD_OUT
+    exercise
+
+Test > example() STANDARD_ERROR
+    [Test worker] INFO testmints - {step=exercise, state=finish}
+    [Test worker] INFO testmints - {step=verify, state=start, payload=kotlin.Unit}
+
+Test > example() STANDARD_OUT
+    verify
+
+Test > example() STANDARD_ERROR
+    [Test worker] INFO testmints - {step=verify, state=finish}
+    [Test worker] INFO testmints - {step=test, state=finish}
+    """.trim()
+        assertTrue(
+            result.output.trim().contains(expected)
+        )
+    }
 }
