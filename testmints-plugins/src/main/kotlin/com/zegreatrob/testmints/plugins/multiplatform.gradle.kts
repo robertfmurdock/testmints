@@ -19,6 +19,7 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(11)
     targets.all {
         compilations.all {
             kotlinOptions {
