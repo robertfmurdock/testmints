@@ -89,4 +89,14 @@ afterEvaluate {
             }
         }
     }
+
+    publishing.publications {
+        if (isMacRelease()) {
+            withType<MavenPublication> {
+                tasks.withType<AbstractPublishToMaven>().configureEach { onlyIf { false } }
+            }
+        }
+    }
 }
+
+fun Project.isMacRelease() = findProperty("release-target") == "mac"
