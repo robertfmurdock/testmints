@@ -13,6 +13,8 @@ dependencies {
         api(project(":minspy"))
         api(project(":mindiff"))
         api(project(":report"))
+        api(project(":mint-logs"))
+        api(project(":mint-logs-plugin"))
     }
 }
 
