@@ -43,10 +43,7 @@ tasks {
     }
 
     if (isMacRelease()) {
-        "prepare" {
-            enabled = false
-        }
-        "release" {
+        release {
             enabled = false
         }
     }
