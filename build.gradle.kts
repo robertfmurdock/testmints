@@ -6,6 +6,7 @@ plugins {
     signing
     id("com.zegreatrob.testmints.plugins.versioning")
     alias(libs.plugins.com.zegreatrob.tools.tagger)
+    base
 }
 
 group = "com.zegreatrob.testmints"
@@ -27,6 +28,20 @@ tagger {
 }
 
 tasks {
+    val closeAndReleaseSonatypeStagingRepository by getting {
+        mustRunAfter(publish)
+    }
+    release {
+        mustRunAfter(check)
+        finalizedBy(provider { (getTasksByName("publish", true)).toList() })
+    }
+
+    publish {
+        mustRunAfter(check)
+        dependsOn(provider { (getTasksByName("publish", true) - this).toList() })
+        finalizedBy(closeAndReleaseSonatypeStagingRepository)
+    }
+
     if (isMacRelease()) {
         "prepare" {
             enabled = false
