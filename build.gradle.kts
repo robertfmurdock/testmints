@@ -43,6 +43,9 @@ tasks {
     }
 
     if (isMacRelease()) {
+        tag {
+            enabled = false
+        }
         release {
             enabled = false
         }
