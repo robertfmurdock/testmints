@@ -16,6 +16,10 @@ repositories {
     mavenCentral()
 }
 
+kotlin {
+    jvmToolchain(11)
+}
+
 dependencies {
     implementation(platform(project(":dependency-bom")))
     implementation(kotlin("gradle-plugin"))
