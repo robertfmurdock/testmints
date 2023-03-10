@@ -12,15 +12,17 @@ class PluginFunctionalTest {
     lateinit var projectDir: File
 
     private val buildFile by lazy { projectDir.resolve("build.gradle.kts") }
-    private val testFile by lazy { projectDir.resolve("src/test/kotlin/Test.kt") }
     private val settingsFile by lazy { projectDir.resolve("settings.gradle") }
 
     @Test
     fun willConfigureKotlinJs() {
-        settingsFile.writeText("""
+        settingsFile.writeText(
+            """
             rootProject.name = "testmints-functional-test"
             includeBuild("${System.getenv("ROOT_DIR")}")
-            """.trimIndent())
+            """.trimIndent()
+        )
+        val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
             this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
@@ -54,30 +56,75 @@ class PluginFunctionalTest {
         runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
         runner.withProjectDir(projectDir)
         val result = runner.build()
-
-        val expected = """
-Test.example STANDARD_OUT
-    INFO: [testmints] {step=setup, state=start}
-    setup
-    [info] INFO: [testmints] {step=setup, state=finish}
-    [info] INFO: [testmints] {step=exercise, state=start}
-    exercise
-    [info] INFO: [testmints] {step=exercise, state=finish}
-    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
-    verify
-    [info] INFO: [testmints] {step=verify, state=finish}
-    """.trim()
         assertTrue(
-            result.output.trim().contains(expected)
+            result.output.trim().contains(nodeJsExpectedOutput)
+        )
+    }
+
+    @Test
+    fun willConfigureMultiplatform() {
+        settingsFile.writeText(
+            """
+            rootProject.name = "testmints-functional-test"
+            includeBuild("${System.getenv("ROOT_DIR")}")
+            """.trimIndent()
+        )
+        val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
+        testFile.parentFile.mkdirs()
+        testFile.writeBytes(
+            this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
+        )
+        buildFile.writeText(
+            """
+            plugins {
+                kotlin("multiplatform")
+                id("com.zegreatrob.testmints.logs.mint-logs")
+            }
+            
+            repositories {
+                mavenCentral()
+            }
+            
+            kotlin {
+                js(IR) {
+                    nodejs()
+                }
+                jvm()
+            }
+            dependencies {
+                "commonTestImplementation"(kotlin("test"))
+                "commonTestImplementation"("com.zegreatrob.testmints:standard")
+                "jvmTestImplementation"("org.slf4j:slf4j-simple:2.0.6")
+            }
+            """.trimIndent()
+        )
+
+        val runner = GradleRunner.create()
+        runner.forwardOutput()
+        runner.withPluginClasspath()
+        runner.withArguments("jsTest", "jvmTest", "--info", "-P", "org.gradle.caching=true")
+        runner.withProjectDir(projectDir)
+        val result = runner.build()
+
+        assertTrue(
+            result.output.trim().contains(nodeJsExpectedOutput),
+            "Js did not have expected output"
+        )
+        assertTrue(
+            result.output.trim().contains(multiplatformJvmExpectedOutput),
+            "Jvm did not have expected output"
         )
     }
 
     @Test
     fun willConfigureKotlinJvm() {
-        settingsFile.writeText("""
+        settingsFile.writeText(
+            """
             rootProject.name = "testmints-functional-test"
             includeBuild("${System.getenv("ROOT_DIR")}")
-            """.trimIndent())
+            """.trimIndent()
+        )
+        val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
             this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
@@ -108,7 +155,12 @@ Test.example STANDARD_OUT
         runner.withProjectDir(projectDir)
         val result = runner.build()
 
-        val expected = """
+        assertTrue(
+            result.output.trim().contains(jvmExpectedOutput)
+        )
+    }
+
+    private val jvmExpectedOutput = """
 Test > example() STANDARD_ERROR
     [Test worker] INFO testmints - {step=test, state=start}
     [Test worker] INFO testmints - {step=setup, state=start}
@@ -134,8 +186,44 @@ Test > example() STANDARD_ERROR
     [Test worker] INFO testmints - {step=verify, state=finish}
     [Test worker] INFO testmints - {step=test, state=finish}
     """.trim()
-        assertTrue(
-            result.output.trim().contains(expected)
-        )
-    }
+
+    private val multiplatformJvmExpectedOutput = """
+Test[jvm] > example()[jvm] STANDARD_ERROR
+    [Test worker] INFO testmints - {step=test, state=start}
+    [Test worker] INFO testmints - {step=setup, state=start}
+
+Test[jvm] > example()[jvm] STANDARD_OUT
+    setup
+
+Test[jvm] > example()[jvm] STANDARD_ERROR
+    [Test worker] INFO testmints - {step=setup, state=finish}
+    [Test worker] INFO testmints - {step=exercise, state=start}
+
+Test[jvm] > example()[jvm] STANDARD_OUT
+    exercise
+
+Test[jvm] > example()[jvm] STANDARD_ERROR
+    [Test worker] INFO testmints - {step=exercise, state=finish}
+    [Test worker] INFO testmints - {step=verify, state=start, payload=kotlin.Unit}
+
+Test[jvm] > example()[jvm] STANDARD_OUT
+    verify
+
+Test[jvm] > example()[jvm] STANDARD_ERROR
+    [Test worker] INFO testmints - {step=verify, state=finish}
+    [Test worker] INFO testmints - {step=test, state=finish}
+    """.trim()
+
+    private val nodeJsExpectedOutput = """
+Test.example STANDARD_OUT
+    INFO: [testmints] {step=setup, state=start}
+    setup
+    [info] INFO: [testmints] {step=setup, state=finish}
+    [info] INFO: [testmints] {step=exercise, state=start}
+    exercise
+    [info] INFO: [testmints] {step=exercise, state=finish}
+    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
+    verify
+    [info] INFO: [testmints] {step=verify, state=finish}
+    """.trim()
 }
