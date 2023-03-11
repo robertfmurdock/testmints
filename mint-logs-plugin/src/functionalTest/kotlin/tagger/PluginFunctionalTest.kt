@@ -139,6 +139,13 @@ class PluginFunctionalTest {
                 }
                 jvm()
             }
+            
+            tasks {
+                named("jvmTest", Test::class) {
+                    useJUnitPlatform()
+                }
+            }
+            
             dependencies {
                 "commonTestImplementation"(kotlin("test"))
                 "commonTestImplementation"("com.zegreatrob.testmints:standard")
@@ -187,11 +194,14 @@ class PluginFunctionalTest {
                 kotlin("jvm")
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
-            
             repositories {
                 mavenCentral()
             }
-            
+            tasks {
+                named("test", Test::class) {
+                    useJUnitPlatform()
+                }
+            }
             dependencies {
                 implementation(kotlin("test"))
                 implementation("com.zegreatrob.testmints:standard")

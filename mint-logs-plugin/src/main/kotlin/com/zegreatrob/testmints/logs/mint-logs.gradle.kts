@@ -34,7 +34,6 @@ afterEvaluate {
     kotlinJvm?.apply {
         tasks {
             named("test", Test::class) {
-                useJUnitPlatform()
                 systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
             }
         }
@@ -109,7 +108,6 @@ afterEvaluate {
         kotlinMultiplatform.jvm {
             tasks {
                 named("jvmTest", Test::class) {
-                    useJUnitPlatform()
                     systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
                 }
             }
