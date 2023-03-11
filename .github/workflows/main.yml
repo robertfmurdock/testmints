@@ -8,9 +8,10 @@ on:
 jobs:
   build-job:
     name: "Build Linux"
-    concurrency:
-      group: ${{ github.ref }}
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}-linux
+      cancel-in-progress: true
     env:
       GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
       GITHUB_TOKEN: ${{ secrets.TESTMINTS_PAT }}
@@ -52,9 +53,10 @@ jobs:
           testspace $(find . -path *test-results* -name *.xml)
   build-job-mac:
     name: "Build Mac"
-    concurrency:
-      group: ${{ github.ref }}
     runs-on: macos-latest
+    concurrency:
+      group: ${{ github.ref }}-mac
+      cancel-in-progress: true
     env:
       GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
       GITHUB_TOKEN: ${{ secrets.TESTMINTS_PAT }}
