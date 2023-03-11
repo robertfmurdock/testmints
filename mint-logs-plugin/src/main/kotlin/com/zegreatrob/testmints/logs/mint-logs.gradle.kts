@@ -3,6 +3,7 @@ package com.zegreatrob.testmints.logs
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages.KOTLIN_RUNTIME
 import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
@@ -50,30 +51,7 @@ afterEvaluate {
             customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
         }
         (this as? KotlinJsIrTarget)?.let {
-            it.whenBrowserConfigured {
-                val newKarmaConfigDir = buildDir.resolve("karma.config.d")
-
-                tasks {
-                    val karmaPrepare by registering(ProcessResources::class) {
-                        from(projectDir.resolve("karma.conf.d"))
-                        from(
-                            zipTree(hooksConfiguration.resolve().first())
-                                .filter { file -> file.name == "karma-mint-logs.js" }
-                        )
-                        into(newKarmaConfigDir)
-                    }
-                    testTask {
-                        dependsOn(karmaPrepare)
-                        onTestFrameworkSet { framework ->
-                            if (framework is KotlinKarma) {
-                                framework.useConfigDirectory(newKarmaConfigDir)
-                            }
-                        }
-                    }
-                }
-
-            }
-
+            it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
 
             tasks {
                 val copySync = named("testTestProductionExecutableCompileSync", Copy::class) {
@@ -99,16 +77,20 @@ afterEvaluate {
             val compilation = compilations["test"]
             binaries.executable(compilation)
 
-            compilation.packageJson {
-                customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
+            (this as? KotlinJsIrTarget)?.let {
+                it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
+                it.whenNodejsConfigured {
+                    compilation.packageJson {
+                        customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
+                    }
+                }
             }
 
             tasks {
                 val copySync = named("jsTestTestProductionExecutableCompileSync", Copy::class) {
                     from(zipTree(hooksConfiguration.resolve().first()))
                 }
-
-                named("jsNodeTest") {
+                withType(KotlinJsTest::class) {
                     dependsOn(copySync)
                 }
             }
@@ -134,3 +116,25 @@ afterEvaluate {
     }
 }
 
+fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
+    val newKarmaConfigDir = project.buildDir.resolve("karma.config.d")
+
+    project.tasks {
+        val karmaPrepare by registering(ProcessResources::class) {
+            from(project.projectDir.resolve("karma.conf.d"))
+            from(
+                project.zipTree(hooksConfiguration.resolve().first())
+                    .filter { file -> file.name == "karma-mint-logs.js" }
+            )
+            into(newKarmaConfigDir)
+        }
+        testTask {
+            dependsOn(karmaPrepare)
+            onTestFrameworkSet { framework ->
+                if (framework is KotlinKarma) {
+                    framework.useConfigDirectory(newKarmaConfigDir)
+                }
+            }
+        }
+    }
+}

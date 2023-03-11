@@ -135,6 +135,7 @@ class PluginFunctionalTest {
             kotlin {
                 js(IR) {
                     nodejs()
+                    browser()
                 }
                 jvm()
             }
@@ -155,7 +156,11 @@ class PluginFunctionalTest {
 
         assertTrue(
             result.output.trim().contains(nodeJsExpectedOutput),
-            "Js did not have expected output"
+            "Node Js did not have expected output"
+        )
+        assertTrue(
+            result.output.trim().contains(browserJsExpectedOutput),
+            "Browser Js did not have expected output"
         )
         assertTrue(
             result.output.trim().contains(multiplatformJvmExpectedOutput),
