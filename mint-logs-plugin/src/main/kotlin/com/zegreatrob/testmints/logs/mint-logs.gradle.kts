@@ -53,7 +53,7 @@ afterEvaluate {
             it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
 
             tasks {
-                named("publicPackageJson", PublicPackageJsonTask::class) {
+                withType(PublicPackageJsonTask::class) {
                     applyMochaSettings(compilation)
                 }
 
@@ -84,7 +84,7 @@ afterEvaluate {
                 it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
                 it.whenNodejsConfigured {
                     tasks {
-                        named("jsPublicPackageJson", PublicPackageJsonTask::class) {
+                        withType(PublicPackageJsonTask::class) {
                             applyMochaSettings(compilation)                        }
                     }
                 }
@@ -144,12 +144,12 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
 }
 
 fun PublicPackageJsonTask.applyMochaSettings(compilation: KotlinJsCompilation) {
-    val mochaSettings = packageJsonCustomFields.getOrDefault("mocha", null) as? Map<*, *>
+    val mochaSettings = packageJsonCustomFields["mocha"] as? Map<*, *>
         ?: emptyMap<String, String>()
 
-    val requires = mochaSettings["require"]?.let { if(it is String) listOf(it) else if (it is List<*>) it else null }
-        ?: emptyList()
-
+    val requires =
+        mochaSettings["require"]?.let { if (it is String) listOf(it) else if (it is List<*>) it else null }
+            ?: emptyList()
     compilation.packageJson {
         customField("mocha", mochaSettings + mapOf("require" to requires + "./kotlin/mint-logs.mjs"))
     }
