@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages.KOTLIN_RUNTIME
 import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
-import org.jetbrains.kotlin.gradle.targets.js.npm.PublicPackageJsonTask
+import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinPackageJsonTask
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
 
@@ -53,7 +53,7 @@ afterEvaluate {
             it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
 
             tasks {
-                withType(PublicPackageJsonTask::class) {
+                named("testPackageJson", KotlinPackageJsonTask::class) {
                     applyMochaSettings(compilation)
                 }
 
@@ -84,8 +84,9 @@ afterEvaluate {
                 it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
                 it.whenNodejsConfigured {
                     tasks {
-                        withType(PublicPackageJsonTask::class) {
-                            applyMochaSettings(compilation)                        }
+                        named("jsTestPackageJson", KotlinPackageJsonTask::class) {
+                            applyMochaSettings(compilation)
+                        }
                     }
                 }
             }
@@ -143,10 +144,9 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
     }
 }
 
-fun PublicPackageJsonTask.applyMochaSettings(compilation: KotlinJsCompilation) {
+fun KotlinPackageJsonTask.applyMochaSettings(compilation: KotlinJsCompilation) {
     val mochaSettings = packageJsonCustomFields["mocha"] as? Map<*, *>
         ?: emptyMap<String, String>()
-
     val requires =
         mochaSettings["require"]?.let { if (it is String) listOf(it) else if (it is List<*>) it else null }
             ?: emptyList()
