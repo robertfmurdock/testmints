@@ -24,7 +24,7 @@ afterEvaluate {
     }
 
     dependencies {
-        hooksConfiguration("com.zegreatrob.testmints:mint-logs")
+        hooksConfiguration("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
     }
 
     val kotlinJvm = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -37,7 +37,7 @@ afterEvaluate {
             }
         }
         dependencies {
-            "testImplementation"("com.zegreatrob.testmints:mint-logs")
+            "testImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
         }
     }
 
@@ -64,7 +64,7 @@ afterEvaluate {
             }
 
             dependencies {
-                "testImplementation"("com.zegreatrob.testmints:mint-logs")
+                "testImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
             }
         }
     }
@@ -96,7 +96,7 @@ afterEvaluate {
             }
 
             dependencies {
-                "jsTestImplementation"("com.zegreatrob.testmints:mint-logs")
+                "jsTestImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
             }
         }
     }
@@ -110,7 +110,7 @@ afterEvaluate {
                 }
             }
             dependencies {
-                "jvmTestImplementation"("com.zegreatrob.testmints:mint-logs")
+                "jvmTestImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
             }
         }
     }

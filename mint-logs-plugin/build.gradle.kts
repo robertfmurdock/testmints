@@ -48,6 +48,25 @@ tasks {
     named<Test>("functionalTest") {
         environment("ROOT_DIR", rootDir)
     }
+    val copyTemplates by registering(Copy::class) {
+        inputs.property("version", rootProject.version)
+        filteringCharset = "UTF-8"
+
+        from(project.projectDir.resolve("src/main/templates")) {
+            filter<org.apache.tools.ant.filters.ReplaceTokens>(
+                "tokens" to mapOf("TESTMINTS_BOM_VERSION" to rootProject.version,)
+            )
+        }
+        into(project.buildDir.resolve("generated-sources/templates/kotlin/main"))
+    }
+    compileKotlin {
+        dependsOn(copyTemplates)
+    }
+    sourceSets {
+        main {
+            java.srcDirs(copyTemplates)
+        }
+    }
 }
 
 signing {
