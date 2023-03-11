@@ -3,6 +3,9 @@ package com.zegreatrob.testmints.logs
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages.KOTLIN_RUNTIME
 import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
+import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
 
 plugins {
     base
@@ -46,19 +49,45 @@ afterEvaluate {
         compilation.packageJson {
             customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
         }
+        (this as? KotlinJsIrTarget)?.let {
+            it.whenBrowserConfigured {
+                val newKarmaConfigDir = buildDir.resolve("karma.config.d")
 
-        tasks {
-            val copySync = named("testTestProductionExecutableCompileSync", Copy::class) {
-                from(zipTree(hooksConfiguration.resolve().first()))
+                tasks {
+                    val karmaPrepare by registering(ProcessResources::class) {
+                        from(projectDir.resolve("karma.conf.d"))
+                        from(
+                            zipTree(hooksConfiguration.resolve().first())
+                                .filter { file -> file.name == "karma-mint-logs.js" }
+                        )
+                        into(newKarmaConfigDir)
+                    }
+                    testTask {
+                        dependsOn(karmaPrepare)
+                        onTestFrameworkSet { framework ->
+                            if (framework is KotlinKarma) {
+                                framework.useConfigDirectory(newKarmaConfigDir)
+                            }
+                        }
+                    }
+                }
+
             }
 
-            named("nodeTest") {
-                dependsOn("testTestProductionExecutableCompileSync")
-            }
-        }
 
-        dependencies {
-            "testImplementation"("com.zegreatrob.testmints:mint-logs")
+            tasks {
+                val copySync = named("testTestProductionExecutableCompileSync", Copy::class) {
+                    from(zipTree(hooksConfiguration.resolve().first()))
+                }
+
+                withType(KotlinJsTest::class) {
+                    dependsOn(copySync)
+                }
+            }
+
+            dependencies {
+                "testImplementation"("com.zegreatrob.testmints:mint-logs")
+            }
         }
     }
 
@@ -103,6 +132,5 @@ afterEvaluate {
             }
         }
     }
-
 }
 

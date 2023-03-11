@@ -15,7 +15,7 @@ class PluginFunctionalTest {
     private val settingsFile by lazy { projectDir.resolve("settings.gradle") }
 
     @Test
-    fun willConfigureKotlinJs() {
+    fun willConfigureKotlinJsNode() {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
@@ -58,6 +58,53 @@ class PluginFunctionalTest {
         val result = runner.build()
         assertTrue(
             result.output.trim().contains(nodeJsExpectedOutput)
+        )
+    }
+
+    @Test
+    fun willConfigureKotlinJsBrowser() {
+        settingsFile.writeText(
+            """
+            rootProject.name = "testmints-functional-test"
+            includeBuild("${System.getenv("ROOT_DIR")}")
+            """.trimIndent()
+        )
+        val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
+        testFile.parentFile.mkdirs()
+        testFile.writeBytes(
+            this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
+        )
+        buildFile.writeText(
+            """
+            plugins {
+                kotlin("js")
+                id("com.zegreatrob.testmints.logs.mint-logs")
+            }
+            
+            repositories {
+                mavenCentral()
+            }
+            
+            kotlin {
+                js(IR) {
+                    browser()
+                }
+            }
+            dependencies {
+                implementation(kotlin("test"))
+                implementation("com.zegreatrob.testmints:standard")
+            }
+            """.trimIndent()
+        )
+
+        val runner = GradleRunner.create()
+        runner.forwardOutput()
+        runner.withPluginClasspath()
+        runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
+        runner.withProjectDir(projectDir)
+        val result = runner.build()
+        assertTrue(
+            result.output.trim().contains(browserJsExpectedOutput)
         )
     }
 
@@ -224,6 +271,19 @@ Test.example STANDARD_OUT
     [info] INFO: [testmints] {step=exercise, state=finish}
     [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
     verify
+    [info] INFO: [testmints] {step=verify, state=finish}
+    """.trim()
+
+    private val browserJsExpectedOutput = """
+Test.example STANDARD_OUT
+    INFO: [testmints] {step=setup, state=start}
+    [log] setup
+    [info] INFO: [testmints] {step=setup, state=finish}
+    [info] INFO: [testmints] {step=exercise, state=start}
+    [log] exercise
+    [info] INFO: [testmints] {step=exercise, state=finish}
+    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
+    [log] verify
     [info] INFO: [testmints] {step=verify, state=finish}
     """.trim()
 }
