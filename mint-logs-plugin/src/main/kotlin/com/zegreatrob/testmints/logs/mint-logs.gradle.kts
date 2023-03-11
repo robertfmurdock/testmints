@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinPackageJsonTask
-import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
 
 plugins {
@@ -47,7 +46,6 @@ afterEvaluate {
     kotlinJs?.js {
         (this as? KotlinJsIrTarget)?.let {
             val compilation = compilations["test"]
-            binaries.executable(compilation)
 
             it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
 
@@ -56,12 +54,8 @@ afterEvaluate {
                     applyMochaSettings(compilation)
                 }
 
-                val copySync = named("testTestProductionExecutableCompileSync", Copy::class) {
+                named("testTestDevelopmentExecutableCompileSync", Copy::class) {
                     from(zipTree(hooksConfiguration.resolve().first()))
-                }
-
-                withType(KotlinJsTest::class) {
-                    dependsOn(copySync)
                 }
             }
             dependencies {
@@ -76,7 +70,6 @@ afterEvaluate {
     kotlinMultiplatform?.targets?.findByName("js")?.let {
         kotlinMultiplatform.js {
             val compilation = compilations["test"]
-            binaries.executable(compilation)
 
             (this as? KotlinJsIrTarget)?.let {
                 it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
@@ -90,11 +83,8 @@ afterEvaluate {
             }
 
             tasks {
-                val copySync = named("jsTestTestProductionExecutableCompileSync", Copy::class) {
+                named("jsTestTestDevelopmentExecutableCompileSync", Copy::class) {
                     from(zipTree(hooksConfiguration.resolve().first()))
-                }
-                withType(KotlinJsTest::class) {
-                    dependsOn(copySync)
                 }
             }
 
