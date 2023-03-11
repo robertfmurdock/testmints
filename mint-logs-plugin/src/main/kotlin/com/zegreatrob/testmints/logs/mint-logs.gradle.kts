@@ -65,7 +65,6 @@ afterEvaluate {
                     dependsOn(copySync)
                 }
             }
-
             dependencies {
                 "testImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
             }
@@ -123,10 +122,9 @@ afterEvaluate {
 
 fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
     val newKarmaConfigDir = project.buildDir.resolve("karma.config.d")
-
     project.tasks {
         val karmaPrepare by registering(ProcessResources::class) {
-            from(project.projectDir.resolve("karma.conf.d"))
+            from(project.projectDir.resolve("karma.config.d"))
             from(
                 project.zipTree(hooksConfiguration.resolve().first())
                     .filter { file -> file.name == "karma-mint-logs.js" }
