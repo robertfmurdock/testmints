@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages.KOTLIN_RUNTIME
 import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
+import org.jetbrains.kotlin.gradle.targets.js.npm.PublicPackageJsonTask
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
 
@@ -44,16 +45,21 @@ afterEvaluate {
     val kotlinJs = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 
     kotlinJs?.js {
-        val compilation = compilations["test"]
-        binaries.executable(compilation)
-
-        compilation.packageJson {
-            customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
-        }
         (this as? KotlinJsIrTarget)?.let {
+            val compilation = compilations["test"]
+            binaries.executable(compilation)
+
             it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
 
             tasks {
+                named("publicPackageJson", PublicPackageJsonTask::class) {
+                    val mochaSettings = packageJsonCustomFields.getOrDefault("mocha", null) as? Map<*, *>
+                        ?: emptyMap<String, String>()
+                    compilation.packageJson {
+                        customField("mocha", mochaSettings + mapOf("require" to "./kotlin/mint-logs.mjs"))
+                    }
+                }
+
                 val copySync = named("testTestProductionExecutableCompileSync", Copy::class) {
                     from(zipTree(hooksConfiguration.resolve().first()))
                 }
@@ -80,8 +86,14 @@ afterEvaluate {
             (this as? KotlinJsIrTarget)?.let {
                 it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
                 it.whenNodejsConfigured {
-                    compilation.packageJson {
-                        customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
+                    tasks {
+                        named("jsPublicPackageJson", PublicPackageJsonTask::class) {
+                            val mochaSettings = packageJsonCustomFields.getOrDefault("mocha", null) as? Map<*, *>
+                                ?: emptyMap<String, String>()
+                            compilation.packageJson {
+                                customField("mocha", mochaSettings + mapOf("require" to "./kotlin/mint-logs.mjs"))
+                            }
+                        }
                     }
                 }
             }
