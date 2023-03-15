@@ -54,6 +54,7 @@ jobs:
   build-job-mac:
     name: "Build Mac"
     runs-on: macos-latest
+    needs: build-job
     concurrency:
       group: ${{ github.ref }}-mac
       cancel-in-progress: true
