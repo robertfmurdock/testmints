@@ -8,7 +8,7 @@ import kotlinx.coroutines.async
 class TestTemplate<out SC : Any>(
     private val reporterProvider: ReporterProvider,
     private val templateScope: CoroutineScope = mintScope(),
-    val wrapper: suspend (TestFunc<SC>) -> Unit
+    val wrapper: suspend (TestFunc<SC>) -> Unit,
 ) {
 
     fun <SC2 : Any> extend(wrapper: suspend (SC, TestFunc<SC2>) -> Unit) = TestTemplate(reporterProvider) { test ->
@@ -32,12 +32,12 @@ class TestTemplate<out SC : Any>(
 
     fun <BAC : Any> extend(beforeAll: suspend () -> BAC): TestTemplate<BAC> = extend(
         beforeAll = beforeAll,
-        mergeContext = { _, bac -> bac }
+        mergeContext = { _, bac -> bac },
     )
 
     fun <BAC : Any, SC2 : Any> extend(
         beforeAll: suspend () -> BAC,
-        mergeContext: suspend (SC, BAC) -> SC2
+        mergeContext: suspend (SC, BAC) -> SC2,
     ): TestTemplate<SC2> {
         val deferred = templateScope.async(start = CoroutineStart.LAZY) { beforeAll() }
         return extend(sharedSetup = { sharedContext ->
@@ -52,7 +52,7 @@ class TestTemplate<out SC : Any>(
             additionalActions,
             reporterProvider.reporter,
             timeoutMs,
-            wrapper
+            wrapper,
         )
 
     operator fun invoke(timeoutMs: Long = 60_000L, additionalActions: suspend SC.() -> Unit = {}) = Setup(
@@ -61,20 +61,20 @@ class TestTemplate<out SC : Any>(
         additionalActions,
         reporterProvider.reporter,
         timeoutMs,
-        wrapper
+        wrapper,
     )
 
     fun <C : Any> with(
         contextProvider: suspend (SC) -> C,
         timeoutMs: Long = 60_000L,
-        additionalActions: suspend C.() -> Unit = {}
+        additionalActions: suspend C.() -> Unit = {},
     ) = Setup(contextProvider, mintScope(), additionalActions, reporterProvider.reporter, timeoutMs, wrapper)
 }
 
 fun <C : Any> TestTemplate<Unit>.with(
     contextProvider: suspend () -> C,
     timeoutMs: Long = 60_000L,
-    additionalAction: suspend C.() -> Unit = {}
+    additionalAction: suspend C.() -> Unit = {},
 ): Setup<C, Unit> {
     val unitSharedContextAdapter: suspend (Unit) -> C = { contextProvider() }
     return with(unitSharedContextAdapter, timeoutMs, additionalAction)

@@ -19,7 +19,7 @@ class JsonLoggingTestMintsReporter private constructor() : MintReporter {
         mapOf(
             "step" to "verify",
             "state" to "start",
-            "payload" to payload.toString()
+            "payload" to payload.toString(),
         )
     }
 

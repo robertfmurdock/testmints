@@ -23,7 +23,7 @@ class GeneralExecutableActionDispatcherTest {
             val action = DivideAction(6, 7)
             val divideDispatcherSpy = SpyData<DivideAction, Int>()
             val divideDispatcher = divideDispatcherSpy::spyFunction
-        }
+        },
     ) exercise {
         divideDispatcher.execute(action)
     } verify { result ->

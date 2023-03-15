@@ -28,6 +28,10 @@ tagger {
 }
 
 tasks {
+    "versionCatalogUpdate" {
+        dependsOn(provider { gradle.includedBuilds.map { it.task(":versionCatalogUpdate") } })
+    }
+
     val closeAndReleaseSonatypeStagingRepository by getting {
         mustRunAfter(publish)
     }

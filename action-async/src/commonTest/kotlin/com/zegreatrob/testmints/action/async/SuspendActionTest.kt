@@ -66,7 +66,7 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
         }) exercise {
             Pair(
                 dispatcher.execute(addAction),
-                dispatcher.execute(multiplyAction)
+                dispatcher.execute(multiplyAction),
             )
         } verify { result ->
             with(result) {
@@ -92,11 +92,11 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
         }) exercise {
             Pair(
                 dispatcher.execute(addAction),
-                dispatcher.execute(subtractAction)
+                dispatcher.execute(subtractAction),
             )
         } verify { result ->
             result.assertIsEqualTo(
-                29 to 28
+                29 to 28,
             )
         }
 
@@ -112,11 +112,11 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
         }) exercise {
             Pair(
                 dispatcher.execute(addAction),
-                dispatcher.execute(multiplyAction)
+                dispatcher.execute(multiplyAction),
             )
         } verify {
             allExecutedActions.assertIsEqualTo(
-                listOf(addAction, multiplyAction)
+                listOf(addAction, multiplyAction),
             )
         }
     }

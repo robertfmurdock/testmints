@@ -372,7 +372,7 @@ class AsyncMintsTest {
                 Steps.Exercise,
                 Steps.Verify,
                 Steps.Teardown,
-                Steps.TemplateTeardown
+                Steps.TemplateTeardown,
             )
 
             @Test
@@ -380,7 +380,7 @@ class AsyncMintsTest {
                 val calls = mutableListOf<Steps>()
                 val customSetup = asyncTestTemplate(
                     sharedSetup = { calls.add(Steps.TemplateSetup) },
-                    sharedTeardown = { calls.add(Steps.TemplateTeardown) }
+                    sharedTeardown = { calls.add(Steps.TemplateTeardown) },
                 )
 
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
@@ -398,7 +398,7 @@ class AsyncMintsTest {
                 val calls = mutableListOf<Steps>()
                 val customSetup = asyncTestTemplate(
                     sharedSetup = { calls.add(Steps.TemplateSetup) },
-                    sharedTeardown = { calls.add(Steps.TemplateTeardown) }
+                    sharedTeardown = { calls.add(Steps.TemplateTeardown) },
                 )
 
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
@@ -415,12 +415,12 @@ class AsyncMintsTest {
                 val calls = mutableListOf<String>()
                 val customSetup = asyncTestTemplate(
                     sharedSetup = { calls.add("setup") },
-                    sharedTeardown = { calls.add("teardown") }
+                    sharedTeardown = { calls.add("teardown") },
                 )
 
                 val bolsteredCustomSetup = customSetup.extend(
                     sharedSetup = { calls.add("inner setup") },
-                    sharedTeardown = { calls.add("inner teardown") }
+                    sharedTeardown = { calls.add("inner teardown") },
                 )
 
                 fun test() = bolsteredCustomSetup() exercise {} verify {}
@@ -539,7 +539,7 @@ class AsyncMintsTest {
                             calls.add(Steps.TemplateSetup)
                             "$sc bottles of beer on the wall."
                         },
-                        sharedTeardown = { calls.add(Steps.TemplateTeardown) }
+                        sharedTeardown = { calls.add(Steps.TemplateTeardown) },
                     )
 
                 var sharedContextReceived: Any? = null
@@ -567,7 +567,7 @@ class AsyncMintsTest {
             } verify { result ->
                 assertEquals(
                     "Incomplete test template: the wrapper function never called the test function",
-                    result?.message
+                    result?.message,
                 )
             }
 
@@ -584,7 +584,7 @@ class AsyncMintsTest {
             } verify { result ->
                 assertEquals(
                     "Incomplete test template: the wrapper function never called the test function",
-                    result?.message
+                    result?.message,
                 )
             }
 
@@ -593,7 +593,7 @@ class AsyncMintsTest {
                 val calls = mutableListOf<Steps>()
                 val customSetup = asyncTestTemplate(
                     sharedSetup = { calls.add(Steps.TemplateSetup) },
-                    sharedTeardown = { calls.add(Steps.TemplateTeardown) }
+                    sharedTeardown = { calls.add(Steps.TemplateTeardown) },
                 )
 
                 fun testThatFails() = customSetup { calls.add(Steps.Setup) }
@@ -612,7 +612,7 @@ class AsyncMintsTest {
                 val templateTeardownException = Exception("Now we're really off-road")
                 val customSetup = asyncTestTemplate(
                     sharedSetup = {},
-                    sharedTeardown = { throw templateTeardownException }
+                    sharedTeardown = { throw templateTeardownException },
                 )
 
                 fun failingTestThatExplodesInTeardown() = customSetup() exercise {} verifyAnd {
@@ -623,8 +623,8 @@ class AsyncMintsTest {
                 val expected = CompoundMintTestException(
                     mapOf(
                         "Teardown exception" to teardownException,
-                        "Template teardown exception" to templateTeardownException
-                    )
+                        "Template teardown exception" to templateTeardownException,
+                    ),
                 )
                 assertEquals(expected, result)
             }
@@ -635,7 +635,7 @@ class AsyncMintsTest {
                 val callArguments = mutableListOf<Any>()
                 val customSetup = asyncTestTemplate(
                     sharedSetup = { int },
-                    sharedTeardown = { it: Int -> callArguments.add(it) }
+                    sharedTeardown = { it: Int -> callArguments.add(it) },
                 )
 
                 fun testThatSucceeds() = customSetup { }
@@ -687,9 +687,9 @@ class AsyncMintsTest {
                         "wrapSetup",
                         "wrapTeardown",
                         "wrapSetup",
-                        "wrapTeardown"
+                        "wrapTeardown",
                     ),
-                    calls
+                    calls,
                 )
             }
 
@@ -760,9 +760,9 @@ class AsyncMintsTest {
                     Call.VerifyStart,
                     Call.VerifyFinish,
                     Call.TeardownStart,
-                    Call.TeardownFinish
+                    Call.TeardownFinish,
                 ),
-                actual = calls
+                actual = calls,
             )
         }
 

@@ -36,7 +36,7 @@ class StringDiffTest {
         } verify { result ->
             val expected = listOf(
                 "E: man",
-                "A: lady"
+                "A: lady",
             )
             val takeLast = result.split("\n")
                 .takeLast(2)
@@ -64,7 +64,7 @@ class StringDiffTest {
         } verify { result ->
             val expected = listOf(
                 "E: man ",
-                "A: lady"
+                "A: lady",
             )
             val takeLast = result.split("\n")
                 .takeLast(2)
@@ -87,7 +87,7 @@ class StringDiffTest {
             assertEquals("Difference at index 4.", t)
             val expected = listOf(
                 "E: man",
-                "A: lady"
+                "A: lady",
             )
             val slice = lines.slice(1..2)
             assertEquals(expected, slice)
@@ -102,7 +102,7 @@ class StringDiffTest {
             assertEquals("Difference at index 39.", t)
             val expected = listOf(
                 "E: jig.",
-                "A: salsa"
+                "A: salsa",
             )
             val slice = lines.slice(4..5)
             assertEquals(expected, slice)

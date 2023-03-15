@@ -6,7 +6,7 @@ class Setup<C : Any, SC : Any>(
     private val contextProvider: (SC) -> C,
     private val reporter: MintReporter,
     private val additionalSetupActions: C.() -> Unit,
-    private val wrapper: (TestFunc<SC>) -> Unit
+    private val wrapper: (TestFunc<SC>) -> Unit,
 ) {
     infix fun <R> exercise(codeUnderTest: C.() -> R) = Exercise<C, R> { verifyFunc ->
         { teardownFunc ->
@@ -17,7 +17,7 @@ class Setup<C : Any, SC : Any>(
     private fun <R> runTest(
         exerciseFunc: ExerciseFunc<C, R>,
         verifyFunc: VerifyFunc<C, R>,
-        teardownFunc: TeardownFunc<C, R>
+        teardownFunc: TeardownFunc<C, R>,
     ) {
         var verifyFailure: Throwable? = null
         var teardownException: Throwable? = null
@@ -41,7 +41,7 @@ class Setup<C : Any, SC : Any>(
     private fun reportExceptions(
         verifyFailure: Throwable?,
         teardownException: Throwable?,
-        wrapperException: Throwable?
+        wrapperException: Throwable?,
     ) {
         val problems = exceptionDescriptionMap(teardownException, wrapperException, verifyFailure)
 
@@ -80,12 +80,12 @@ private fun <C : Any, R> VerifyFunc<C, R>.makeReporting(mintReporter: MintReport
 private fun exceptionDescriptionMap(
     teardownException: Throwable?,
     templateTeardownException: Throwable?,
-    failure: Throwable?
+    failure: Throwable?,
 ) =
     mapOf(
         "Failure" to failure,
         "Teardown exception" to teardownException,
-        "Template teardown exception" to templateTeardownException
+        "Template teardown exception" to templateTeardownException,
     )
         .mapNotNull { (descriptor, exception) -> exception?.let { descriptor to exception } }
         .toMap()

@@ -42,11 +42,11 @@ private fun splitIntoTwoDiffSections(originalFirstDiff: Int, eDiffRange: String,
                 return diffDescription(
                     index = originalFirstDiff,
                     eDiff = eDiffRange.substring(0 until eIndex),
-                    aDiff = aDiffRange.substring(0 until aIndex)
+                    aDiff = aDiffRange.substring(0 until aIndex),
                 ) + diffDescription(
                     index = originalFirstDiff + eIndex + innerFirstDiffIndex,
                     eDiff = eDiffRange.substring(eIndex + innerFirstDiffIndex),
-                    aDiff = aDiffRange.substring(aIndex + innerFirstDiffIndex)
+                    aDiff = aDiffRange.substring(aIndex + innerFirstDiffIndex),
                 )
             }
         }
@@ -57,7 +57,7 @@ private fun splitIntoTwoDiffSections(originalFirstDiff: Int, eDiffRange: String,
 private fun diffDescription(index: Int, eDiff: String, aDiff: String) = listOf(
     "Difference at index $index.",
     "E: $eDiff",
-    "A: $aDiff"
+    "A: $aDiff",
 )
 
 private fun String.diffRange(firstDiffIndex: Int, endOfString: Int) =

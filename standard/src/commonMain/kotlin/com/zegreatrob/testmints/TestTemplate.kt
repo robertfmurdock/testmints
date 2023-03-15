@@ -15,7 +15,7 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
     }
 
     fun extend(sharedSetup: () -> Unit = {}, sharedTeardown: () -> Unit = {}) = TestTemplate<SC>(
-        reporterProvider
+        reporterProvider,
     ) { test ->
         wrapper {
             sharedSetup()
@@ -26,7 +26,7 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
 
     fun <BAC : Any> extend(beforeAll: () -> BAC): TestTemplate<BAC> = extend(
         beforeAll = beforeAll,
-        mergeContext = { _, bac -> bac }
+        mergeContext = { _, bac -> bac },
     )
 
     fun <BAC : Any, SC2 : Any> extend(beforeAll: () -> BAC, mergeContext: (SC, BAC) -> SC2): TestTemplate<SC2> {
@@ -39,7 +39,7 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
 
     operator fun <C : Any> invoke(
         context: C,
-        additionalSetupActions: C.() -> Unit = {}
+        additionalSetupActions: C.() -> Unit = {},
     ) = Setup({ context }, reporterProvider.reporter, additionalSetupActions, wrapper)
 
     operator fun invoke(additionalSetupActions: SC.() -> Unit = {}): Setup<SC, SC> =

@@ -14,7 +14,7 @@ class Setup<out C : Any, out SC : Any>(
     private val additionalActions: suspend C.() -> Unit,
     private val reporter: MintReporter,
     private val timeoutMs: Long,
-    private val wrapper: suspend (TestFunc<SC>) -> Unit
+    private val wrapper: suspend (TestFunc<SC>) -> Unit,
 ) {
     infix fun <R> exercise(exerciseFunc: suspend C.() -> R) = Exercise<C, R>(timeoutMs) { verifyFunc ->
         { teardownFunc ->
@@ -27,7 +27,7 @@ class Setup<out C : Any, out SC : Any>(
     private suspend fun <R> runTest(
         exerciseFunc: suspend C.() -> R,
         verifyFunc: suspend C.(R) -> Unit,
-        teardownFunc: suspend C.(R?) -> Unit
+        teardownFunc: suspend C.(R?) -> Unit,
     ) {
         var exerciseProblem: Throwable? = null
         var verifyFailure: Throwable? = null
@@ -65,7 +65,7 @@ class Setup<out C : Any, out SC : Any>(
     private suspend fun <R> performVerify(
         context: C,
         result: R,
-        assertionFunctions: suspend C.(R) -> Unit
+        assertionFunctions: suspend C.(R) -> Unit,
     ): Throwable? {
         reporter.verifyStart(result)
         return captureException { context.assertionFunctions(result) }.also {
@@ -97,7 +97,7 @@ private fun handleTeardownExceptions(
     exerciseProblem: Throwable?,
     failure: Throwable?,
     teardownException: Throwable?,
-    templateTeardownException: Throwable?
+    templateTeardownException: Throwable?,
 ) {
     val problems = exceptionDescriptionMap(exerciseProblem, failure, teardownException, templateTeardownException)
 
@@ -112,7 +112,7 @@ private fun exceptionDescriptionMap(
     exerciseProblem: Throwable?,
     failure: Throwable?,
     teardownException: Throwable?,
-    templateTeardownException: Throwable?
+    templateTeardownException: Throwable?,
 ) = descriptionMap(exerciseProblem, failure, teardownException, templateTeardownException)
     .mapNotNull { (descriptor, exception) -> exception?.let { descriptor to exception } }
     .toMap()
@@ -121,17 +121,17 @@ private fun descriptionMap(
     exerciseProblem: Throwable?,
     failure: Throwable?,
     teardownException: Throwable?,
-    templateTeardownException: Throwable?
+    templateTeardownException: Throwable?,
 ) = mapOf(
     "Exercise exception" to exerciseProblem,
     "Failure" to failure,
     "Teardown exception" to teardownException,
-    "Template teardown exception" to templateTeardownException
+    "Template teardown exception" to templateTeardownException,
 )
 
 private suspend fun <SC : Any> checkedInvoke(
     wrapper: suspend (TestFunc<SC>) -> Unit,
-    test: TestFunc<SC>
+    test: TestFunc<SC>,
 ) = captureException {
     var testWasInvoked = false
     wrapper.invoke { sharedContext ->

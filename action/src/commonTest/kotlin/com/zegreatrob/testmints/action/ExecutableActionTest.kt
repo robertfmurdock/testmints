@@ -60,7 +60,7 @@ class ExecutableActionTest : ExecutableActionExecuteSyntax {
     }) exercise {
         Pair(
             dispatcher.execute(addAction),
-            dispatcher.execute(multiplyAction)
+            dispatcher.execute(multiplyAction),
         )
     } verify { result ->
         with(result) {
@@ -81,11 +81,11 @@ class ExecutableActionTest : ExecutableActionExecuteSyntax {
     }) exercise {
         Pair(
             dispatcher.execute(addAction),
-            dispatcher.execute(multiplyAction)
+            dispatcher.execute(multiplyAction),
         )
     } verify {
         allExecutedActions.assertIsEqualTo(
-            listOf(addAction, multiplyAction)
+            listOf(addAction, multiplyAction),
         )
     }
 }

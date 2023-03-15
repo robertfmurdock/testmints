@@ -21,7 +21,7 @@ interface SetupSyntax : ReporterProvider {
 
     fun <SC : Any> asyncTestTemplate(
         sharedSetup: suspend () -> SC,
-        sharedTeardown: suspend (SC) -> Unit = {}
+        sharedTeardown: suspend (SC) -> Unit = {},
     ) = TestTemplate(this) {
         val sc = sharedSetup()
         it(sc)
