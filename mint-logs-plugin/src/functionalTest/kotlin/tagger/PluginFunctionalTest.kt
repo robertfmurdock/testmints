@@ -30,7 +30,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("js")
+                kotlin("js") version "1.8.20"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -52,7 +52,6 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withPluginClasspath()
         runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -77,7 +76,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("js")
+                kotlin("js") version "1.8.20"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -99,7 +98,6 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withPluginClasspath()
         runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -124,7 +122,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform")
+                kotlin("multiplatform") version "1.8.20"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -156,7 +154,6 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withPluginClasspath()
         runner.withArguments("jsTest", "jvmTest", "--info", "-P", "org.gradle.caching=true")
         runner.withProjectDir(projectDir)
         val result = runner.build()

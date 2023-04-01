@@ -11,7 +11,7 @@ repositories {
 kotlin {
     targets {
         jvm {}
-        js { nodejs {} }
+        js(IR) { nodejs {} }
         macosX64()
         iosX64()
         linuxX64()
