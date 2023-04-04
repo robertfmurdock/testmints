@@ -20,6 +20,8 @@ jobs:
           cache-read-only: true
       - name: Update Deps
         run: ./gradlew versionCatalogUpdate --no-configuration-cache
+      - name: Update Yarn Lock
+        run: ./gradlew kotlinUpgradeYarnLock  --no-configuration-cache
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3
