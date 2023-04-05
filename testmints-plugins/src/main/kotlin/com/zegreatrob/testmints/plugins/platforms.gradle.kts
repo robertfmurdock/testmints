@@ -33,4 +33,16 @@ tasks {
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
         useJUnitPlatform()
     }
+    named("compileTestKotlinMingwX64") {
+        mustRunAfter("signMingwX64Publication")
+    }
+    named("linkDebugTestMingwX64") {
+        mustRunAfter("signMingwX64Publication")
+    }
+    named("compileTestKotlinLinuxX64") {
+        mustRunAfter("signLinuxX64Publication")
+    }
+    named("linkDebugTestLinuxX64") {
+        mustRunAfter("signLinuxX64Publication")
+    }
 }
