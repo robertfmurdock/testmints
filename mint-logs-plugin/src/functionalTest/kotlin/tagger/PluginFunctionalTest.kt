@@ -14,6 +14,8 @@ class PluginFunctionalTest {
     private val buildFile by lazy { projectDir.resolve("build.gradle.kts") }
     private val settingsFile by lazy { projectDir.resolve("settings.gradle") }
 
+    private val releaseVersion = System.getenv("RELEASE_VERSION")
+
     @Test
     fun willConfigureKotlinJsNode() {
         settingsFile.writeText(
@@ -52,7 +54,13 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
+        runner.withArguments(
+            "test",
+            "--info",
+            "-P",
+            "org.gradle.caching=true",
+            "-Pversion=$releaseVersion"
+        )
         runner.withProjectDir(projectDir)
         val result = runner.build()
         assertTrue(
@@ -98,7 +106,13 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
+        runner.withArguments(
+            "test",
+            "--info",
+            "-P",
+            "org.gradle.caching=true",
+            "-Pversion=$releaseVersion"
+        )
         runner.withProjectDir(projectDir)
         val result = runner.build()
         assertTrue(
@@ -154,7 +168,14 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withArguments("jsTest", "jvmTest", "--info", "-P", "org.gradle.caching=true")
+        runner.withArguments(
+            "jsTest",
+            "jvmTest",
+            "--info",
+            "-P",
+            "org.gradle.caching=true",
+            "-Pversion=$releaseVersion"
+        )
         runner.withProjectDir(projectDir)
         val result = runner.build()
 
@@ -210,7 +231,13 @@ class PluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withPluginClasspath()
-        runner.withArguments("test", "--info", "-P", "org.gradle.caching=true")
+        runner.withArguments(
+            "test",
+            "--info",
+            "-P",
+            "org.gradle.caching=true",
+            "-Pversion=$releaseVersion"
+        )
         runner.withProjectDir(projectDir)
         val result = runner.build()
 

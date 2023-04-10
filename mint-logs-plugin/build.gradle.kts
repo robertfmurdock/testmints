@@ -47,6 +47,7 @@ tasks {
     }
     named<Test>("functionalTest") {
         environment("ROOT_DIR", rootDir)
+        environment("RELEASE_VERSION", rootProject.version)
     }
     val copyTemplates by registering(Copy::class) {
         inputs.property("version", rootProject.version)
