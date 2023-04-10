@@ -8,7 +8,7 @@ mocha.setup({
             done();
         },
         beforeEach(done) {
-            MochaLoggingReporter.beforeEach()
+            MochaLoggingReporter.beforeEach(this)
             done();
         }
     }

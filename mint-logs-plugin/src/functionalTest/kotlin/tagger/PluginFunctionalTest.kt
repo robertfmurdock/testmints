@@ -275,7 +275,7 @@ Test[jvm] > example()[jvm] STANDARD_ERROR
 
     private val nodeJsExpectedOutput = """
 Test.example STANDARD_OUT
-    INFO: [testmints] {step=setup, state=start}
+    INFO: [testmints] {step=setup, state=start, name=Test.example}
     setup
     [info] INFO: [testmints] {step=setup, state=finish}
     [info] INFO: [testmints] {step=exercise, state=start}
@@ -288,7 +288,7 @@ Test.example STANDARD_OUT
 
     private val browserJsExpectedOutput = """
 Test.example STANDARD_OUT
-    INFO: [testmints] {step=setup, state=start}
+    INFO: [testmints] {step=setup, state=start, name=Test.example}
     [log] setup
     [info] INFO: [testmints] {step=setup, state=finish}
     [info] INFO: [testmints] {step=exercise, state=start}

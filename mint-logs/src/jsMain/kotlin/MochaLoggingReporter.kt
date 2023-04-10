@@ -9,5 +9,22 @@ object MochaLoggingReporter {
 
     fun beforeAll() = JsonLoggingTestMintsReporter.initialize()
 
-    fun beforeEach() = logger.info { mapOf("step" to "setup", "state" to "start") }
+    fun beforeEach(context: MochaContext) = logger.info {
+        mapOf(
+            "step" to "setup",
+            "state" to "start",
+            "name" to context.currentTest?.fullTitle()?.trim()?.replace(" ", "."),
+        )
+    }
+}
+
+external interface MochaContext {
+    val test: MochaTest?
+    val currentTest: MochaTest?
+}
+
+external interface MochaTest {
+    val parent: MochaTest?
+    fun fullTitle(): String
+    val title: String
 }

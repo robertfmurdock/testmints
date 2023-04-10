@@ -8,7 +8,7 @@ export const mochaHooks = {
         done();
     },
     beforeEach(done) {
-        MochaLoggingReporter.beforeEach()
+        MochaLoggingReporter.beforeEach(this)
         done();
     }
 };
