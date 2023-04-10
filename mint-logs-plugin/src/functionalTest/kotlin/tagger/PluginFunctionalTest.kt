@@ -222,7 +222,7 @@ class PluginFunctionalTest {
     private val jvmExpectedOutput = """
 Test > example() STANDARD_ERROR
     [Test worker] INFO testmints - {step=test, state=start}
-    [Test worker] INFO testmints - {step=setup, state=start}
+    [Test worker] INFO testmints - {step=setup, state=start, name=Test.example()}
 
 Test > example() STANDARD_OUT
     setup
@@ -249,7 +249,7 @@ Test > example() STANDARD_ERROR
     private val multiplatformJvmExpectedOutput = """
 Test[jvm] > example()[jvm] STANDARD_ERROR
     [Test worker] INFO testmints - {step=test, state=start}
-    [Test worker] INFO testmints - {step=setup, state=start}
+    [Test worker] INFO testmints - {step=setup, state=start, name=Test.example()}
 
 Test[jvm] > example()[jvm] STANDARD_OUT
     setup
