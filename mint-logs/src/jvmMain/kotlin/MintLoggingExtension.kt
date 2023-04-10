@@ -17,7 +17,7 @@ class MintLoggingExtension : BeforeAllCallback, BeforeTestExecutionCallback, Aft
         logger.info {
             mapOf(
                 "step" to "test",
-                "state" to "start"
+                "state" to "start",
             )
         }
         logger.info {
