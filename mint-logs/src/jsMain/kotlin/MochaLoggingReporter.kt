@@ -9,11 +9,11 @@ object MochaLoggingReporter {
 
     fun beforeAll() = JsonLoggingTestMintsReporter.initialize()
 
-    fun beforeEach(context: MochaContext) = logger.info {
+    fun beforeEach(context: MochaContext?) = logger.info {
         mapOf(
             "step" to "setup",
             "state" to "start",
-            "name" to context.currentTest?.fullTitle()?.trim()?.replace(" ", "."),
+            "name" to context?.currentTest?.fullTitle()?.trim()?.replace(" ", "."),
         )
     }
 }
