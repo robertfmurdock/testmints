@@ -180,7 +180,7 @@ class PluginFunctionalTest {
         val result = runner.build()
 
         assertTrue(
-            result.output.trim().contains(nodeJsExpectedOutput),
+            result.output.trim().contains(multiplatformNodeJsExpectedOutput),
             "Node Js did not have expected output"
         )
         assertTrue(
@@ -301,7 +301,20 @@ Test[jvm] > example()[jvm] STANDARD_ERROR
     """.trim()
 
     private val nodeJsExpectedOutput = """
-Test.example STANDARD_OUT
+Test.example[node] STANDARD_OUT
+    INFO: [testmints] {step=setup, state=start, name=Test.example}
+    setup
+    [info] INFO: [testmints] {step=setup, state=finish}
+    [info] INFO: [testmints] {step=exercise, state=start}
+    exercise
+    [info] INFO: [testmints] {step=exercise, state=finish}
+    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
+    verify
+    [info] INFO: [testmints] {step=verify, state=finish}
+    """.trim()
+
+    private val multiplatformNodeJsExpectedOutput = """
+Test.example[js, node] STANDARD_OUT
     INFO: [testmints] {step=setup, state=start, name=Test.example}
     setup
     [info] INFO: [testmints] {step=setup, state=finish}
@@ -314,7 +327,6 @@ Test.example STANDARD_OUT
     """.trim()
 
     private val browserJsExpectedOutput = """
-Test.example STANDARD_OUT
     INFO: [testmints] {step=setup, state=start, name=Test.example}
     [log] setup
     [info] INFO: [testmints] {step=setup, state=finish}
