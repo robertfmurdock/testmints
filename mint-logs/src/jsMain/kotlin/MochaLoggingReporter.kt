@@ -1,4 +1,4 @@
-import com.zegreatrob.testmints.logs.JsonLoggingTestMintsReporter
+import com.zegreatrob.testmints.logs.StructuredLoggingTestMintsReporter
 import mu.KotlinLogging
 
 @JsName("MochaLoggingReporter")
@@ -7,7 +7,7 @@ import mu.KotlinLogging
 object MochaLoggingReporter {
     private val logger by lazy { KotlinLogging.logger("testmints") }
 
-    fun beforeAll() = JsonLoggingTestMintsReporter.initialize()
+    fun beforeAll() = StructuredLoggingTestMintsReporter.initialize()
 
     fun beforeEach(context: MochaContext?) = logger.info {
         mapOf(

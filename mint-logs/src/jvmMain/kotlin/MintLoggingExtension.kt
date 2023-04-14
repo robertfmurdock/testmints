@@ -11,7 +11,7 @@ class MintLoggingExtension : BeforeAllCallback, BeforeTestExecutionCallback, Aft
 
     private val logger by lazy { KotlinLogging.logger("testmints") }
 
-    override fun beforeAll(context: ExtensionContext?) = JsonLoggingTestMintsReporter.initialize()
+    override fun beforeAll(context: ExtensionContext?) = StructuredLoggingTestMintsReporter.initialize()
 
     override fun beforeTestExecution(context: ExtensionContext?) {
         logger.info {

@@ -4,7 +4,7 @@ import com.zegreatrob.testmints.report.MintReporter
 import com.zegreatrob.testmints.report.MintReporterConfig
 import mu.KotlinLogging
 
-class JsonLoggingTestMintsReporter private constructor() : MintReporter {
+class StructuredLoggingTestMintsReporter private constructor() : MintReporter {
 
     private val logger by lazy { KotlinLogging.logger("testmints") }
 
@@ -27,7 +27,7 @@ class JsonLoggingTestMintsReporter private constructor() : MintReporter {
 
     companion object {
         fun initialize() {
-            MintReporterConfig.reporter = JsonLoggingTestMintsReporter()
+            MintReporterConfig.reporter = StructuredLoggingTestMintsReporter()
         }
     }
 }
