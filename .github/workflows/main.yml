@@ -38,7 +38,7 @@ jobs:
       - name: Generate Version 🔢
         run: ./gradlew calculateVersion -PexportToGithub=true --scan
       - name: Build 🔨
-        run: ./gradlew release check -Pversion=${{ env.TAGGER_VERSION }} --scan
+        run: ./gradlew release check -Pversion=${{ env.TAGGER_VERSION }} --scan --no-configuration-cache
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
@@ -84,7 +84,7 @@ jobs:
       - name: Generate Version 🔢
         run: ./gradlew calculateVersion -PexportToGithub=true --scan
       - name: Build 🔨
-        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan
+        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
