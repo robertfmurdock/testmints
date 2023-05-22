@@ -51,6 +51,9 @@ tasks {
         tag {
             enabled = false
         }
+        githubRelease {
+            enabled = false
+        }
         release {
             enabled = false
         }
