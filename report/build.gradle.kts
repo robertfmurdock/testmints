@@ -13,19 +13,11 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-test-annotations-common")
             }
         }
-
-        val nativeCommonMain by creating {
-            dependsOn(commonMain)
-        }
-
-        val macosX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val iosX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val linuxX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val mingwX64Main by getting { dependsOn(nativeCommonMain) }
-
+        val nativeCommonMain by creating { dependsOn(commonMain) }
+        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
+        getByName("iosX64Main") { dependsOn(nativeCommonMain) }
+        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
+        getByName("mingwX64Main") { dependsOn(nativeCommonMain) }
         getByName("jsMain") {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-js")

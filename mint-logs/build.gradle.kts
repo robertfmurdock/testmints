@@ -33,33 +33,26 @@ kotlin {
                 implementation("io.github.microutils:kotlin-logging")
             }
         }
-        val commonTest by getting {
+        getByName("commonTest") {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
-
-        val jvmMain by getting {
+        getByName("jvmMain") {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
                 implementation("org.junit.jupiter:junit-jupiter-api")
                 implementation("org.junit.jupiter:junit-jupiter-engine")
             }
         }
-
         val nativeCommonMain by creating {
             dependsOn(commonMain)
         }
-
-        val macosX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val linuxX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val iosX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val mingwX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val jsMain by getting {
+        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
+        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
+        getByName("iosX64Main") { dependsOn(nativeCommonMain) }
+        getByName("mingwX64Main") { dependsOn(nativeCommonMain) }
+        getByName("jsMain") {
             dependencies {
                 dependsOn(commonMain)
             }
