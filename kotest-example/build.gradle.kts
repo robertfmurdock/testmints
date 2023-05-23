@@ -1,7 +1,7 @@
 plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.platforms")
-    id("io.kotest.multiplatform") version "5.3.0"
+    alias(libs.plugins.io.kotest.multiplatform)
 }
 
 kotlin {
@@ -17,7 +17,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("io.kotest:kotest-framework-engine:5.3.0")
+                implementation(libs.io.kotest.kotest.framework.engine)
             }
         }
 
@@ -35,7 +35,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation("io.kotest:kotest-runner-junit5-jvm:5.3.0")
+                implementation(libs.io.kotest.kotest.runner.junit5.jvm)
             }
         }
     }

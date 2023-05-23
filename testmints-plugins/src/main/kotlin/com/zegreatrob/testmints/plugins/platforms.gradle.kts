@@ -34,15 +34,19 @@ tasks {
         useJUnitPlatform()
     }
     named("compileTestKotlinMingwX64") {
-        mustRunAfter("signMingwX64Publication")
+        tasks.findByPath("signMingwX64Publication")
+            ?.let { mustRunAfter(it) }
     }
     named("linkDebugTestMingwX64") {
-        mustRunAfter("signMingwX64Publication")
+        tasks.findByPath("signMingwX64Publication")
+            ?.let { mustRunAfter(it) }
     }
     named("compileTestKotlinLinuxX64") {
-        mustRunAfter("signLinuxX64Publication")
+        tasks.findByPath("signLinuxX64Publication")
+            ?.let { mustRunAfter(it) }
     }
     named("linkDebugTestLinuxX64") {
-        mustRunAfter("signLinuxX64Publication")
+        tasks.findByPath("signLinuxX64Publication")
+            ?.let { mustRunAfter(it) }
     }
 }
