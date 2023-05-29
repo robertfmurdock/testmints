@@ -49,8 +49,7 @@ class Setup<out C : Any, out SC : Any>(
         handleTeardownExceptions(exerciseProblem, verifyFailure, teardownException, wrapperException)
     }
 
-    private suspend fun <R> performTeardown(context: C, result: Result<R>, teardownFunc: suspend C.(R?) -> Unit):
-        Throwable? {
+    private suspend fun <R> performTeardown(context: C, result: Result<R>, teardownFunc: suspend C.(R?) -> Unit): Throwable? {
         reporter.teardownStart()
         return captureException { teardownFunc(context, result.getOrNull()) }
     }
