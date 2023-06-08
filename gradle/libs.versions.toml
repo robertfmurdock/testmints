@@ -1,6 +1,6 @@
 [versions]
 io-kotest = "5.6.2"
-org-jetbrains-kotlin = "1.8.21"
+org-jetbrains-kotlin = "1.8.22"
 
 [libraries]
 io-github-microutils-kotlin-logging = "io.github.microutils:kotlin-logging:3.0.5"
