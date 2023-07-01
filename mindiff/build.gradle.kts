@@ -14,7 +14,7 @@ kotlin {
             }
         }
 
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(project(":standard"))
                 implementation("org.jetbrains.kotlin:kotlin-test")
@@ -25,8 +25,7 @@ kotlin {
             dependsOn(commonMain)
         }
 
-        val macosX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val linuxX64Main by getting { dependsOn(nativeCommonMain) }
+        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
+        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
     }
 }

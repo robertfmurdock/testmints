@@ -23,13 +23,13 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-test")
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
             }
@@ -39,15 +39,15 @@ kotlin {
             dependsOn(commonMain)
         }
 
-        val macosX64Main by getting { dependsOn(nativeCommonMain) }
+        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
 
-        val linuxX64Main by getting { dependsOn(nativeCommonMain) }
+        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
 
-        val iosX64Main by getting { dependsOn(nativeCommonMain) }
+        getByName("iosX64Main") { dependsOn(nativeCommonMain) }
 
-        val mingwX64Main by getting { dependsOn(nativeCommonMain) }
+        getByName("mingwX64Main") { dependsOn(nativeCommonMain) }
 
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 dependsOn(commonMain)
             }

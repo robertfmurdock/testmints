@@ -14,7 +14,7 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.io.kotest.kotest.framework.engine)
@@ -25,15 +25,12 @@ kotlin {
             dependsOn(commonMain)
         }
 
-        val macosX64Main by getting { dependsOn(nativeCommonMain) }
+        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
+        getByName("iosX64Main") { dependsOn(nativeCommonMain) }
+        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
+        getByName("mingwX64Main") { dependsOn(nativeCommonMain) }
 
-        val iosX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val linuxX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val mingwX64Main by getting { dependsOn(nativeCommonMain) }
-
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(libs.io.kotest.kotest.runner.junit5.jvm)
             }

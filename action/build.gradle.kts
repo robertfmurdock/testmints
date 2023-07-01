@@ -8,13 +8,13 @@ plugins {
 kotlin {
 
     sourceSets {
-        getByName("commonMain") {
+        commonMain {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
             }
         }
-        getByName("commonTest") {
+        commonTest {
             dependencies {
                 implementation(project(":standard"))
                 implementation(project(":async"))
@@ -25,13 +25,13 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(kotlin("reflect"))
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(kotlin("reflect"))
                 implementation("org.slf4j:slf4j-simple")
@@ -41,7 +41,7 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
             }
@@ -50,7 +50,7 @@ kotlin {
 }
 
 tasks {
-    val jvmTest by getting(Test::class) {
+    jvmTest {
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
         useJUnitPlatform()
     }
