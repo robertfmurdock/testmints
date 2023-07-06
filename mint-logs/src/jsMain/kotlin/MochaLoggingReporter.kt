@@ -1,3 +1,4 @@
+
 import com.zegreatrob.testmints.logs.StructuredLoggingTestMintsReporter
 import mu.KotlinLogging
 
