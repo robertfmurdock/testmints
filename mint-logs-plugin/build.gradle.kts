@@ -63,6 +63,9 @@ tasks {
     compileKotlin {
         dependsOn(copyTemplates)
     }
+    "compileFunctionalTestKotlin" {
+        dependsOn(compileKotlin)
+    }
     sourceSets {
         main {
             java.srcDirs(copyTemplates)
