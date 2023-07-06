@@ -5,8 +5,12 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages.KOTLIN_RUNTIME
 import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
+import org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinPackageJsonTask
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTestFramework
 import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
 
 plugins {
@@ -32,7 +36,7 @@ afterEvaluate {
 
     kotlinJvm?.apply {
         tasks {
-            named("test", Test::class) {
+            named<Test>("test") {
                 systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
             }
         }
@@ -46,16 +50,14 @@ afterEvaluate {
     kotlinJs?.js {
         (this as? KotlinJsIrTarget)?.let {
             val compilation = compilations["test"]
+            applyMochaSettings(compilation)
 
             it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
 
             tasks {
-                named("testPackageJson", KotlinPackageJsonTask::class) {
-                    applyMochaSettings(compilation)
-                }
 
-                named("testTestDevelopmentExecutableCompileSync", Copy::class) {
-                    from(zipTree(hooksConfiguration.resolve().first()))
+                named<DefaultIncrementalSyncTask>("testTestDevelopmentExecutableCompileSync") {
+                    from.from(zipTree(hooksConfiguration.resolve().first()))
                 }
             }
             dependencies {
@@ -67,37 +69,33 @@ afterEvaluate {
     val kotlinMultiplatform =
         extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-    kotlinMultiplatform?.targets?.findByName("js")?.let {
-        kotlinMultiplatform.js {
+    if (kotlinMultiplatform?.targets?.findByName("js") != null) {
+        kotlinMultiplatform.js(configure = fun KotlinJsTargetDsl.() {
             val compilation = compilations["test"]
 
             (this as? KotlinJsIrTarget)?.let {
                 it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
                 it.whenNodejsConfigured {
-                    tasks {
-                        named("jsTestPackageJson", KotlinPackageJsonTask::class) {
-                            applyMochaSettings(compilation)
-                        }
-                    }
+                    applyMochaSettings(compilation)
                 }
             }
 
             tasks {
-                named("jsTestTestDevelopmentExecutableCompileSync", Copy::class) {
-                    from(zipTree(hooksConfiguration.resolve().first()))
+                named<DefaultIncrementalSyncTask>("jsTestTestDevelopmentExecutableCompileSync") {
+                    from.from(zipTree(hooksConfiguration.resolve().first()))
                 }
             }
 
             dependencies {
                 "jsTestImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
             }
-        }
+        })
     }
 
     kotlinMultiplatform?.targets?.findByName("jvm")?.let {
         kotlinMultiplatform.jvm {
             tasks {
-                named("jvmTest", Test::class) {
+                named<Test>("jvmTest") {
                     systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
                 }
             }
@@ -119,20 +117,20 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
             )
             into(newKarmaConfigDir)
         }
-        testTask {
+        testTask(Action<KotlinJsTest>(fun KotlinJsTest.() {
             dependsOn(karmaPrepare)
-            onTestFrameworkSet { framework ->
+            onTestFrameworkSet(fun(framework: KotlinJsTestFramework?) {
                 if (framework is KotlinKarma) {
                     framework.useConfigDirectory(newKarmaConfigDir)
                 }
-            }
-        }
+            })
+        }))
     }
 }
 
-fun KotlinPackageJsonTask.applyMochaSettings(compilation: KotlinJsCompilation) {
-    val mochaSettings = packageJsonCustomFields["mocha"] as? Map<*, *>
-        ?: emptyMap<String, String>()
+fun applyMochaSettings(compilation: KotlinJsCompilation) {
+    val mochaSettings: Map<out Any?, Any?> = emptyMap<String, String>()
+
     val requires =
         mochaSettings["require"]?.let { if (it is String) listOf(it) else if (it is List<*>) it else null }
             ?: emptyList()
