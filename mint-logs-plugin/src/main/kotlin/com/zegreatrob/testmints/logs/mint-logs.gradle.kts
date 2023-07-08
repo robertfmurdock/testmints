@@ -45,27 +45,6 @@ afterEvaluate {
         }
     }
 
-    val kotlinJs = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
-
-    kotlinJs?.js {
-        (this as? KotlinJsIrTarget)?.let {
-            val compilation = compilations["test"]
-            applyMochaSettings(compilation)
-
-            it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
-
-            tasks {
-
-                named<DefaultIncrementalSyncTask>("testTestDevelopmentExecutableCompileSync") {
-                    from.from(zipTree(hooksConfiguration.resolve().first()))
-                }
-            }
-            dependencies {
-                "testImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
-            }
-        }
-    }
-
     val kotlinMultiplatform =
         extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
