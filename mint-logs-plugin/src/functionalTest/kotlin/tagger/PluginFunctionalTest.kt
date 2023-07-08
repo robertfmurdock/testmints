@@ -10,7 +10,7 @@ import java.io.File
 
 class PluginFunctionalTest {
 
-    @field:TempDir(cleanup = CleanupMode.ON_SUCCESS)
+    @field:TempDir
     lateinit var projectDir: File
 
     private val buildFile by lazy { projectDir.resolve("build.gradle.kts") }
@@ -26,7 +26,7 @@ class PluginFunctionalTest {
             includeBuild("${System.getenv("ROOT_DIR")}")
             """.trimIndent()
         )
-        val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
+        val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
             this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
@@ -34,7 +34,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("js") version "1.9.0"
+                kotlin("multiplatform") version "1.9.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -48,8 +48,8 @@ class PluginFunctionalTest {
                 }
             }
             dependencies {
-                implementation(kotlin("test"))
-                implementation("com.zegreatrob.testmints:standard")
+                "jsMainImplementation"(kotlin("test"))
+                "jsMainImplementation"("com.zegreatrob.testmints:standard")
             }
             """.trimIndent()
         )
@@ -57,7 +57,7 @@ class PluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withArguments(
-            "test",
+            "jsTest",
             "--info",
             "-P",
             "org.gradle.caching=true",
@@ -66,7 +66,7 @@ class PluginFunctionalTest {
         runner.withProjectDir(projectDir)
         val result = runner.build()
         assertTrue(
-            result.output.trim().contains(nodeJsExpectedOutput)
+            result.output.trim().contains(multiplatformNodeJsExpectedOutput)
         )
     }
 
