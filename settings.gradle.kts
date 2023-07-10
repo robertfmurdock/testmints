@@ -11,21 +11,9 @@ plugins {
 
 rootProject.name = "testmints"
 
-include("minassert")
-include("standard")
-include("kotest-example")
-include("async")
-include("action")
-include("action-async")
-include("minspy")
-include("mindiff")
-include("mint-logs")
-include("mint-logs-plugin")
-include("report")
-include("testmints-bom")
-include("dependency-bom")
-
+includeBuild("testmints-libraries")
 includeBuild("testmints-plugins")
+includeBuild("testmints-convention-plugins")
 
 val isCiServer = System.getenv().containsKey("CI")
 

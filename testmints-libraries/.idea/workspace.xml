@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eb4cf715-19b5-46b4-970c-fcb96622ffb2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../testmints-convention-plugins/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testmints-convention-plugins/settings.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonMain/kotlin/com/zegreatrob/testmints/action/async/GeneralSuspendActionDispatcher.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonMain/kotlin/com/zegreatrob/testmints/action/async/GeneralSuspendActionDispatcherSyntax.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonMain/kotlin/com/zegreatrob/testmints/action/async/SimpleSuspendAction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonMain/kotlin/com/zegreatrob/testmints/action/async/SuspendAction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonMain/kotlin/com/zegreatrob/testmints/action/async/SuspendActionExecuteSyntax.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonMain/kotlin/com/zegreatrob/testmints/action/async/SuspendActionExecutor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonTest/kotlin/com/zegreatrob/testmints/action/async/GeneralSuspendActionDispatcherTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action-async/src/commonTest/kotlin/com/zegreatrob/testmints/action/async/SuspendActionTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/Action.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/DispatchableAction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/ExecutableAction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/ExecutableActionExecuteSyntax.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/ExecutableActionExecutor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/GeneralExecutableActionDispatcher.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/GeneralExecutableActionDispatcherSyntax.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonMain/kotlin/com/zegreatrob/testmints/action/SimpleExecutableAction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonTest/kotlin/com/zegreatrob/testmints/action/ExecutableActionTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../action/src/commonTest/kotlin/com/zegreatrob/testmints/action/GeneralExecutableActionDispatcherTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/AsyncMintDispatcher.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/Exercise.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/ExerciseAsync.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/MintScope.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/ScopeMint.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/Setup.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/SetupAsync.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/TestFunc.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/TestStyleAsync.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/TestTemplate.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/Verify.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonMain/kotlin/com/zegreatrob/testmints/async/WaitForJobsToFinish.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/commonTest/kotlin/com/zegreatrob/testmints/async/AsyncMintsTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/jsMain/kotlin/com/zegreatrob/testmints/async/Async.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/jvmMain/kotlin/com/zegreatrob/testmints/async/Async.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../async/src/nativeCommonMain/kotlin/com/zegreatrob/testmints/async/Async.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dependency-bom/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dependency-bom/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minassert/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minassert/src/commonMain/kotlin/com/zegreatrob/minassert/Assertions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minassert/src/commonTest/kotlin/com/zegreatrob/minassert/AssertionsTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mindiff/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mindiff/src/commonMain/kotlin/com/zegreatrob/mindiff/Diff.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mindiff/src/commonMain/kotlin/com/zegreatrob/mindiff/StringDiff.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mindiff/src/commonTest/kotlin/com/zegreatrob/mindiff/DiffTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mindiff/src/commonTest/kotlin/com/zegreatrob/mindiff/StringDiffTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minspy/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minspy/src/commonMain/kotlin/com/zegreatrob/minspy/Spy.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minspy/src/commonMain/kotlin/com/zegreatrob/minspy/SpyData.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minspy/src/commonMain/kotlin/com/zegreatrob/minspy/SpyFunction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../minspy/src/commonTest/kotlin/com/zegreatrob/minspy/SpyTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs-plugin/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-plugins/mint-logs-plugin/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs-plugin/src/functionalTest/kotlin/tagger/PluginFunctionalTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-plugins/mint-logs-plugin/src/functionalTest/kotlin/tagger/PluginFunctionalTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs-plugin/src/functionalTest/resources/Test.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-plugins/mint-logs-plugin/src/functionalTest/resources/Test.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs-plugin/src/main/kotlin/com/zegreatrob/testmints/logs/mint-logs.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-plugins/mint-logs-plugin/src/main/kotlin/com/zegreatrob/testmints/logs/mint-logs.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs-plugin/src/main/templates/PluginVersions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-plugins/mint-logs-plugin/src/main/templates/PluginVersions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/commonMain/kotlin/com/zegreatrob/testmints/logs/StructuredLoggingTestMintsReporter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/commonTest/kotlin/LoggingExampleTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/jsMain/kotlin/MochaLoggingReporter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/jsMain/resources/browser-mocha-mint-logs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/jsMain/resources/karma-mint-logs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/jsMain/resources/mint-logs.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/jvmMain/kotlin/MintLoggingExtension.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mint-logs/src/jvmMain/resources/META-INF/services/org.junit.jupiter.api.extension.Extension" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../report/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../report/src/commonMain/kotlin/com/zegreatrob/testmints/report/MintReporter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../report/src/commonMain/kotlin/com/zegreatrob/testmints/report/MintReporterConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../report/src/commonMain/kotlin/com/zegreatrob/testmints/report/PlaceholderMintReporter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../report/src/commonMain/kotlin/com/zegreatrob/testmints/report/ReporterProvider.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/CaptureException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/CompoundMintTestException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/Exercise.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/Setup.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/StandardMintDispatcher.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/StandardMints.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/TestFunc.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/TestTemplate.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/Verify.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonMain/kotlin/com/zegreatrob/testmints/Wrapper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../standard/src/commonTest/kotlin/com/zegreatrob/testmints/TestMintsTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-bom/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-plugins/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/kotlin-js-store/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/kotlin-js-store/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-plugins/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/multiplatform.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/multiplatform.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/platforms.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/platforms.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/publish.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/publish.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/reports.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/reports.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testmints-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/versioning.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../testmints-convention-plugins/src/main/kotlin/com/zegreatrob/testmints/plugins/versioning.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2SOO1rsw4gttt2kcY1hvLZt4q7D" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eb4cf715-19b5-46b4-970c-fcb96622ffb2" name="Changes" comment="" />
+      <created>1689013948620</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1689013948620</updated>
+      <workItem from="1689013949683" duration="743000" />
+      <workItem from="1689014783298" duration="1132000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

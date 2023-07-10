@@ -1,0 +1,14 @@
+[versions]
+org-jetbrains-kotlin = "1.9.0"
+
+[libraries]
+com-github-ben-manes-gradle-versions-plugin = "com.github.ben-manes:gradle-versions-plugin:0.47.0"
+org-jetbrains-kotlin-kotlin-bom = "org.jetbrains.kotlin:kotlin-bom:1.9.0"
+org-jetbrains-kotlin-kotlin-gradle-plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"
+org-jetbrains-kotlin-kotlin-stdlib = "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+org-jmailen-gradle-kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:3.15.0"
+
+[plugins]
+com-github-ben-manes-versions = "com.github.ben-manes.versions:0.47.0"
+org-jmailen-kotlinter = "org.jmailen.kotlinter:3.15.0"
+nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.0"

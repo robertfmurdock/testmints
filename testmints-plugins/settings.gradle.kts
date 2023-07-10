@@ -1,10 +1,10 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
+dependencyResolutionManagement {
+    versionCatalogs(fun MutableVersionCatalogContainer.() {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
+    )
 }
 
-rootProject.name="testmints-plugins"
-
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+include("mint-logs-plugin")
