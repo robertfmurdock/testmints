@@ -1,5 +1,10 @@
 package com.zegreatrob.testmints.logs
 
+import org.jetbrains.kotlin.com.google.gson.GsonBuilder
+import org.jetbrains.kotlin.com.google.gson.JsonArray
+import org.jetbrains.kotlin.com.google.gson.JsonElement
+import org.jetbrains.kotlin.com.google.gson.JsonObject
+import org.jetbrains.kotlin.com.google.gson.JsonPrimitive
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages.KOTLIN_RUNTIME
@@ -8,10 +13,11 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
-import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinPackageJsonTask
+import org.jetbrains.kotlin.gradle.targets.js.npm.PackageJsonTypeAdapter
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTestFramework
 import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
+import org.jetbrains.kotlin.gradle.utils.toSetOrEmpty
 
 plugins {
     base
@@ -108,12 +114,29 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
 }
 
 fun applyMochaSettings(compilation: KotlinJsCompilation) {
-    val mochaSettings: Map<out Any?, Any?> = emptyMap<String, String>()
-
-    val requires =
-        mochaSettings["require"]?.let { if (it is String) listOf(it) else if (it is List<*>) it else null }
-            ?: emptyList()
     compilation.packageJson {
-        customField("mocha", mochaSettings + mapOf("require" to requires + "./kotlin/mint-logs.mjs"))
+        val gson = GsonBuilder()
+            .setPrettyPrinting()
+            .disableHtmlEscaping()
+            .serializeNulls()
+            .registerTypeAdapterFactory(PackageJsonTypeAdapter())
+            .create()
+        val jsonTree = gson.toJsonTree(this@packageJson)
+        val mochaSettings = jsonTree.asJsonObject?.get("mocha")?.asJsonObject ?: JsonObject()
+
+        val jsonElement: JsonElement? = mochaSettings["require"]
+        val previousRequires: List<JsonElement> = jsonElement?.let {
+            if (it.isJsonPrimitive) {
+                listOf(it)
+            } else if (it.isJsonArray) {
+                it.toSetOrEmpty().toList()
+            } else {
+                null
+            }
+        }
+            ?: emptyList()
+        val requires = previousRequires + JsonPrimitive("./kotlin/mint-logs.mjs")
+        mochaSettings.add("require", JsonArray().apply { requires.forEach(::add) })
+        customField("mocha", gson.toJson(mochaSettings).let { gson.fromJson(it, Map::class.java) })
     }
 }
