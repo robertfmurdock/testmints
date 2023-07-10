@@ -32,16 +32,21 @@ tasks {
     "versionCatalogUpdate" {
         dependsOn(provider { gradle.includedBuilds.map { it.task(":versionCatalogUpdate") } })
     }
-
     val closeAndReleaseSonatypeStagingRepository by getting {
         mustRunAfter(publish)
     }
-
     val includedBuilds = listOf(
         gradle.includedBuild("testmints-libraries"),
         gradle.includedBuild("testmints-plugins"),
         gradle.includedBuild("testmints-convention-plugins"),
     )
+    create<Copy>("collectResults") {
+        dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
+        dependsOn(provider { includedBuilds.map { it.task(":collectResults") } })
+        from(includedBuilds.map { it.projectDir.resolve("build/test-output") })
+        into("${rootProject.buildDir.path}/test-output/${project.path}".replace(":", "/"))
+    }
+
     create("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":formatKotlin") } })

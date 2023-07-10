@@ -35,6 +35,9 @@ tasks {
         dependsOn(provider { (getTasksByName("publish", true) - this).toList() })
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
+    create("collectResults") {
+        dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
+    }
     create("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
     }
