@@ -36,6 +36,10 @@ tasks {
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
 
+    create("formatKotlin") {
+        dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
+    }
+
 }
 
 fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")

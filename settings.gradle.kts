@@ -11,6 +11,15 @@ plugins {
 
 rootProject.name = "testmints"
 
+dependencyResolutionManagement {
+    versionCatalogs(fun MutableVersionCatalogContainer.() {
+        create("libs") {
+            from(files("testmints-libraries/gradle/libs.versions.toml"))
+        }
+    }
+    )
+}
+
 includeBuild("testmints-libraries")
 includeBuild("testmints-plugins")
 includeBuild("testmints-convention-plugins")

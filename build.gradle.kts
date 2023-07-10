@@ -12,7 +12,7 @@ plugins {
 group = "com.zegreatrob.testmints"
 
 nexusPublishing {
-    repositories {
+    this@nexusPublishing.repositories {
         sonatype {
             username.set(System.getenv("SONATYPE_USERNAME"))
             password.set(System.getenv("SONATYPE_PASSWORD"))
@@ -36,6 +36,24 @@ tasks {
     val closeAndReleaseSonatypeStagingRepository by getting {
         mustRunAfter(publish)
     }
+
+    val includedBuilds = listOf(
+        gradle.includedBuild("testmints-libraries"),
+        gradle.includedBuild("testmints-plugins"),
+        gradle.includedBuild("testmints-convention-plugins"),
+    )
+    create("formatKotlin") {
+        dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
+        dependsOn(provider { includedBuilds.map { it.task(":formatKotlin") } })
+    }
+    check {
+        dependsOn(provider { (getTasksByName("check", true) - this).toList() })
+        dependsOn(provider { includedBuilds.map { it.task(":check") } })
+    }
+    clean {
+        dependsOn(provider { includedBuilds.map { it.task(":clean") } })
+    }
+
     release {
         mustRunAfter(check)
         finalizedBy(provider { (getTasksByName("publish", true)).toList() })

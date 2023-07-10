@@ -1,7 +1,7 @@
 dependencyResolutionManagement {
     versionCatalogs(fun MutableVersionCatalogContainer.() {
         create("libs") {
-            from(files("../gradle/libs.versions.toml"))
+            from(files("../testmints-libraries/gradle/libs.versions.toml"))
         }
     }
     )

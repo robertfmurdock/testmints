@@ -35,6 +35,10 @@ tasks {
                 .matches(candidate.version)
         }
     }
+
+    create("formatKotlin") {
+        dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
+    }
 }
 
 versionCatalogUpdate {

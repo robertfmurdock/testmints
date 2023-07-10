@@ -11,9 +11,6 @@ plugins {
 
 dependencyResolutionManagement {
     versionCatalogs(fun MutableVersionCatalogContainer.() {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
         create("conventionLibs") {
             from(files("../testmints-convention-plugins/gradle/libs.versions.toml"))
         }
