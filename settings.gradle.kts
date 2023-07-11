@@ -9,11 +9,11 @@ plugins {
     `gradle-enterprise`
 }
 
-rootProject.name = "testmints"
+rootProject.name = "testmints-root"
 
-includeBuild("testmints-libraries")
-includeBuild("testmints-plugins")
-includeBuild("testmints-convention-plugins")
+includeBuild("libraries")
+includeBuild("plugins")
+includeBuild("convention-plugins")
 
 val isCiServer = System.getenv().containsKey("CI")
 

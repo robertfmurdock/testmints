@@ -23,8 +23,7 @@ class PluginFunctionalTest {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
-//            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
@@ -78,8 +77,7 @@ class PluginFunctionalTest {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
-//            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
@@ -133,8 +131,7 @@ class PluginFunctionalTest {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
-//          includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
@@ -208,8 +205,7 @@ class PluginFunctionalTest {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
-//            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/test/kotlin/Test.kt")

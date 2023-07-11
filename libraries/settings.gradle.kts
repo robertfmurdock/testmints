@@ -9,17 +9,9 @@ plugins {
     `gradle-enterprise`
 }
 
-rootProject.name = "testmints-libraries"
+rootProject.name = "testmints"
 
-dependencyResolutionManagement {
-    versionCatalogs(fun MutableVersionCatalogContainer.() {
-        create("conventionLibs") {
-            from(files("../testmints-convention-plugins/gradle/libs.versions.toml"))
-        }
-    })
-}
-
-includeBuild("../testmints-convention-plugins")
+includeBuild("../convention-plugins")
 
 include("action")
 include("action-async")

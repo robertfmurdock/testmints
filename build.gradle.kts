@@ -33,9 +33,9 @@ tasks {
         mustRunAfter(publish)
     }
     val includedBuilds = listOf(
-        gradle.includedBuild("testmints-libraries"),
-        gradle.includedBuild("testmints-plugins"),
-        gradle.includedBuild("testmints-convention-plugins"),
+        gradle.includedBuild("libraries"),
+        gradle.includedBuild("plugins"),
+        gradle.includedBuild("convention-plugins"),
     )
     "versionCatalogUpdate" {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
