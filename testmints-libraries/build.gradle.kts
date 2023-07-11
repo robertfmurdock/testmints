@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     alias(libs.plugins.com.github.sghill.distribution.sha)
+    alias(libs.plugins.nl.littlerobots.version.catalog.update)
+    id("com.zegreatrob.testmints.plugins.versioning")
     `maven-publish`
     signing
     base
@@ -13,7 +15,7 @@ repositories {
 }
 
 nexusPublishing {
-    repositories {
+    this@nexusPublishing.repositories {
         sonatype {
             username.set(System.getenv("SONATYPE_USERNAME"))
             password.set(System.getenv("SONATYPE_PASSWORD"))

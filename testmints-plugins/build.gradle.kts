@@ -3,6 +3,7 @@ plugins {
 }
 
 tasks {
+    create("versionCatalogUpdate")
     create("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
     }

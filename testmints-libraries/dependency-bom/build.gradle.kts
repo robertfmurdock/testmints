@@ -2,7 +2,7 @@ plugins {
     `java-platform`
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.publish")
-    alias(conventionLibs.plugins.org.jmailen.kotlinter)
+    id("org.jmailen.kotlinter")
 }
 
 repositories {

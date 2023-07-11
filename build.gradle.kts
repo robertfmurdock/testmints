@@ -1,10 +1,8 @@
 plugins {
     alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     alias(libs.plugins.com.github.sghill.distribution.sha)
-    alias(libs.plugins.nl.littlerobots.version.catalog.update)
     `maven-publish`
     signing
-    id("com.zegreatrob.testmints.plugins.versioning")
     alias(libs.plugins.com.zegreatrob.tools.tagger)
     base
 }
@@ -29,9 +27,6 @@ tagger {
 }
 
 tasks {
-    "versionCatalogUpdate" {
-        dependsOn(provider { gradle.includedBuilds.map { it.task(":versionCatalogUpdate") } })
-    }
     val closeAndReleaseSonatypeStagingRepository by getting {
         mustRunAfter(publish)
     }
@@ -40,6 +35,10 @@ tasks {
         gradle.includedBuild("testmints-plugins"),
         gradle.includedBuild("testmints-convention-plugins"),
     )
+    create("versionCatalogUpdate") {
+        dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
+    }
+
     create<Copy>("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":collectResults") } })
