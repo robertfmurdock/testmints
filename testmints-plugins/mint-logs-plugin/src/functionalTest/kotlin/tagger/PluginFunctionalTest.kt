@@ -24,7 +24,7 @@ class PluginFunctionalTest {
             """
             rootProject.name = "testmints-functional-test"
             includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+//            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
@@ -57,6 +57,7 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
+        runner.withPluginClasspath()
         runner.withArguments(
             "jsTest",
             "--info",
@@ -78,7 +79,7 @@ class PluginFunctionalTest {
             """
             rootProject.name = "testmints-functional-test"
             includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+//            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
@@ -111,6 +112,7 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
+        runner.withPluginClasspath()
         runner.withArguments(
             "test",
             "--info",
@@ -132,7 +134,7 @@ class PluginFunctionalTest {
             """
             rootProject.name = "testmints-functional-test"
             includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+//          includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
@@ -174,6 +176,7 @@ class PluginFunctionalTest {
         )
 
         val runner = GradleRunner.create()
+        runner.withPluginClasspath()
         runner.forwardOutput()
         runner.withArguments(
             "jsTest",
@@ -205,8 +208,8 @@ class PluginFunctionalTest {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
             includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
+//            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
