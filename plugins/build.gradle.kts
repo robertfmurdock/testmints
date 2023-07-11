@@ -5,6 +5,7 @@ plugins {
 }
 
 tasks {
+    create("publish")
     create("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
     }
