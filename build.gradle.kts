@@ -20,16 +20,16 @@ tasks {
         gradle.includedBuild("plugins"),
     )
     val includedBuilds = publishableBuilds + gradle.includedBuild("convention-plugins")
-
     val publish by creating {
         mustRunAfter(check)
         dependsOn(provider { publishableBuilds.map { it.task(":publish") } })
     }
-
     "versionCatalogUpdate" {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
     }
-
+    create("kotlinUpgradeYarnLock") {
+        dependsOn(provider { gradle.includedBuild("libraries").task(":kotlinUpgradeYarnLock") })
+    }
     create<Copy>("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":collectResults") } })
@@ -44,17 +44,14 @@ tasks {
     check {
         dependsOn(provider { (getTasksByName("check", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":check") } })
-
     }
     clean {
         dependsOn(provider { includedBuilds.map { it.task(":clean") } })
     }
-
     release {
         mustRunAfter(check)
         finalizedBy(publish)
     }
-
     if (isMacRelease()) {
         tag {
             enabled = false
