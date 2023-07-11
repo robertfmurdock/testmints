@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     alias(libs.plugins.com.github.sghill.distribution.sha)
+    id("com.zegreatrob.testmints.plugins.versioning")
+    alias(libs.plugins.nl.littlerobots.version.catalog.update)
     `maven-publish`
     signing
     alias(libs.plugins.com.zegreatrob.tools.tagger)
@@ -35,7 +37,7 @@ tasks {
         gradle.includedBuild("testmints-plugins"),
         gradle.includedBuild("testmints-convention-plugins"),
     )
-    create("versionCatalogUpdate") {
+    "versionCatalogUpdate" {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
     }
 

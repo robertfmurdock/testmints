@@ -1,9 +1,10 @@
 plugins {
     base
+    alias(libs.plugins.com.github.ben.manes.versions)
+    alias(libs.plugins.nl.littlerobots.version.catalog.update)
 }
 
 tasks {
-    create("versionCatalogUpdate")
     create("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
     }

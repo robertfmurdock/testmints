@@ -1,0 +1,11 @@
+[versions]
+org-jetbrains-kotlin = "1.9.0"
+
+[libraries]
+org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
+org-junit-junit-bom = "org.junit:junit-bom:5.10.0-RC1"
+
+[plugins]
+com-github-ben-manes-versions = "com.github.ben-manes.versions:0.47.0"
+com-gradle-plugin-publish = "com.gradle.plugin-publish:1.2.0"
+nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.0"
