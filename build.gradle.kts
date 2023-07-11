@@ -1,27 +1,13 @@
 plugins {
-    alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     alias(libs.plugins.com.github.sghill.distribution.sha)
     id("com.zegreatrob.testmints.plugins.versioning")
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
-    `maven-publish`
-    signing
     alias(libs.plugins.com.zegreatrob.tools.tagger)
     base
 }
 
 group = "com.zegreatrob.testmints"
 
-nexusPublishing {
-    this@nexusPublishing.repositories {
-        sonatype {
-            username.set(System.getenv("SONATYPE_USERNAME"))
-            password.set(System.getenv("SONATYPE_PASSWORD"))
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            stagingProfileId.set("59331990bed4c")
-        }
-    }
-}
 
 tagger {
     releaseBranch = "master"
@@ -29,14 +15,17 @@ tagger {
 }
 
 tasks {
-    val closeAndReleaseSonatypeStagingRepository by getting {
-        mustRunAfter(publish)
-    }
-    val includedBuilds = listOf(
+    val publishableBuilds = listOf(
         gradle.includedBuild("libraries"),
         gradle.includedBuild("plugins"),
-        gradle.includedBuild("convention-plugins"),
     )
+    val includedBuilds = publishableBuilds + gradle.includedBuild("convention-plugins")
+
+    val publish by creating {
+        mustRunAfter(check)
+        dependsOn(provider { publishableBuilds.map { it.task(":publish") } })
+    }
+
     "versionCatalogUpdate" {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
     }
@@ -55,6 +44,7 @@ tasks {
     check {
         dependsOn(provider { (getTasksByName("check", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":check") } })
+        finalizedBy(publish)
     }
     clean {
         dependsOn(provider { includedBuilds.map { it.task(":clean") } })
@@ -63,12 +53,6 @@ tasks {
     release {
         mustRunAfter(check)
         finalizedBy(provider { (getTasksByName("publish", true)).toList() })
-    }
-
-    publish {
-        mustRunAfter(check)
-        dependsOn(provider { (getTasksByName("publish", true) - this).toList() })
-        finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
 
     if (isMacRelease()) {

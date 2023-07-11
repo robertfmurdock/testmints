@@ -27,7 +27,6 @@ nexusPublishing {
 }
 
 tasks {
-
     val closeAndReleaseSonatypeStagingRepository by getting {
         mustRunAfter(publish)
     }
