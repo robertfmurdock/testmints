@@ -1,5 +1,6 @@
 package com.zegreatrob.testmints.logs
 
+import org.jetbrains.kotlin.com.google.gson.Gson
 import org.jetbrains.kotlin.com.google.gson.GsonBuilder
 import org.jetbrains.kotlin.com.google.gson.JsonArray
 import org.jetbrains.kotlin.com.google.gson.JsonElement
@@ -115,7 +116,7 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
 
 fun applyMochaSettings(compilation: KotlinJsCompilation) {
     compilation.packageJson {
-        val gson = GsonBuilder()
+        val gson: Gson = GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .serializeNulls()

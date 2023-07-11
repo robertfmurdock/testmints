@@ -80,7 +80,7 @@ class PluginFunctionalTest {
             includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
             """.trimIndent()
         )
-        val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
+        val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
             this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
@@ -88,7 +88,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("js") version "1.9.0"
+                kotlin("multiplatform") version "1.9.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -102,8 +102,8 @@ class PluginFunctionalTest {
                 }
             }
             dependencies {
-                implementation(kotlin("test"))
-                implementation("com.zegreatrob.testmints:standard")
+                "jsMainImplementation"(kotlin("test"))
+                "jsMainImplementation"("com.zegreatrob.testmints:standard")
             }
             """.trimIndent()
         )
@@ -112,7 +112,7 @@ class PluginFunctionalTest {
         runner.forwardOutput()
         runner.withPluginClasspath()
         runner.withArguments(
-            "test",
+            "jsTest",
             "--info",
             "-P",
             "org.gradle.caching=true",
