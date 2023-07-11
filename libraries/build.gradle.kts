@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     alias(libs.plugins.com.github.sghill.distribution.sha)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     id("com.zegreatrob.testmints.plugins.versioning")
+    alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     `maven-publish`
     signing
     base

@@ -44,7 +44,7 @@ tasks {
     check {
         dependsOn(provider { (getTasksByName("check", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":check") } })
-        finalizedBy(publish)
+
     }
     clean {
         dependsOn(provider { includedBuilds.map { it.task(":clean") } })
@@ -52,7 +52,7 @@ tasks {
 
     release {
         mustRunAfter(check)
-        finalizedBy(provider { (getTasksByName("publish", true)).toList() })
+        finalizedBy(publish)
     }
 
     if (isMacRelease()) {
