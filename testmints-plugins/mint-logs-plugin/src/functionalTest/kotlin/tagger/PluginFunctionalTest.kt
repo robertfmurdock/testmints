@@ -4,12 +4,13 @@ import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.CleanupMode
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
 class PluginFunctionalTest {
 
-    @field:TempDir
+    @field:TempDir(cleanup = CleanupMode.ON_SUCCESS)
     lateinit var projectDir: File
 
     private val buildFile by lazy { projectDir.resolve("build.gradle.kts") }
@@ -204,8 +205,8 @@ class PluginFunctionalTest {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
             includeBuild("${System.getenv("ROOT_DIR")}/../testmints-plugins")
+            includeBuild("${System.getenv("ROOT_DIR")}/../testmints-libraries")
             """.trimIndent()
         )
         val testFile = projectDir.resolve("src/test/kotlin/Test.kt")

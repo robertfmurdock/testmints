@@ -1,4 +1,4 @@
-import module from "./testmints-mint-logs.js"
+import module from "./testmints-libraries-mint-logs.js"
 
 const {MochaLoggingReporter} = module
 

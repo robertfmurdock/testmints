@@ -9,6 +9,8 @@ plugins {
     `gradle-enterprise`
 }
 
+rootProject.name = "testmints-libraries"
+
 dependencyResolutionManagement {
     versionCatalogs(fun MutableVersionCatalogContainer.() {
         create("conventionLibs") {
