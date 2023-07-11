@@ -14,7 +14,7 @@ dependencies {
         api(project(":mindiff"))
         api(project(":report"))
         api(project(":mint-logs"))
-//        api(project(":mint-logs-plugin"))
+        api("com.zegreatrob.testmints:mint-logs-plugin:${rootProject.version}")
     }
 }
 
