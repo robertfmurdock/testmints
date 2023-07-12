@@ -13,6 +13,7 @@ rootProject.name = "testmints-root"
 
 includeBuild("libraries")
 includeBuild("plugins")
+includeBuild("plugins-test")
 includeBuild("convention-plugins")
 
 val isCiServer = System.getenv().containsKey("CI")

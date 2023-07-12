@@ -1,4 +1,4 @@
-package tagger
+package com.zegreatrob.testmints.logs.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Assertions.assertTrue
