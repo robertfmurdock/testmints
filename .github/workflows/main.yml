@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew calculateVersion -PexportToGithub=true --scan
       - name: Build 🔨
         run: ./gradlew assemble check -Pversion=${{ env.TAGGER_VERSION }} --scan --no-configuration-cache
-      - name: Release 🔨
+      - name: Release 🙏
         run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} --scan --no-configuration-cache
       - run: git status
         if: ${{ always() }}

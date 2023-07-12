@@ -30,7 +30,6 @@ tasks {
     val closeAndReleaseSonatypeStagingRepository by getting {
         mustRunAfter(publish)
     }
-
     publish {
         mustRunAfter(check)
         dependsOn(provider { (getTasksByName("publish", true) - this).toList() })
