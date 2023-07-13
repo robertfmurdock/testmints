@@ -4,6 +4,7 @@ import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.PlatformInfo
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
@@ -19,6 +20,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
+import com.google.devtools.ksp.processing.JvmPlatformInfo
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import com.squareup.kotlinpoet.ksp.writeTo
@@ -26,7 +28,8 @@ import com.squareup.kotlinpoet.ksp.writeTo
 val mintActionClassName = ClassName("com.zegreatrob.testmints.action.annotation", "MintAction")
 val actionCannonClassName = ClassName("com.zegreatrob.testmints.action", "ActionCannon")
 
-class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGenerator, Unit>() {
+class ActionMintVisitor(private val logger: KSPLogger, private val platforms: List<PlatformInfo>) :
+    KSTopDownVisitor<CodeGenerator, Unit>() {
     override fun defaultHandler(node: KSNode, data: CodeGenerator) {
     }
 
@@ -42,8 +45,8 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
 
             val dispatchReturnType = dispatcherFunction.returnType
                 ?: return
-            writeExecuteFunction(parentDeclaration, classDeclaration, dispatcherFunction, dispatchReturnType, data)
 
+            writeExecuteFunction(parentDeclaration, classDeclaration, dispatcherFunction, dispatchReturnType, data)
         }
     }
 
@@ -58,13 +61,20 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
             actionDeclaration.packageName.asString(),
             "${actionDeclaration.simpleName.asString()}Wrapper"
         )
+        val isJvm = platforms.any { it is JvmPlatformInfo }
+
         FileSpec.builder(
             packageName = dispatcherDeclaration.packageName.asString(),
             fileName = executeFileName(actionDeclaration, dispatcherDeclaration)
         )
             .addType(
                 TypeSpec.classBuilder(actionWrapperClassName)
-                    .addModifiers(KModifier.DATA)
+                    .addAnnotations(
+                        if (isJvm) kotlin.collections.listOf(
+                            com.squareup.kotlinpoet.AnnotationSpec.Companion.builder(ClassName("kotlin.jvm", "JvmInline")).build()
+                        ) else kotlin.collections.emptyList()
+                    )
+                    .addModifiers(KModifier.VALUE)
                     .addSuperinterface(
                         ClassName("com.zegreatrob.testmints.action.async", "SuspendAction").parameterizedBy(
                             dispatcherDeclaration.toClassName(),
