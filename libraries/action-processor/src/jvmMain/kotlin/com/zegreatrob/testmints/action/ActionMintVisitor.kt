@@ -13,6 +13,9 @@ import com.google.devtools.ksp.visitor.KSTopDownVisitor
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
@@ -32,8 +35,6 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
         val parentDeclaration = classDeclaration.parentDeclaration as? KSClassDeclaration
             ?: return
 
-        logger.warn("CLASS ${classDeclaration.simpleName.asString()} PARENT $parentDeclaration")
-
         if (parentDeclaration.hasActionMint() && classDeclaration.isActionDispatcher()) {
             val dispatcherFunction = classDeclaration.getDeclaredFunctions().firstOrNull()
                 ?: return
@@ -52,16 +53,60 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
         resultType: KSTypeReference,
         codeGenerator: CodeGenerator
     ) {
+        val actionWrapperClassName = ClassName(
+            actionDeclaration.packageName.asString(),
+            "${actionDeclaration.simpleName.asString()}Wrapper"
+        )
         FileSpec.builder(
             packageName = dispatcherDeclaration.packageName.asString(),
             fileName = executeFileName(actionDeclaration, dispatcherDeclaration)
         )
+            .addType(
+                TypeSpec.classBuilder(actionWrapperClassName)
+                    .addModifiers(KModifier.DATA)
+                    .addSuperinterface(
+                        ClassName("com.zegreatrob.testmints.action", "ExecutableAction").parameterizedBy(
+                            dispatcherDeclaration.toClassName(),
+                            resultType.toTypeName()
+                        )
+                    )
+                    .addSuperinterface(
+                        ClassName("com.zegreatrob.testmints.action", "ActionWrapper").parameterizedBy(
+                            actionDeclaration.toClassName()
+                        )
+                    )
+                    .primaryConstructor(
+                        FunSpec.constructorBuilder()
+                            .addParameter("action", actionDeclaration.toClassName())
+                            .build()
+                    )
+                    .addProperty(
+                        PropertySpec.builder("action", actionDeclaration.toClassName())
+                            .initializer("action")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .build()
+                    )
+                    .addFunction(
+                        FunSpec.builder("execute")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .addParameter("dispatcher", dispatcherDeclaration.toClassName())
+                            .addCode("return dispatcher.${dispatcherFunction.simpleName.asString()}(action)")
+                            .returns(returnType = resultType.toTypeName())
+                            .build()
+                    )
+                    .build()
+            )
+
             .addFunction(
                 FunSpec.builder("execute")
-                    .receiver(dispatcherDeclaration.toClassName())
+                    .receiver(ClassName("com.zegreatrob.testmints.action", "ExecutableActionPipe"))
+                    .addParameter("dispatcher", dispatcherDeclaration.toClassName())
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
-                    .addCode("return ${dispatcherFunction.simpleName.asString()}(action)")
+                    .addCode(
+                        "return execute(dispatcher, %L.invoke(action))",
+                        actionWrapperClassName.constructorReference()
+                    )
                     .build()
             )
             .build()

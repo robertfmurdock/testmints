@@ -6,14 +6,14 @@ import com.zegreatrob.minspy.spyFunction
 import com.zegreatrob.testmints.setup
 import kotlin.test.Test
 
-class ActionMintTest {
+class ActionMintTest : ExecutableActionPipe {
 
     @Test
     fun usingTheActionWithTheDispatcherDoesTheWorkOfTheDispatchFunction() = setup(object {
         val action = MultiplyAction(2, 3)
         val dispatcher: MultiplyAction.Dispatcher = object : ExampleActionDispatcher {}
     }) exercise {
-        dispatcher.execute(action)
+        execute(dispatcher, action)
     } verify { result ->
         result.assertIsEqualTo(MultiplyAction.Result.Success(6))
     }
@@ -27,7 +27,7 @@ class ActionMintTest {
             override fun handle(action: MultiplyAction) = spy.spyFunction(action)
         }
     }) exercise {
-        spyDispatcher.execute(action)
+        execute(spyDispatcher, action)
     } verify { result ->
         result.assertIsEqualTo(expectedReturn)
         spy.spyReceivedValues.assertIsEqualTo(listOf(action))
@@ -40,8 +40,8 @@ class ActionMintTest {
         val multiplyAction = MultiplyAction(13, 41)
     }) exercise {
         Pair(
-            dispatcher.execute(addAction),
-            dispatcher.execute(multiplyAction),
+            execute(dispatcher, addAction),
+            execute(dispatcher, multiplyAction),
         )
     } verify { result ->
         with(result) {
@@ -51,18 +51,19 @@ class ActionMintTest {
     }
 
     @Test
-    fun usingExecutableActionSyntaxAllowsInterceptionOfAnyAction() = setup(object : ExecutableActionExecuteSyntax {
+    fun usingExecutableActionSyntaxAllowsInterceptionOfAnyAction() = setup(object : ExecutableActionPipe {
         val dispatcher = object : AddActionDispatcher, ExampleActionDispatcher {}
         val addAction = AddAction(7, 22)
         val multiplyAction = MultiplyAction(13, 41)
 
-        val allExecutedActions = mutableListOf<Any>()
-        override fun <D, R> D.execute(action: ExecutableAction<D, R>) = action.execute(this)
-            .also { allExecutedActions.add(action) }
+        val allExecutedActions = mutableListOf<Any?>()
+
+        override fun <D, R> execute(dispatcher: D, action: ExecutableAction<D, R>): R = action.execute(dispatcher)
+            .also { allExecutedActions.add((action as? ActionWrapper<*>)?.action) }
     }) exercise {
         Pair(
-            dispatcher.execute(addAction),
-            dispatcher.execute(multiplyAction),
+            execute(dispatcher, addAction),
+            execute(dispatcher, multiplyAction),
         )
     } verify {
         allExecutedActions.assertIsEqualTo(
