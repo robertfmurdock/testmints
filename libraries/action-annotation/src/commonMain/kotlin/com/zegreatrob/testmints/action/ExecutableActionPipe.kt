@@ -1,7 +1,9 @@
 package com.zegreatrob.testmints.action
 
+import com.zegreatrob.testmints.action.async.SuspendAction
+
 interface ExecutableActionPipe {
-    fun <D, R> execute(dispatcher: D, action: ExecutableAction<D, R>): R = action.execute(dispatcher)
+    suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R = action.execute(dispatcher)
 }
 
 interface ActionWrapper<T> {

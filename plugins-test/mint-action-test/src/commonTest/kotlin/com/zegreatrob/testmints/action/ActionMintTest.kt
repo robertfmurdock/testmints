@@ -3,13 +3,14 @@ package com.zegreatrob.testmints.action
 import com.zegreatrob.minassert.assertIsEqualTo
 import com.zegreatrob.minspy.SpyData
 import com.zegreatrob.minspy.spyFunction
-import com.zegreatrob.testmints.setup
+import com.zegreatrob.testmints.action.async.SuspendAction
+import com.zegreatrob.testmints.async.asyncSetup
 import kotlin.test.Test
 
 class ActionMintTest : ExecutableActionPipe {
 
     @Test
-    fun usingTheActionWithTheDispatcherDoesTheWorkOfTheDispatchFunction() = setup(object {
+    fun usingTheActionWithTheDispatcherDoesTheWorkOfTheDispatchFunction() = asyncSetup(object {
         val action = MultiplyAction(2, 3)
         val dispatcher: MultiplyAction.Dispatcher = object : ExampleActionDispatcher {}
     }) exercise {
@@ -19,12 +20,12 @@ class ActionMintTest : ExecutableActionPipe {
     }
 
     @Test
-    fun executingActionMerelyPassesActionToDispatcherWhereWorkCanBeDone() = setup(object {
+    fun executingActionMerelyPassesActionToDispatcherWhereWorkCanBeDone() = asyncSetup(object {
         val action = MultiplyAction(2, 3)
         val expectedReturn = MultiplyAction.Result.Success(42)
         val spy = SpyData<MultiplyAction, MultiplyAction.Result>().apply { spyWillReturn(expectedReturn) }
         val spyDispatcher = object : ExampleActionDispatcher {
-            override fun handle(action: MultiplyAction) = spy.spyFunction(action)
+            override suspend fun handle(action: MultiplyAction) = spy.spyFunction(action)
         }
     }) exercise {
         execute(spyDispatcher, action)
@@ -34,7 +35,7 @@ class ActionMintTest : ExecutableActionPipe {
     }
 
     @Test
-    fun singleDispatcherObjectCanExecuteManyActions() = setup(object {
+    fun singleDispatcherObjectCanExecuteManyActions() = asyncSetup(object {
         val dispatcher = object : AddActionDispatcher, ExampleActionDispatcher {}
         val addAction = AddAction(7, 22)
         val multiplyAction = MultiplyAction(13, 41)
@@ -51,14 +52,14 @@ class ActionMintTest : ExecutableActionPipe {
     }
 
     @Test
-    fun usingExecutableActionSyntaxAllowsInterceptionOfAnyAction() = setup(object : ExecutableActionPipe {
+    fun usingExecutableActionSyntaxAllowsInterceptionOfAnyAction() = asyncSetup(object : ExecutableActionPipe {
         val dispatcher = object : AddActionDispatcher, ExampleActionDispatcher {}
         val addAction = AddAction(7, 22)
         val multiplyAction = MultiplyAction(13, 41)
 
         val allExecutedActions = mutableListOf<Any?>()
 
-        override fun <D, R> execute(dispatcher: D, action: ExecutableAction<D, R>): R = action.execute(dispatcher)
+        override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R = action.execute(dispatcher)
             .also { allExecutedActions.add((action as? ActionWrapper<*>)?.action) }
     }) exercise {
         Pair(

@@ -9,6 +9,7 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSNode
 import com.google.devtools.ksp.symbol.KSTypeReference
+import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.visitor.KSTopDownVisitor
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -20,6 +21,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import com.squareup.kotlinpoet.ksp.toClassName
+import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import com.squareup.kotlinpoet.ksp.writeTo
 
@@ -65,7 +67,7 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
                 TypeSpec.classBuilder(actionWrapperClassName)
                     .addModifiers(KModifier.DATA)
                     .addSuperinterface(
-                        ClassName("com.zegreatrob.testmints.action", "ExecutableAction").parameterizedBy(
+                        ClassName("com.zegreatrob.testmints.action.async", "SuspendAction").parameterizedBy(
                             dispatcherDeclaration.toClassName(),
                             resultType.toTypeName()
                         )
@@ -88,7 +90,7 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
                     )
                     .addFunction(
                         FunSpec.builder("execute")
-                            .addModifiers(KModifier.OVERRIDE)
+                            .addModifiers(KModifier.OVERRIDE, KModifier.SUSPEND)
                             .addParameter("dispatcher", dispatcherDeclaration.toClassName())
                             .addCode("return dispatcher.${dispatcherFunction.simpleName.asString()}(action)")
                             .returns(returnType = resultType.toTypeName())
@@ -99,6 +101,7 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
 
             .addFunction(
                 FunSpec.builder("execute")
+                    .addModifiers(KModifier.SUSPEND)
                     .receiver(ClassName("com.zegreatrob.testmints.action", "ExecutableActionPipe"))
                     .addParameter("dispatcher", dispatcherDeclaration.toClassName())
                     .addParameter("action", actionDeclaration.toClassName())

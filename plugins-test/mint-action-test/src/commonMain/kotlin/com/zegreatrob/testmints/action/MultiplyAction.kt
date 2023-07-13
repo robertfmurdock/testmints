@@ -6,7 +6,7 @@ import com.zegreatrob.testmints.action.annotation.MintAction
 data class MultiplyAction(val left: Int, val right: Int) {
 
     interface Dispatcher {
-        fun handle(action: MultiplyAction): Result
+        suspend fun handle(action: MultiplyAction): Result
     }
 
     sealed interface Result {
@@ -16,7 +16,7 @@ data class MultiplyAction(val left: Int, val right: Int) {
 }
 
 interface ExampleActionDispatcher : MultiplyAction.Dispatcher {
-    override fun handle(action: MultiplyAction): MultiplyAction.Result =
+    override suspend fun handle(action: MultiplyAction): MultiplyAction.Result =
         MultiplyAction.Result.Success(action.left * action.right)
 }
 
