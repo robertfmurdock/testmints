@@ -7,7 +7,7 @@ import com.zegreatrob.testmints.action.async.SuspendAction
 import com.zegreatrob.testmints.async.asyncSetup
 import kotlin.test.Test
 
-class ActionMintTest : ExecutableActionPipe {
+class ActionMintTest : ActionPipe {
 
     @Test
     fun usingTheActionWithTheDispatcherDoesTheWorkOfTheDispatchFunction() = asyncSetup(object {
@@ -52,7 +52,7 @@ class ActionMintTest : ExecutableActionPipe {
     }
 
     @Test
-    fun usingExecutableActionSyntaxAllowsInterceptionOfAnyAction() = asyncSetup(object : ExecutableActionPipe {
+    fun usingActionPipeAllowsInterceptionOfAnyAction() = asyncSetup(object : ActionPipe {
         val dispatcher = object : AddActionDispatcher, ExampleActionDispatcher {}
         val addAction = AddAction(7, 22)
         val multiplyAction = MultiplyAction(13, 41)
@@ -65,6 +65,31 @@ class ActionMintTest : ExecutableActionPipe {
         Pair(
             execute(dispatcher, addAction),
             execute(dispatcher, multiplyAction),
+        )
+    } verify {
+        allExecutedActions.assertIsEqualTo(
+            listOf(addAction, multiplyAction),
+        )
+    }
+
+    @Test
+    fun worksWithCannon() = asyncSetup(object {
+        val dispatcher = object : AddActionDispatcher, ExampleActionDispatcher {}
+        val addAction = AddAction(7, 22)
+        val multiplyAction = MultiplyAction(13, 41)
+
+        val allExecutedActions = mutableListOf<Any?>()
+
+        val pipe = object : ActionPipe {
+            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R =
+                action.execute(dispatcher)
+                    .also { allExecutedActions.add((action as? ActionWrapper<*>)?.action) }
+        }
+        val cannon = ActionCannon(dispatcher, pipe)
+    }) exercise {
+        Pair<Any?, Any?>(
+            cannon.fire(action = addAction),
+            cannon.fire(action = multiplyAction),
         )
     } verify {
         allExecutedActions.assertIsEqualTo(

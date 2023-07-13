@@ -9,7 +9,6 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSNode
 import com.google.devtools.ksp.symbol.KSTypeReference
-import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.visitor.KSTopDownVisitor
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -21,11 +20,11 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import com.squareup.kotlinpoet.ksp.toClassName
-import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import com.squareup.kotlinpoet.ksp.writeTo
 
 val mintActionClassName = ClassName("com.zegreatrob.testmints.action.annotation", "MintAction")
+val actionCannonClassName = ClassName("com.zegreatrob.testmints.action", "ActionCannon")
 
 class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGenerator, Unit>() {
     override fun defaultHandler(node: KSNode, data: CodeGenerator) {
@@ -102,12 +101,24 @@ class ActionMintVisitor(private val logger: KSPLogger) : KSTopDownVisitor<CodeGe
             .addFunction(
                 FunSpec.builder("execute")
                     .addModifiers(KModifier.SUSPEND)
-                    .receiver(ClassName("com.zegreatrob.testmints.action", "ExecutableActionPipe"))
+                    .receiver(ClassName("com.zegreatrob.testmints.action", "ActionPipe"))
                     .addParameter("dispatcher", dispatcherDeclaration.toClassName())
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
                     .addCode(
                         "return execute(dispatcher, %L.invoke(action))",
+                        actionWrapperClassName.constructorReference()
+                    )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("fire")
+                    .addModifiers(KModifier.SUSPEND)
+                    .receiver(actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
+                    .addParameter("action", actionDeclaration.toClassName())
+                    .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
+                    .addCode(
+                        "return fire(%L.invoke(action))",
                         actionWrapperClassName.constructorReference()
                     )
                     .build()
