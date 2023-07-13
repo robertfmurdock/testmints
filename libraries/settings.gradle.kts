@@ -15,6 +15,7 @@ includeBuild("../convention-plugins")
 
 include("action")
 include("action-async")
+include("action-processor")
 include("async")
 include("dependency-bom")
 include("kotest-example")

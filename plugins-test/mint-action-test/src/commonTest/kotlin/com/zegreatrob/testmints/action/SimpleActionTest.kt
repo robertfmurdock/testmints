@@ -6,7 +6,7 @@
  import com.zegreatrob.testmints.setup
  import kotlin.test.Test
 
- class ExecutableActionTest : ExecutableActionExecuteSyntax {
+ class SimpleActionTest : ExecutableActionExecuteSyntax {
 
     data class MultiplyAction(val left: Int, val right: Int) : SimpleExecutableAction<MultiplyActionDispatcher, Int> {
         override val performFunc = link(MultiplyActionDispatcher::invoke)
