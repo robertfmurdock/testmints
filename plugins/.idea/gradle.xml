@@ -5,12 +5,10 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="/usr/local/Cellar/gradle/8.2/libexec" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/mint-action-plugin" />
+            <option value="$PROJECT_DIR$/action-mint-plugin" />
             <option value="$PROJECT_DIR$/mint-logs-plugin" />
           </set>
         </option>

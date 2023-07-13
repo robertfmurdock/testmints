@@ -2,6 +2,10 @@ plugins {
     base
 }
 
+repositories {
+    mavenCentral()
+}
+
 tasks {
     create("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })

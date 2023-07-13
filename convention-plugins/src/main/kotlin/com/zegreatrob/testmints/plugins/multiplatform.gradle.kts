@@ -34,9 +34,7 @@ repositories {
 }
 
 dependencies {
-    "commonMainApi"(platform(
-        findProject(":dependency-bom") ?: "com.zegreatrob.testmints:dependency-bom"
-    ))
+    "commonMainApi"(platform("com.zegreatrob.testmints:dependency-bom"))
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.targets.js.npm.PublicPackageJsonTask::class).configureEach {
