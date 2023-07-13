@@ -19,8 +19,10 @@ tasks {
         gradle.includedBuild("libraries"),
         gradle.includedBuild("plugins"),
     )
-    val includedBuilds =
-        publishableBuilds + gradle.includedBuild("convention-plugins") + gradle.includedBuild("plugins-test")
+    val includedBuilds = publishableBuilds + listOf(
+        gradle.includedBuild("convention-plugins"),
+//        gradle.includedBuild("plugins-test")
+    )
     val publish by creating {
         mustRunAfter(check)
         dependsOn(provider { publishableBuilds.map { it.task(":publish") } })

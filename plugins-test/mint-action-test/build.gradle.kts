@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion
-
 plugins {
     id("com.zegreatrob.testmints.action-mint")
     id("com.zegreatrob.testmints.plugins.multiplatform")
@@ -7,8 +5,12 @@ plugins {
     id("com.zegreatrob.testmints.plugins.platforms")
 }
 
-tasks {
-
+dependencies {
+    "commonTestImplementation"("com.zegreatrob.testmints:async")
+    "commonTestImplementation"("com.zegreatrob.testmints:minassert")
+    "commonTestImplementation"("com.zegreatrob.testmints:minspy")
+    "commonTestImplementation"("com.zegreatrob.testmints:standard")
+    "commonTestImplementation"(kotlin("test"))
 }
 
 org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.apply(project.rootProject)
