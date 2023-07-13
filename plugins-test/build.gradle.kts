@@ -20,14 +20,3 @@ tasks {
         dependsOn(provider { (getTasksByName("clean", true) - this).toList() })
     }
 }
-//
-//afterEvaluate {
-//    tasks {
-//        "kotlinNpmInstall" {
-//            dependsOn(gradle.includedBuild("libraries").task(":kotlinNpmInstall"))
-//        }
-//        "kotlinNodeJsSetup" {
-//            dependsOn(provider { gradle.includedBuild("libraries").task(":kotlinNodeJsSetup") })
-//        }
-//    }
-//}
