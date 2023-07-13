@@ -1,12 +1,12 @@
- package com.zegreatrob.testmints.action
+package com.zegreatrob.testmints.action
 
- import com.zegreatrob.minassert.assertIsEqualTo
- import com.zegreatrob.minspy.SpyData
- import com.zegreatrob.minspy.spyFunction
- import com.zegreatrob.testmints.setup
- import kotlin.test.Test
+import com.zegreatrob.minassert.assertIsEqualTo
+import com.zegreatrob.minspy.SpyData
+import com.zegreatrob.minspy.spyFunction
+import com.zegreatrob.testmints.setup
+import kotlin.test.Test
 
- class SimpleActionTest : ExecutableActionExecuteSyntax {
+class SimpleActionTest : ExecutableActionExecuteSyntax {
 
     data class MultiplyAction(val left: Int, val right: Int) : SimpleExecutableAction<MultiplyActionDispatcher, Int> {
         override val performFunc = link(MultiplyActionDispatcher::invoke)
@@ -88,4 +88,4 @@
             listOf(addAction, multiplyAction),
         )
     }
- }
+}
