@@ -94,7 +94,6 @@ class AsyncMintsTest {
             var actualValue: Int? = null
 
             fun testThatSharesScopeExample() = asyncSetup(object {
-                @Suppress("UnnecessaryVariable")
                 val value = expectedValue
             }) exercise {
                 actualValue = value
