@@ -15,7 +15,7 @@ afterEvaluate {
             "commonMainImplementation"("com.zegreatrob.testmints:action-async")
 
             configurations.names.forEach {
-                if(it.startsWith("ksp")){
+                if (it.startsWith("ksp") && it != "ksp") {
                     it("com.zegreatrob.testmints:action-processor")
                 }
             }
