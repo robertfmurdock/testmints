@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="minspy-js">
-    <output-path>$PROJECT_DIR$/minspy/build/libs</output-path>
-    <root id="archive" name="minspy-js.jar" />
-  </artifact>
-</component>

@@ -15,6 +15,7 @@ includeBuild("../convention-plugins")
 
 include("action")
 include("action-async")
+include("action-annotation")
 include("action-processor")
 include("async")
 include("dependency-bom")

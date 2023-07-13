@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="mindiff-jvm">
-    <output-path>$PROJECT_DIR$/mindiff/build/libs</output-path>
-    <root id="archive" name="mindiff-jvm.jar" />
-  </artifact>
-</component>

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion
 import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
@@ -14,6 +15,22 @@ dependencies {
     "commonTestImplementation"("com.zegreatrob.testmints:minspy")
     "commonTestImplementation"("com.zegreatrob.testmints:standard")
     "commonTestImplementation"(kotlin("test"))
+}
+
+kotlin {
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                allWarningsAsErrors = false
+            }
+        }
+    }
+    sourceSets.jsMain {
+        kotlin.srcDir("build/generated/ksp/js/jsMain/kotlin")
+    }
+    sourceSets.jvmMain {
+        kotlin.srcDir("build/generated/ksp/jvm/jvmMain/kotlin")
+    }
 }
 
 org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.apply(project.rootProject)

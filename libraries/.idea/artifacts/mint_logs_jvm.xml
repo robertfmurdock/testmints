@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="mint-logs-jvm">
-    <output-path>$PROJECT_DIR$/mint-logs/build/libs</output-path>
-    <root id="archive" name="mint-logs-jvm.jar" />
-  </artifact>
-</component>

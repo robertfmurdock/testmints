@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="action-async-jvm">
-    <output-path>$PROJECT_DIR$/action-async/build/libs</output-path>
-    <root id="archive" name="action-async-jvm.jar" />
-  </artifact>
-</component>
