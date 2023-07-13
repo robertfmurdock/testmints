@@ -1,3 +1,6 @@
+import org.jmailen.gradle.kotlinter.tasks.FormatTask
+import org.jmailen.gradle.kotlinter.tasks.LintTask
+
 plugins {
     id("com.zegreatrob.testmints.action-mint")
     id("com.zegreatrob.testmints.plugins.multiplatform")
@@ -19,4 +22,26 @@ project.rootProject.tasks.named("kotlinNpmInstall") {
 }
 project.rootProject.tasks.named("kotlinNodeJsSetup") {
     dependsOn(provider { gradle.includedBuild("libraries").task(":kotlinNodeJsSetup") })
+}
+
+tasks {
+    formatKotlinJsMain {
+        dependsOn("kspKotlinJs")
+    }
+    formatKotlinJsTest {
+        dependsOn("kspTestKotlinJs")
+    }
+    withType(FormatTask::class) {
+        exclude { spec -> spec.file.absolutePath.contains("generated") }
+    }
+    withType(LintTask::class) {
+        exclude { spec -> spec.file.absolutePath.contains("generated") }
+    }
+    lintKotlinJsMain {
+        dependsOn("kspKotlinJs")
+    }
+    lintKotlinJsTest {
+        dependsOn("kspTestKotlinJs")
+    }
+
 }
