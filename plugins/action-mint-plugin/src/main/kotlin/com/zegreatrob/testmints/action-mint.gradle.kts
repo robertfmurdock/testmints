@@ -17,12 +17,12 @@ afterEvaluate {
                     it.startsWith("ksp") && it != "ksp"
                     && !it.contains("common", true)
                 ) {
-                    it("com.zegreatrob.testmints:action-processor")
+                    it("com.zegreatrob.testmints:action-processor:${PluginVersions.bomVersion}")
                 }
             }
-            "commonMainImplementation"("com.zegreatrob.testmints:action")
-            "commonMainImplementation"("com.zegreatrob.testmints:action-async")
-            "commonMainImplementation"("com.zegreatrob.testmints:action-annotation")
+            "commonMainImplementation"("com.zegreatrob.testmints:action:${PluginVersions.bomVersion}")
+            "commonMainImplementation"("com.zegreatrob.testmints:action-async:${PluginVersions.bomVersion}")
+            "commonMainImplementation"("com.zegreatrob.testmints:action-annotation:${PluginVersions.bomVersion}")
         }
     }
 }
