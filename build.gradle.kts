@@ -21,7 +21,7 @@ tasks {
     )
     val includedBuilds = publishableBuilds + listOf(
         gradle.includedBuild("convention-plugins"),
-//        gradle.includedBuild("plugins-test")
+        gradle.includedBuild("plugins-test")
     )
     val publish by creating {
         mustRunAfter(check)
