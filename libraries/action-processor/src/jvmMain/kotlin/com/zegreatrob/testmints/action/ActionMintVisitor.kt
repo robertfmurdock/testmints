@@ -124,11 +124,11 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             .addFunction(
                 FunSpec.builder("fire")
                     .addModifiers(KModifier.SUSPEND)
-                    .receiver(actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
+                    .addParameter("cannon", actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
                     .addCode(
-                        "return fire(%L.invoke(action))",
+                        "return cannon.fire(%L.invoke(action))",
                         actionWrapperClassName.constructorReference()
                     )
                     .build()
