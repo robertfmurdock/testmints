@@ -7,7 +7,7 @@ interface ActionCannon<out D> {
 
     companion object {
         operator fun <D> invoke(dispatcher: D, pipe: ActionPipe = ActionPipe): ActionCannon<D> =
-             DispatcherPipeCannon(dispatcher, pipe)
+            DispatcherPipeCannon(dispatcher, pipe)
     }
 }
 
