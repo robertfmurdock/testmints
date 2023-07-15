@@ -96,4 +96,25 @@ class ActionMintTest : ActionPipe {
             listOf(addAction, multiplyAction),
         )
     }
+
+    @Test
+    fun worksWithGenericReturnTypes() = asyncSetup(object {
+        val dispatcher = object : ResultAction.Dispatcher {
+            override fun handle(action: ResultAction) = runCatching { action.left + action.right }
+        }
+        val resultAction = ResultAction(7, 22)
+
+        val allExecutedActions = mutableListOf<Any?>()
+
+        val pipe = object : ActionPipe {
+            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R =
+                action.execute(dispatcher)
+                    .also { allExecutedActions.add((action as? ActionWrapper<*>)?.action) }
+        }
+        val cannon = ActionCannon(dispatcher, pipe)
+    }) exercise {
+        cannon.fire(action = resultAction)
+    } verify { result: Result<Int> ->
+        result.assertIsEqualTo(Result.success(29))
+    }
 }

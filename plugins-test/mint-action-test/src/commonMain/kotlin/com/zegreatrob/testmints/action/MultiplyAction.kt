@@ -28,6 +28,14 @@ data class AddAction(val left: Int, val right: Int) {
     }
 }
 
+@MintAction
+data class ResultAction(val left: Int, val right: Int) {
+
+    interface Dispatcher {
+        fun handle(action: ResultAction): Result<Int>
+    }
+}
+
 interface AddActionDispatcher : AddAction.Dispatcher {
     override fun handle(action: AddAction): Int = with(action) { left + right }
 }

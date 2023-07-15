@@ -10,16 +10,16 @@ import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSNode
-import com.google.devtools.ksp.symbol.KSTypeReference
 import com.google.devtools.ksp.visitor.KSTopDownVisitor
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
@@ -45,8 +45,13 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
 
             val dispatchReturnType = dispatcherFunction.returnType
                 ?: return
-
-            writeExecuteFunction(parentDeclaration, classDeclaration, dispatcherFunction, dispatchReturnType, data)
+            writeExecuteFunction(
+                parentDeclaration,
+                classDeclaration,
+                dispatcherFunction,
+                data,
+                dispatchReturnType.resolve().toTypeName()
+            )
         }
     }
 
@@ -54,8 +59,8 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
         actionDeclaration: KSClassDeclaration,
         dispatcherDeclaration: KSClassDeclaration,
         dispatcherFunction: KSFunctionDeclaration,
-        resultType: KSTypeReference,
-        codeGenerator: CodeGenerator
+        codeGenerator: CodeGenerator,
+        resultType: TypeName
     ) {
         val actionWrapperClassName = ClassName(
             actionDeclaration.packageName.asString(),
@@ -70,15 +75,15 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             .addType(
                 TypeSpec.classBuilder(actionWrapperClassName)
                     .addAnnotations(
-                        if (isJvm) kotlin.collections.listOf(
-                            com.squareup.kotlinpoet.AnnotationSpec.Companion.builder(ClassName("kotlin.jvm", "JvmInline")).build()
-                        ) else kotlin.collections.emptyList()
+                        if (isJvm) listOf(
+                            AnnotationSpec.builder(ClassName("kotlin.jvm", "JvmInline")).build()
+                        ) else emptyList()
                     )
                     .addModifiers(KModifier.VALUE)
                     .addSuperinterface(
                         ClassName("com.zegreatrob.testmints.action.async", "SuspendAction").parameterizedBy(
                             dispatcherDeclaration.toClassName(),
-                            resultType.toTypeName()
+                            resultType
                         )
                     )
                     .addSuperinterface(
@@ -102,7 +107,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                             .addModifiers(KModifier.OVERRIDE, KModifier.SUSPEND)
                             .addParameter("dispatcher", dispatcherDeclaration.toClassName())
                             .addCode("return dispatcher.${dispatcherFunction.simpleName.asString()}(action)")
-                            .returns(returnType = resultType.toTypeName())
+                            .returns(returnType = resultType)
                             .build()
                     )
                     .build()
@@ -114,7 +119,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .receiver(ClassName("com.zegreatrob.testmints.action", "ActionPipe"))
                     .addParameter("dispatcher", dispatcherDeclaration.toClassName())
                     .addParameter("action", actionDeclaration.toClassName())
-                    .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
+                    .returns(resultType)
                     .addCode(
                         "return execute(dispatcher, %L.invoke(action))",
                         actionWrapperClassName.constructorReference()
@@ -126,7 +131,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .addModifiers(KModifier.SUSPEND)
                     .addParameter("cannon", actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
                     .addParameter("action", actionDeclaration.toClassName())
-                    .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
+                    .returns(resultType)
                     .addCode(
                         "return cannon.fire(%L.invoke(action))",
                         actionWrapperClassName.constructorReference()
@@ -138,7 +143,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .addModifiers(KModifier.SUSPEND)
                     .receiver(actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
                     .addParameter("action", actionDeclaration.toClassName())
-                    .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
+                    .returns(resultType)
                     .addCode(
                         "return fire(%L.invoke(action))",
                         actionWrapperClassName.constructorReference()

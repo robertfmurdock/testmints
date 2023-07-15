@@ -28,6 +28,9 @@ kotlin {
     sourceSets.jsMain {
         kotlin.srcDir("build/generated/ksp/js/jsMain/kotlin")
     }
+    sourceSets.jsTest {
+        kotlin.srcDir(projectDir.resolve("src/commonTest/kotlin"))
+    }
     sourceSets.jvmMain {
         kotlin.srcDir("build/generated/ksp/jvm/jvmMain/kotlin")
     }
