@@ -88,8 +88,8 @@ class ActionMintTest : ActionPipe {
         val cannon = ActionCannon(dispatcher, pipe)
     }) exercise {
         Pair<Any?, Any?>(
-            fire(cannon, action = addAction),
-            fire(cannon, action = multiplyAction),
+            cannon.fire(action = addAction),
+            perform(cannon, action = multiplyAction),
         )
     } verify {
         allExecutedActions.assertIsEqualTo(

@@ -3,6 +3,7 @@ package com.zegreatrob.testmints.action
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.JvmPlatformInfo
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.PlatformInfo
 import com.google.devtools.ksp.symbol.KSAnnotation
@@ -20,7 +21,6 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
-import com.google.devtools.ksp.processing.JvmPlatformInfo
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import com.squareup.kotlinpoet.ksp.writeTo
@@ -122,13 +122,25 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .build()
             )
             .addFunction(
-                FunSpec.builder("fire")
+                FunSpec.builder("perform")
                     .addModifiers(KModifier.SUSPEND)
                     .addParameter("cannon", actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
                     .addCode(
                         "return cannon.fire(%L.invoke(action))",
+                        actionWrapperClassName.constructorReference()
+                    )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("fire")
+                    .addModifiers(KModifier.SUSPEND)
+                    .receiver(actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
+                    .addParameter("action", actionDeclaration.toClassName())
+                    .returns(resultType.toTypeName(TypeParameterResolver.EMPTY))
+                    .addCode(
+                        "return fire(%L.invoke(action))",
                         actionWrapperClassName.constructorReference()
                     )
                     .build()
