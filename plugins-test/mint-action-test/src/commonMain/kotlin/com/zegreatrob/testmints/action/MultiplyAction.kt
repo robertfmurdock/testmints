@@ -1,8 +1,8 @@
 package com.zegreatrob.testmints.action
 
-import com.zegreatrob.testmints.action.annotation.MintAction
+import com.zegreatrob.testmints.action.annotation.ActionMint
 
-@MintAction
+@ActionMint
 data class MultiplyAction(val left: Int, val right: Int) {
 
     interface Dispatcher {
@@ -20,7 +20,7 @@ interface ExampleActionDispatcher : MultiplyAction.Dispatcher {
         MultiplyAction.Result.Success(action.left * action.right)
 }
 
-@MintAction
+@ActionMint
 data class AddAction(val left: Int, val right: Int) {
 
     interface Dispatcher {
@@ -28,7 +28,7 @@ data class AddAction(val left: Int, val right: Int) {
     }
 }
 
-@MintAction
+@ActionMint
 data class ResultAction(val left: Int, val right: Int) {
 
     interface Dispatcher {

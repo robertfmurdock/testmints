@@ -26,6 +26,7 @@ import com.squareup.kotlinpoet.ksp.toTypeName
 import com.squareup.kotlinpoet.ksp.writeTo
 
 val mintActionClassName = ClassName("com.zegreatrob.testmints.action.annotation", "MintAction")
+val actionMintClassName = ClassName("com.zegreatrob.testmints.action.annotation", "ActionMint")
 val actionCannonClassName = ClassName("com.zegreatrob.testmints.action", "ActionCannon")
 
 class ActionMintVisitor(private val logger: KSPLogger, private val platforms: List<PlatformInfo>) :
@@ -173,4 +174,5 @@ private fun KSClassDeclaration.isActionDispatcher() = simpleName.asString() == "
 
 private fun KSAnnotation.hasActionMint(): Boolean {
     return toAnnotationSpec().typeName == mintActionClassName
+            || toAnnotationSpec().typeName == actionMintClassName
 }
