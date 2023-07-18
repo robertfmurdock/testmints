@@ -28,6 +28,10 @@ data class AddAction(val left: Int, val right: Int) {
     }
 }
 
+interface AddActionDispatcher : AddAction.Dispatcher {
+    override fun handle(action: AddAction): Int = with(action) { left + right }
+}
+
 @ActionMint
 data class ResultAction(val left: Int, val right: Int) {
 
@@ -36,6 +40,10 @@ data class ResultAction(val left: Int, val right: Int) {
     }
 }
 
-interface AddActionDispatcher : AddAction.Dispatcher {
-    override fun handle(action: AddAction): Int = with(action) { left + right }
+@ActionMint
+data class WildAction(val left: Int, val right: Int) {
+
+    interface Dispatcher<T, T2, T3> {
+        fun handle(action: WildAction): Result<Int>
+    }
 }

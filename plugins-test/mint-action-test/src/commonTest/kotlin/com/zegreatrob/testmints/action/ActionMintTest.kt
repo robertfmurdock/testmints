@@ -117,4 +117,25 @@ class ActionMintTest : ActionPipe {
     } verify { result: Result<Int> ->
         result.assertIsEqualTo(Result.success(29))
     }
+
+    @Test
+    fun worksWithGenericDispatcherTypes() = asyncSetup(object {
+        val dispatcher = object : WildAction.Dispatcher<Int, String, Boolean> {
+            override fun handle(action: WildAction) = runCatching { action.left + action.right }
+        }
+        val resultAction = WildAction(7, 22)
+
+        val allExecutedActions = mutableListOf<Any?>()
+
+        val pipe = object : ActionPipe {
+            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R =
+                action.execute(dispatcher)
+                    .also { allExecutedActions.add((action as? ActionWrapper<*>)?.action) }
+        }
+        val cannon = ActionCannon(dispatcher, pipe)
+    }) exercise {
+        cannon.fire(action = resultAction)
+    } verify { result: Result<Int> ->
+        result.assertIsEqualTo(Result.success(29))
+    }
 }

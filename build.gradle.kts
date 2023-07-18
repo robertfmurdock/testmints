@@ -39,10 +39,13 @@ tasks {
         from(includedBuilds.map { it.projectDir.resolve("build/test-output") })
         into("${rootProject.buildDir.path}/test-output/${project.path}".replace(":", "/"))
     }
-
     create("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":formatKotlin") } })
+    }
+    create("lintKotlin") {
+        dependsOn(provider { (getTasksByName("lintKotlin", true) - this).toList() })
+        dependsOn(provider { includedBuilds.map { it.task(":lintKotlin") } })
     }
     check {
         dependsOn(provider { (getTasksByName("check", true) - this).toList() })

@@ -18,6 +18,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
@@ -47,11 +48,11 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             val dispatchReturnType = dispatcherFunction.returnType
                 ?: return
             writeExecuteFunction(
-                parentDeclaration,
-                classDeclaration,
-                dispatcherFunction,
-                data,
-                dispatchReturnType.resolve().toTypeName()
+                actionDeclaration = parentDeclaration,
+                dispatcherDeclaration = classDeclaration,
+                dispatcherFunction = dispatcherFunction,
+                codeGenerator = data,
+                resultType = dispatchReturnType.resolve().toTypeName()
             )
         }
     }
@@ -67,8 +68,8 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             actionDeclaration.packageName.asString(),
             "${actionDeclaration.simpleName.asString()}Wrapper"
         )
-        val isJvm = platforms.any { it is JvmPlatformInfo }
 
+        val isJvm = platforms.any { it is JvmPlatformInfo }
         FileSpec.builder(
             packageName = dispatcherDeclaration.packageName.asString(),
             fileName = executeFileName(actionDeclaration, dispatcherDeclaration)
@@ -83,7 +84,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .addModifiers(KModifier.VALUE)
                     .addSuperinterface(
                         ClassName("com.zegreatrob.testmints.action.async", "SuspendAction").parameterizedBy(
-                            dispatcherDeclaration.toClassName(),
+                            dispatcherDeclaration.classNameWithStar(),
                             resultType
                         )
                     )
@@ -106,7 +107,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .addFunction(
                         FunSpec.builder("execute")
                             .addModifiers(KModifier.OVERRIDE, KModifier.SUSPEND)
-                            .addParameter("dispatcher", dispatcherDeclaration.toClassName())
+                            .addParameter("dispatcher", dispatcherDeclaration.classNameWithStar())
                             .addCode("return dispatcher.${dispatcherFunction.simpleName.asString()}(action)")
                             .returns(returnType = resultType)
                             .build()
@@ -118,7 +119,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                 FunSpec.builder("execute")
                     .addModifiers(KModifier.SUSPEND)
                     .receiver(ClassName("com.zegreatrob.testmints.action", "ActionPipe"))
-                    .addParameter("dispatcher", dispatcherDeclaration.toClassName())
+                    .addParameter("dispatcher", dispatcherDeclaration.classNameWithStar())
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType)
                     .addCode(
@@ -130,7 +131,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             .addFunction(
                 FunSpec.builder("perform")
                     .addModifiers(KModifier.SUSPEND)
-                    .addParameter("cannon", actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
+                    .addParameter("cannon", actionCannonClassName.parameterizedBy(dispatcherDeclaration.classNameWithStar()))
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType)
                     .addCode(
@@ -142,7 +143,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             .addFunction(
                 FunSpec.builder("fire")
                     .addModifiers(KModifier.SUSPEND)
-                    .receiver(actionCannonClassName.parameterizedBy(dispatcherDeclaration.toClassName()))
+                    .receiver(actionCannonClassName.parameterizedBy(dispatcherDeclaration.classNameWithStar()))
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType)
                     .addCode(
@@ -159,6 +160,14 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                         .toTypedArray()
                 )
             )
+    }
+
+    private fun KSClassDeclaration.classNameWithStar() = if (typeParameters.isEmpty()) {
+        toClassName()
+    } else {
+        toClassName().parameterizedBy(
+            typeArguments = (1..typeParameters.size).map { STAR }
+        )
     }
 
     private fun executeFileName(
