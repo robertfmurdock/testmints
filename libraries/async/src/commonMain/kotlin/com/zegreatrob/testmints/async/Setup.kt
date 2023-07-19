@@ -7,6 +7,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
+import kotlin.time.measureTimedValue
 
 class Setup<out C : Any, out SC : Any>(
     private val contextProvider: suspend (SC) -> C,
@@ -16,8 +17,8 @@ class Setup<out C : Any, out SC : Any>(
     private val timeoutMs: Long,
     private val wrapper: suspend (TestFunc<SC>) -> Unit,
 ) {
-    infix fun <R> exercise(exerciseFunc: suspend C.() -> R) = Exercise<C, R>(timeoutMs) { verifyFunc ->
-        { teardownFunc ->
+    infix fun <R> exercise(exerciseFunc: suspend C.() -> R) = Exercise(timeoutMs) { verifyFunc ->
+        { teardownFunc: suspend C.(R?) -> Unit ->
             scope.async { runTest(exerciseFunc, verifyFunc, teardownFunc) }.apply {
                 invokeOnCompletion { cause -> scope.cancel(cause?.wrapCause()) }
             }
@@ -67,9 +68,9 @@ class Setup<out C : Any, out SC : Any>(
         assertionFunctions: suspend C.(R) -> Unit,
     ): Throwable? {
         reporter.verifyStart(result)
-        return captureException { context.assertionFunctions(result) }.also {
-            reporter.verifyFinish()
-        }
+        val captureException = measureTimedValue { captureException { context.assertionFunctions(result) } }
+        reporter.verifyFinish(captureException.duration)
+        return captureException.value
     }
 
     private suspend fun performSetup(sharedContext: SC): C {

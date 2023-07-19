@@ -1,6 +1,7 @@
 package com.zegreatrob.testmints
 
 import com.zegreatrob.testmints.report.MintReporter
+import kotlin.time.measureTimedValue
 
 class Setup<C : Any, SC : Any>(
     private val contextProvider: (SC) -> C,
@@ -73,8 +74,9 @@ private fun <C : Any, R> ExerciseFunc<C, R>.makeReporting(reporter: MintReporter
 private fun <C : Any, R> VerifyFunc<C, R>.makeReporting(mintReporter: MintReporter) = { context: C, result: R ->
     context
         .also { mintReporter.verifyStart(result) }
-        .let { captureException { it.(this)(result) } }
-        .also { mintReporter.verifyFinish() }
+        .let { measureTimedValue { captureException { it.(this)(result) } } }
+        .also { mintReporter.verifyFinish(it.duration) }
+        .value
 }
 
 private fun exceptionDescriptionMap(

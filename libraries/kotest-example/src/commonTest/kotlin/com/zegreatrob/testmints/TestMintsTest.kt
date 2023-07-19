@@ -5,6 +5,7 @@ import io.kotest.core.spec.style.FunSpec
 import kotlin.random.Random
 import kotlin.test.assertEquals
 import kotlin.test.fail
+import kotlin.time.Duration
 
 fun FunSpec.test(testName: String, test: () -> Unit) {
     test(testName) { test() }
@@ -489,7 +490,7 @@ class ReporterFeatures : FunSpec({
             override fun exerciseStart(context: Any) = record(Call.ExerciseStart)
             override fun exerciseFinish() = record(Call.ExerciseFinish)
             override fun verifyStart(payload: Any?) = record(Call.VerifyStart)
-            override fun verifyFinish() = record(Call.VerifyFinish)
+            override fun verifyFinish(duration: Duration) = record(Call.VerifyFinish)
             override fun teardownStart() = record(Call.TeardownStart)
             override fun teardownFinish() = record(Call.TeardownFinish)
         }
@@ -560,7 +561,7 @@ class ReporterFeatures : FunSpec({
         val verifyState = mutableListOf<String>()
         var result: String? = null
         override val reporter = object : MintReporter {
-            override fun verifyFinish() {
+            override fun verifyFinish(duration: Duration) {
                 result = verifyState.joinToString("")
             }
         }

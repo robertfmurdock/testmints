@@ -1,6 +1,6 @@
 
 import com.zegreatrob.testmints.logs.StructuredLoggingTestMintsReporter
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 
 @JsName("MochaLoggingReporter")
 @ExperimentalJsExport

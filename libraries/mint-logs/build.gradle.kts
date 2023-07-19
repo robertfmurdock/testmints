@@ -30,7 +30,7 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-test")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-                implementation("io.github.microutils:kotlin-logging")
+                implementation("io.github.oshai:kotlin-logging")
             }
         }
         getByName("commonTest") {
@@ -76,5 +76,16 @@ tasks {
 }
 
 dependencies {
-    jvmTestImplementation("org.slf4j:slf4j-simple")
+    jvmTestImplementation("org.slf4j:slf4j-api")
+    jvmTestImplementation("io.github.oshai:kotlin-logging-jvm")
+    jvmTestImplementation("org.apache.logging.log4j:log4j-api")
+    jvmTestImplementation("org.apache.logging.log4j:log4j-core")
+    jvmTestImplementation("org.apache.logging.log4j:log4j-iostreams")
+    jvmTestImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
+//    jvmTestImplementation("ch.qos.logback:logback-classic")
+//    jvmTestImplementation("ch.qos.logback.contrib:logback-jackson")
+//    jvmTestImplementation("ch.qos.logback.contrib:logback-json-classic")
+    jvmTestImplementation("com.fasterxml.jackson.core:jackson-databind")
+    jvmTestImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+//    jvmTestImplementation("net.logstash.logback:logstash-logback-encoder")
 }
