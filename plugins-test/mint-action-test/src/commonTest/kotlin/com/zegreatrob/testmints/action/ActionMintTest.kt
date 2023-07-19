@@ -123,7 +123,7 @@ class ActionMintTest : ActionPipe {
         val dispatcher = object : WildAction.Dispatcher<Int, String, Boolean> {
             override fun handle(action: WildAction) = runCatching { action.left + action.right }
         }
-        val resultAction = WildAction(7, 22)
+        val wildAction = WildAction(7, 22)
 
         val allExecutedActions = mutableListOf<Any?>()
 
@@ -134,7 +134,7 @@ class ActionMintTest : ActionPipe {
         }
         val cannon = ActionCannon(dispatcher, pipe)
     }) exercise {
-        cannon.fire(action = resultAction)
+        cannon.fire(action = wildAction)
     } verify { result: Result<Int> ->
         result.assertIsEqualTo(Result.success(29))
     }
