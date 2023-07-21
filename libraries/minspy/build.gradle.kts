@@ -6,26 +6,16 @@ plugins {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-                implementation("org.jetbrains.kotlin:kotlin-test")
-            }
-        }
-        getByName("commonTest") {
-            dependencies {
-                implementation(project(":standard"))
-                implementation(project(":minassert"))
-                implementation("org.jetbrains.kotlin:kotlin-test")
-            }
-        }
+        val commonMain by getting
         val nativeCommonMain by creating { dependsOn(commonMain) }
         getByName("macosX64Main") { dependsOn(nativeCommonMain) }
         getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
-        getByName("jsMain") {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
-            }
-        }
     }
+}
+
+dependencies {
+    commonMainImplementation(kotlin("test"))
+    commonTestImplementation(project(":standard"))
+    commonTestImplementation(project(":minassert"))
+    commonTestImplementation(kotlin("test"))
 }

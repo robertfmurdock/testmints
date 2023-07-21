@@ -20,7 +20,7 @@ dependencies {
     api(platform(libs.org.junit.junit.bom))
     constraints {
         api(libs.org.slf4j.slf4j.simple)
-        api(libs.io.github.microutils.kotlin.logging)
+        api(libs.io.github.oshai.kotlin.logging)
     }
 }
 

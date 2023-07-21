@@ -30,7 +30,7 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-test")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-                implementation("io.github.microutils:kotlin-logging")
+                implementation("io.github.oshai:kotlin-logging")
             }
         }
         getByName("commonTest") {
