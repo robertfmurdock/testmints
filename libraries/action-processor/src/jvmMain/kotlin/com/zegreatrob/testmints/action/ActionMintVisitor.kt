@@ -90,6 +90,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     )
                     .addSuperinterface(
                         ClassName("com.zegreatrob.testmints.action", "ActionWrapper").parameterizedBy(
+                            dispatcherDeclaration.classNameWithStar(),
                             actionDeclaration.toClassName()
                         )
                     )
@@ -101,6 +102,17 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .addProperty(
                         PropertySpec.builder("action", actionDeclaration.toClassName())
                             .initializer("action")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .build()
+                    )
+                    .addProperty( //override val dispatcherType: KClass<AddAction.Dispatcher> get() = AddAction.Dispatcher::class
+                        PropertySpec.builder(
+                            name = "dispatcherType",
+                            type = ClassName("kotlin.reflect","KClass").parameterizedBy(dispatcherDeclaration.classNameWithStar())
+                        )
+                            .getter(FunSpec.getterBuilder()
+                                .addCode("return ${dispatcherDeclaration.qualifiedName?.asString()}::class")
+                                .build())
                             .addModifiers(KModifier.OVERRIDE)
                             .build()
                     )

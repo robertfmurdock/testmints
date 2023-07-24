@@ -1,5 +1,8 @@
 package com.zegreatrob.testmints.action
 
-interface ActionWrapper<T> {
+import kotlin.reflect.KClass
+
+interface ActionWrapper<D : Any, T> {
     val action: T
+    val dispatcherType: KClass<D>
 }
