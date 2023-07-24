@@ -30,7 +30,7 @@ class ActionMintTest : ActionPipe {
     }
 
     @Test
-    fun canCallFunctionWithAutoWrapping() = asyncSetup(object {
+    fun canCallFunctionAsValueWithAutoWrapping() = asyncSetup(object {
         val action = AddAction(2, 3)
         var capturedAction: SuspendAction<*, *>? = null
         val capture = fun (action: SuspendAction<*, *>) {
@@ -38,6 +38,32 @@ class ActionMintTest : ActionPipe {
         }
     }) exercise {
         capture(action)
+    } verify {
+        capturedAction.assertIsEqualTo(action.wrap())
+    }
+
+    @Test
+    fun canCallFunctionAsFunWithAutoWrapping() = asyncSetup(object {
+        val action = AddAction(2, 3)
+        var capturedAction: SuspendAction<*, *>? = null
+        fun <D, R> capture(action: SuspendAction<D, R>) {
+            capturedAction = action
+        }
+    }) exercise {
+        call(::capture, action)
+    } verify {
+        capturedAction.assertIsEqualTo(action.wrap())
+    }
+
+    @Test
+    fun canLetFunctionWithAutoWrapping() = asyncSetup(object {
+        val action = AddAction(2, 3)
+        var capturedAction: SuspendAction<*, *>? = null
+        fun <D, R> capture(action: SuspendAction<D, R>) {
+            capturedAction = action
+        }
+    }) exercise {
+        action.let(::capture)
     } verify {
         capturedAction.assertIsEqualTo(action.wrap())
     }

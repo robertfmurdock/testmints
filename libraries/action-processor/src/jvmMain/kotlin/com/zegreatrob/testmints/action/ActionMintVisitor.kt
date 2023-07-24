@@ -22,7 +22,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.UNIT
+import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
@@ -110,11 +110,16 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .addProperty(
                         PropertySpec.builder(
                             name = "dispatcherType",
-                            type = ClassName("kotlin.reflect","KClass").parameterizedBy(dispatcherDeclaration.classNameWithStar())
+                            type = ClassName(
+                                "kotlin.reflect",
+                                "KClass"
+                            ).parameterizedBy(dispatcherDeclaration.classNameWithStar())
                         )
-                            .getter(FunSpec.getterBuilder()
-                                .addCode("return ${dispatcherDeclaration.qualifiedName?.asString()}::class")
-                                .build())
+                            .getter(
+                                FunSpec.getterBuilder()
+                                    .addCode("return ${dispatcherDeclaration.qualifiedName?.asString()}::class")
+                                    .build()
+                            )
                             .addModifiers(KModifier.OVERRIDE)
                             .build()
                     )
@@ -145,7 +150,10 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             .addFunction(
                 FunSpec.builder("perform")
                     .addModifiers(KModifier.SUSPEND)
-                    .addParameter("cannon", actionCannonClassName.parameterizedBy(dispatcherDeclaration.classNameWithStar()))
+                    .addParameter(
+                        "cannon",
+                        actionCannonClassName.parameterizedBy(dispatcherDeclaration.classNameWithStar())
+                    )
                     .addParameter("action", actionDeclaration.toClassName())
                     .returns(resultType)
                     .addCode(
@@ -179,16 +187,53 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
             .addFunction(
                 FunSpec.builder("invoke")
                     .addModifiers(KModifier.OPERATOR)
+                    .addTypeVariable(TypeVariableName("R"))
                     .receiver(
                         LambdaTypeName.get(
-                        receiver = actionWrapperClassName,
-                        parameters = emptyList(),
-                        returnType = UNIT
-                    ))
+                            parameters = arrayOf(actionWrapperClassName),
+                            returnType = TypeVariableName("R")
+                        )
+                    )
                     .addParameter("action", actionDeclaration.toClassName())
-                    .returns(Unit::class)
+                    .returns(TypeVariableName("R"))
                     .addCode(
                         "return this(%L.invoke(action))",
+                        actionWrapperClassName.constructorReference()
+                    )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("call")
+                    .addTypeVariable(TypeVariableName("R"))
+                    .addParameter(
+                        "function",
+                        LambdaTypeName.get(
+                            parameters = arrayOf(actionWrapperClassName),
+                            returnType = TypeVariableName("R")
+                        )
+                    )
+                    .addParameter("action", actionDeclaration.toClassName())
+                    .returns(TypeVariableName("R"))
+                    .addCode(
+                        "return function(%L.invoke(action))",
+                        actionWrapperClassName.constructorReference()
+                    )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("let")
+                    .addTypeVariable(TypeVariableName("R"))
+                    .receiver(actionDeclaration.toClassName())
+                    .addParameter(
+                        "block",
+                        LambdaTypeName.get(
+                            parameters = arrayOf(actionWrapperClassName),
+                            returnType = TypeVariableName("R")
+                        )
+                    )
+                    .returns(TypeVariableName("R"))
+                    .addCode(
+                        "return block(%L.invoke(this))",
                         actionWrapperClassName.constructorReference()
                     )
                     .build()
