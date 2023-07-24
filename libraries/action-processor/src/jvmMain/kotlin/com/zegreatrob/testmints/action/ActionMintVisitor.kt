@@ -16,11 +16,13 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
@@ -105,7 +107,7 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                             .addModifiers(KModifier.OVERRIDE)
                             .build()
                     )
-                    .addProperty( //override val dispatcherType: KClass<AddAction.Dispatcher> get() = AddAction.Dispatcher::class
+                    .addProperty(
                         PropertySpec.builder(
                             name = "dispatcherType",
                             type = ClassName("kotlin.reflect","KClass").parameterizedBy(dispatcherDeclaration.classNameWithStar())
@@ -160,6 +162,33 @@ class ActionMintVisitor(private val logger: KSPLogger, private val platforms: Li
                     .returns(resultType)
                     .addCode(
                         "return fire(%L.invoke(action))",
+                        actionWrapperClassName.constructorReference()
+                    )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("wrap")
+                    .receiver(actionDeclaration.classNameWithStar())
+                    .returns(actionWrapperClassName)
+                    .addCode(
+                        "return %L.invoke(this)",
+                        actionWrapperClassName.constructorReference()
+                    )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("invoke")
+                    .addModifiers(KModifier.OPERATOR)
+                    .receiver(
+                        LambdaTypeName.get(
+                        receiver = actionWrapperClassName,
+                        parameters = emptyList(),
+                        returnType = UNIT
+                    ))
+                    .addParameter("action", actionDeclaration.toClassName())
+                    .returns(Unit::class)
+                    .addCode(
+                        "return this(%L.invoke(action))",
                         actionWrapperClassName.constructorReference()
                     )
                     .build()

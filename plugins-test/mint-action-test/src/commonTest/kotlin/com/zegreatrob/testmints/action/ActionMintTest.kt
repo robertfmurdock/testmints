@@ -20,6 +20,29 @@ class ActionMintTest : ActionPipe {
     }
 
     @Test
+    fun providesActionWithWrapperFunction() = asyncSetup(object {
+        val action = MultiplyAction(2, 3)
+        val dispatcher: MultiplyAction.Dispatcher = object : ExampleActionDispatcher {}
+    }) exercise {
+        execute(dispatcher, action.wrap())
+    } verify { result ->
+        result.assertIsEqualTo(MultiplyAction.Result.Success(6))
+    }
+
+    @Test
+    fun canCallFunctionWithAutoWrapping() = asyncSetup(object {
+        val action = AddAction(2, 3)
+        var capturedAction: SuspendAction<*, *>? = null
+        val capture = fun (action: SuspendAction<*, *>) {
+            capturedAction = action
+        }
+    }) exercise {
+        capture(action)
+    } verify {
+        capturedAction.assertIsEqualTo(action.wrap())
+    }
+
+    @Test
     fun executingActionMerelyPassesActionToDispatcherWhereWorkCanBeDone() = asyncSetup(object {
         val action = MultiplyAction(2, 3)
         val expectedReturn = MultiplyAction.Result.Success(42)
