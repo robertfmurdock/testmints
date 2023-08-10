@@ -10,11 +10,12 @@ object MochaLoggingReporter {
 
     fun beforeAll() = StructuredLoggingTestMintsReporter.initialize()
 
-    fun beforeEach(context: MochaContext?) = logger.info {
-        mapOf(
+    fun beforeEach(context: MochaContext?) = logger.atInfo {
+        message = "setup-start"
+        payload = mapOf(
             "step" to "setup",
             "state" to "start",
-            "name" to context?.currentTest?.fullTitle()?.trim()?.replace(" ", "."),
+            "name" to (context?.currentTest?.fullTitle()?.trim()?.replace(" ", ".") ?: "?"),
         )
     }
 }

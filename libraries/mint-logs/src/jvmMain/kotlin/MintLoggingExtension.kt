@@ -14,20 +14,23 @@ class MintLoggingExtension : BeforeAllCallback, BeforeTestExecutionCallback, Aft
     override fun beforeAll(context: ExtensionContext?) = StructuredLoggingTestMintsReporter.initialize()
 
     override fun beforeTestExecution(context: ExtensionContext?) {
-        logger.info {
-            mapOf(
+        logger.atInfo {
+            message = "test-start"
+            payload = mapOf(
                 "step" to "test",
                 "state" to "start",
             )
         }
-        logger.info {
-            mapOf("step" to "setup", "state" to "start", "name" to context.testName())
+        logger.atInfo {
+            message = "setup-start"
+            payload = mapOf("step" to "setup", "state" to "start", "name" to context.testName())
         }
     }
 
     private fun ExtensionContext?.testName() = "${this?.parent?.getOrNull()?.displayName}.${this?.displayName}"
 
-    override fun afterTestExecution(context: ExtensionContext?) = logger.info {
-        mapOf("step" to "test", "state" to "finish")
+    override fun afterTestExecution(context: ExtensionContext?) = logger.atInfo {
+        message = "test-finish"
+        payload = mapOf("step" to "test", "state" to "finish")
     }
 }

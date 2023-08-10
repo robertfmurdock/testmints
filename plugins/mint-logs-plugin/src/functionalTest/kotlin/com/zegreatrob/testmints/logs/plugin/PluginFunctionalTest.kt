@@ -255,29 +255,29 @@ class PluginFunctionalTest {
 
     private val jvmExpectedOutput = """
 Test > example() STANDARD_ERROR
-    [Test worker] INFO testmints - {step=test, state=start}
-    [Test worker] INFO testmints - {step=setup, state=start, name=Test.example()}
+    [Test worker] INFO testmints - step=test state=start test-start
+    [Test worker] INFO testmints - step=setup state=start name=Test.example() setup-start
 
 Test > example() STANDARD_OUT
     setup
 
 Test > example() STANDARD_ERROR
-    [Test worker] INFO testmints - {step=setup, state=finish}
-    [Test worker] INFO testmints - {step=exercise, state=start}
+    [Test worker] INFO testmints - step=setup state=finish setup-finish
+    [Test worker] INFO testmints - step=exercise state=start exercise-start
 
 Test > example() STANDARD_OUT
     exercise
 
 Test > example() STANDARD_ERROR
-    [Test worker] INFO testmints - {step=exercise, state=finish}
-    [Test worker] INFO testmints - {step=verify, state=start, payload=kotlin.Unit}
+    [Test worker] INFO testmints - step=exercise state=finish exercise-finish
+    [Test worker] INFO testmints - step=verify state=start payload=kotlin.Unit verify-start
 
 Test > example() STANDARD_OUT
     verify
 
 Test > example() STANDARD_ERROR
-    [Test worker] INFO testmints - {step=verify, state=finish}
-    [Test worker] INFO testmints - {step=test, state=finish}
+    [Test worker] INFO testmints - step=verify state=finish verify-finish
+    [Test worker] INFO testmints - step=test state=finish test-finish
     """.trim()
 
     private val multiplatformJvmExpectedOutput = """
@@ -322,15 +322,15 @@ Test.example[node] STANDARD_OUT
 
     private val multiplatformNodeJsExpectedOutput = """
 Test.example[js, node] STANDARD_OUT
-    INFO: [testmints] {step=setup, state=start, name=Test.example}
+    INFO: [testmints] setup-start {step=setup, state=start, name=Test.example}
     setup
-    [info] INFO: [testmints] {step=setup, state=finish}
-    [info] INFO: [testmints] {step=exercise, state=start}
+    [info] INFO: [testmints] setup-finish {step=setup, state=finish}
+    [info] INFO: [testmints] exercise-start {step=exercise, state=start}
     exercise
-    [info] INFO: [testmints] {step=exercise, state=finish}
-    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
+    [info] INFO: [testmints] exercise-finish {step=exercise, state=finish}
+    [info] INFO: [testmints] verify-start {step=verify, state=start, payload=kotlin.Unit}
     verify
-    [info] INFO: [testmints] {step=verify, state=finish}
+    [info] INFO: [testmints] verify-finish {step=verify, state=finish}
     """.trim()
 
     private val browserJsExpectedOutput = """
