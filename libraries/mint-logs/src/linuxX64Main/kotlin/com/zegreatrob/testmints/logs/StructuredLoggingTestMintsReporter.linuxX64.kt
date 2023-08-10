@@ -6,8 +6,9 @@ import io.github.oshai.kotlinlogging.KLoggingEvent
 import io.github.oshai.kotlinlogging.KotlinLoggingConfiguration
 
 actual fun platformDefaults() {
-    val value = DefaultWithParamsFormatter()
-    KotlinLoggingConfiguration.formatter = value
+    if(KotlinLoggingConfiguration.formatter is DefaultMessageFormatter) {
+        KotlinLoggingConfiguration.formatter = DefaultWithParamsFormatter()
+    }
 }
 
 class DefaultWithParamsFormatter : Formatter {
