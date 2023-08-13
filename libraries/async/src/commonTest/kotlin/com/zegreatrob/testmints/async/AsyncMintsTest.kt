@@ -254,7 +254,10 @@ class AsyncMintsTest {
         fun usingScopeMintWillProvideSetupScopeThatWillCompleteBeforeExercise() = nativeEventLoopWeirdnessProtection {
             asyncSetup(object : ScopeMint() {
                 val expectedValue = Random.nextInt()
-                val asyncProducedValue = setupScope.async { delay(40); expectedValue }
+                val asyncProducedValue = setupScope.async {
+                    delay(40)
+                    expectedValue
+                }
             }) exercise {
                 asyncProducedValue.isCompleted
             } verify { setupAsyncCompletedBeforeExercise ->
@@ -269,7 +272,10 @@ class AsyncMintsTest {
         fun usingScopeMintWillProvideExerciseScopeThatWillCompleteBeforeVerify() = asyncSetup(object : ScopeMint() {
             val expectedValue = Random.nextInt()
         }) exercise {
-            exerciseScope.async { delay(40); expectedValue }
+            exerciseScope.async {
+                delay(40)
+                expectedValue
+            }
         } verify { result ->
             assertEquals(true, result.isCompleted)
             assertEquals(expectedValue, result.await())
@@ -280,7 +286,10 @@ class AsyncMintsTest {
             val expectedValue = Random.nextInt()
         }) exercise {
             coroutineScope {
-                async { delay(40); expectedValue }
+                async {
+                    delay(40)
+                    expectedValue
+                }
             }
         } verify { result ->
             assertEquals(true, result.isCompleted)
@@ -490,7 +499,10 @@ class AsyncMintsTest {
                 var contextReceived: Int? = null
 
                 fun testThatSucceeds() = customSetup { calls.add(Steps.Setup) }
-                    .exercise { contextReceived = this; calls.add(Steps.Exercise) }
+                    .exercise {
+                        contextReceived = this
+                        calls.add(Steps.Exercise)
+                    }
                     .verify { calls.add(Steps.Verify) }
             }) exercise {
                 waitForTest { testThatSucceeds() }
@@ -597,7 +609,10 @@ class AsyncMintsTest {
 
                 fun testThatFails() = customSetup { calls.add(Steps.Setup) }
                     .exercise { calls.add(Steps.Exercise) }
-                    .verifyAnd { calls.add(Steps.Verify); fail("This test fails.") }
+                    .verifyAnd {
+                        calls.add(Steps.Verify)
+                        fail("This test fails.")
+                    }
                     .teardown { calls.add(Steps.Teardown) }
             }) exercise {
                 captureException { waitForTest { testThatFails() } }

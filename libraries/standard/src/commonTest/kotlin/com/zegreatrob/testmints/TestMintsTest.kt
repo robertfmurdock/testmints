@@ -357,7 +357,10 @@ class TestMintsTest {
 
                 fun testThatFails() = customSetup { calls.add(Steps.Setup) }
                     .exercise { calls.add(Steps.Exercise) }
-                    .verifyAnd { calls.add(Steps.Verify); fail("This test fails.") }
+                    .verifyAnd {
+                        calls.add(Steps.Verify)
+                        fail("This test fails.")
+                    }
                     .teardown { calls.add(Steps.Teardown) }
             }) exercise {
                 captureException { testThatFails() }
