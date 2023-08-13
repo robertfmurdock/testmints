@@ -9,8 +9,14 @@ class StructuredLoggingTestMintsReporter private constructor() : MintReporter {
     private val logger by lazy { KotlinLogging.logger("testmints") }
 
     override fun exerciseStart(context: Any) {
-        logger.atInfo { message = "setup-finish"; payload = mapOf("step" to "setup", "state" to "finish") }
-        logger.atInfo { message = "exercise-start"; payload = mapOf("step" to "exercise", "state" to "start") }
+        logger.atInfo {
+            message = "setup-finish"
+            payload = mapOf("step" to "setup", "state" to "finish")
+        }
+        logger.atInfo {
+            message = "exercise-start"
+            payload = mapOf("step" to "exercise", "state" to "start")
+        }
     }
 
     override fun exerciseFinish() = logger.atInfo {
