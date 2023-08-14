@@ -26,8 +26,10 @@ tasks {
         mustRunAfter(check)
         dependsOn(
             provider { (getTasksByName("publish", true) - this).toList() },
-            provider { (getTasksByName("publishPlugins", true) - this).toList() },
         )
+        if (!isSnapshot()) {
+            dependsOn(provider { (getTasksByName("publishPlugins", true) - this).toList() })
+        }
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
     create("collectResults") {
@@ -46,3 +48,4 @@ tasks {
         dependsOn(provider { (getTasksByName("clean", true) - this).toList() })
     }
 }
+fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")
