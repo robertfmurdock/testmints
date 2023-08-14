@@ -21,6 +21,12 @@ kotlin {
 gradlePlugin {
     website.set("https://github.com/robertfmurdock/testmints")
     vcsUrl.set("https://github.com/robertfmurdock/testmints")
+    plugins {
+        named("com.zegreatrob.testmints.action-mint") {
+            displayName = "Action-Mint Plugin"
+            description = "This plugin will generate boilerplate for using 'actions' easily."
+        }
+    }
 }
 
 testing {

@@ -21,6 +21,12 @@ kotlin {
 gradlePlugin {
     website.set("https://github.com/robertfmurdock/testmints")
     vcsUrl.set("https://github.com/robertfmurdock/testmints")
+    plugins {
+        named("com.zegreatrob.testmints.logs.mint-logs") {
+            displayName = "Testmints Mint-Logs Plugin"
+            description = "This plugin will enabling stage logging for testmints tests."
+        }
+    }
 }
 
 testing {
