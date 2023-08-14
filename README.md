@@ -136,6 +136,14 @@ An essay about an attempt to embed those priorities in the test code itself.
 
 Those now live in the [JsMints repo!](https://github.com/robertfmurdock/jsmints), under new version numbers. Those were never really intended to be part of the testmints multiplatform suite, so it made sense to give them their own home.
 
+## But wait! There's more!
+
+If you like the testmints lifecycle, you may also benefit from testmints lifecycle logging! There's now a Gradle plugin that will configure logging for each stage of your test - "setup start", "setup end", etc.
+
+Why would you want that? Well, figuring out what's not working in a test is sometimes less obvious than we'd like. With log messages indicating where things went wrong, you can more clearly see when what you *thought* was a `exercise` problem actually is a `setup` problem.
+
+For more information, see the [readme](plugins/mint-logs-plugin/README.md).
+
 ## Acknowledgements
 
 Logo courtesy of Abs King!
