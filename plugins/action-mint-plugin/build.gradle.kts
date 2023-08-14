@@ -1,5 +1,5 @@
 import java.nio.charset.Charset
-import java.util.Base64
+import java.util.*
 
 plugins {
     `java-gradle-plugin`
@@ -16,6 +16,11 @@ repositories {
 
 kotlin {
     jvmToolchain(11)
+}
+
+gradlePlugin {
+    website.set("https://github.com/robertfmurdock/testmints")
+    vcsUrl.set("https://github.com/robertfmurdock/testmints")
 }
 
 testing {
