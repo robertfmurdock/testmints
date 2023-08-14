@@ -25,6 +25,7 @@ gradlePlugin {
         named("com.zegreatrob.testmints.logs.mint-logs") {
             displayName = "Testmints Mint-Logs Plugin"
             description = "This plugin will enabling stage logging for testmints tests."
+            tags.addAll("testing", "logging", "testmints", "kotlin")
         }
     }
 }
