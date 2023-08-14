@@ -47,8 +47,7 @@ jobs:
         if: ${{ always() }}
         with:
           name: test-output
-          path: |
-            build/test-output/
+          path: build/test-output/
       - name: Push result to Testspace server
         if: always()
         run: |
