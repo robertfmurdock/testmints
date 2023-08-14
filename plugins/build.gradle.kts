@@ -24,7 +24,10 @@ tasks {
     }
     publish {
         mustRunAfter(check)
-        dependsOn(provider { (getTasksByName("publish", true) - this).toList() })
+        dependsOn(
+            provider { (getTasksByName("publish", true) - this).toList() },
+            provider { (getTasksByName("publishPlugin", true) - this).toList() },
+        )
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
     create("collectResults") {
