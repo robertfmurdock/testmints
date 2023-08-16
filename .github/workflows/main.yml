@@ -20,6 +20,8 @@ jobs:
       ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+    outputs:
+      version: ${{ env.TAGGER_VERSION }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -60,6 +62,7 @@ jobs:
       group: ${{ github.ref }}-mac
       cancel-in-progress: true
     env:
+      TAGGER_VERSION: ${{needs.job1.outputs.output1}}
       GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
       GITHUB_TOKEN: ${{ secrets.TESTMINTS_PAT }}
       GRGIT_USER: ${{ secrets.TESTMINTS_PAT }}
@@ -82,8 +85,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
-      - name: Generate Version 🔢
-        run: ./gradlew calculateVersion -PexportToGithub=true --scan
       - name: Release 🔨
         run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache
       - run: git status
