@@ -37,7 +37,7 @@ tasks {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":collectResults") } })
         from(includedBuilds.map { it.projectDir.resolve("build/test-output") })
-        into("${rootProject.buildDir.path}/test-output/${project.path}".replace(":", "/"))
+        into(rootProject.layout.buildDirectory.dir("test-output/${project.path}".replace(":", "/")))
     }
     create("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })

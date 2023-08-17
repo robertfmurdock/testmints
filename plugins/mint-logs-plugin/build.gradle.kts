@@ -70,7 +70,7 @@ tasks {
                 "tokens" to mapOf("TESTMINTS_BOM_VERSION" to rootProject.version,)
             )
         }
-        into(project.buildDir.resolve("generated-sources/templates/kotlin/main"))
+        into(project.layout.buildDirectory.dir("generated-sources/templates/kotlin/main"))
     }
     compileKotlin {
         dependsOn(copyTemplates)
@@ -84,7 +84,7 @@ tasks {
         }
     }
 
-    val projectResultPath = "${rootProject.buildDir.path}/test-output/${project.path}/results".replace(":", "/")
+    val projectResultPath = project.layout.buildDirectory.dir("test-output/${project.path}/results".replace(":", "/"))
 
     val check by getting
     val copyReportsToRootDirectory by creating(Copy::class) {

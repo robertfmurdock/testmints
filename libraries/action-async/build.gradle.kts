@@ -58,7 +58,6 @@ kotlin {
 tasks {
     named<Test>("jvmTest") {
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-
         useJUnitPlatform()
     }
 }
