@@ -5,10 +5,6 @@ pluginManagement {
     }
 }
 
-plugins {
-    `gradle-enterprise`
-}
-
 rootProject.name = "testmints"
 
 includeBuild("../convention-plugins")
