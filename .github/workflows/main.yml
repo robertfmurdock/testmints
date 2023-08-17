@@ -62,7 +62,7 @@ jobs:
       group: ${{ github.ref }}-mac
       cancel-in-progress: true
     env:
-      TAGGER_VERSION: ${{needs.job1.outputs.output1}}
+      TAGGER_VERSION: ${{needs.build-job.outputs.version}}
       GH_TOKEN: ${{ secrets.TESTMINTS_PAT }}
       GITHUB_TOKEN: ${{ secrets.TESTMINTS_PAT }}
       GRGIT_USER: ${{ secrets.TESTMINTS_PAT }}
@@ -86,7 +86,7 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Release 🔨
-        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache
+        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache :plugins:action-mint-plugin:publishPlugins
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
