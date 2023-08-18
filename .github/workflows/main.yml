@@ -86,7 +86,7 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Release 🔨
-        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache -x :plugins:action-mint-plugin:publishPlugins
+        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache -x :plugins:action-mint-plugin:publishPlugins -x :plugins:mint-logs-plugin:publishPlugins
       - run: git status
         if: ${{ always() }}
       - uses: actions/upload-artifact@v2
