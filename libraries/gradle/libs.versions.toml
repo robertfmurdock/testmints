@@ -10,7 +10,7 @@ io-kotest-kotest-framework-engine = { module = "io.kotest:kotest-framework-engin
 io-kotest-kotest-runner-junit5-jvm = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "io-kotest" }
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.7.3"
-org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.5.1"
+org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.6.0"
 org-junit-junit-bom = "org.junit:junit-bom:5.10.0"
 org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.7"
 
