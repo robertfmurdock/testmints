@@ -5,10 +5,6 @@ pluginManagement {
     }
 }
 
-plugins {
-    `gradle-enterprise`
-}
-
 includeBuild("../libraries")
 includeBuild("../plugins")
 includeBuild("../convention-plugins")
