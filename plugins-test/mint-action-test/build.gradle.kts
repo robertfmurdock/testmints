@@ -63,5 +63,4 @@ tasks {
     lintKotlinJsTest {
         dependsOn("kspTestKotlinJs")
     }
-
 }
