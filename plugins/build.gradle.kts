@@ -1,3 +1,5 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 plugins {
     base
     alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
@@ -46,6 +48,19 @@ tasks {
     }
     clean {
         dependsOn(provider { (getTasksByName("clean", true) - this).toList() })
+    }
+    withType<DependencyUpdatesTask> {
+        checkForGradleUpdate = true
+        outputFormatter = "json"
+        outputDir = "build/dependencyUpdates"
+        reportfileName = "report"
+        revision = "release"
+
+        rejectVersionIf {
+            "^[0-9.]+[0-9](-RC|-M[0-9]+|-RC[0-9]+|-beta.*|-Beta.*|-alpha.*)\$"
+                .toRegex()
+                .matches(candidate.version)
+        }
     }
 }
 fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")
