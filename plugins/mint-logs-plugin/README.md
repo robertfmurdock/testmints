@@ -11,7 +11,7 @@ When applying this plugin to your Gradle project, it will automatically add hook
 Expected output will look something like:
 
 
-`
+```
 INFO: [testmints] setup-start {step=setup, state=start, name=com.zegreatrob.testmints.logs.LoggingExampleTest.manualLoggingTester}
 setup work happens here
 [info] INFO: [testmints] setup-finish {step=setup, state=finish}
@@ -21,7 +21,7 @@ exercise work happens here
 [info] INFO: [testmints] verify-start {step=verify, state=start, payload=kotlin.Unit}
 verify work happens here
 [info] INFO: [testmints] verify-finish {step=verify, state=finish}
-`
+```
 
 The plugin is built on the [kotlin-logging](https://github.com/oshai/kotlin-logging) library, and as such is configurable by SLF4J, so you can format it however you like.
 
