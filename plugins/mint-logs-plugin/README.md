@@ -27,9 +27,9 @@ The plugin is built on the [kotlin-logging](https://github.com/oshai/kotlin-logg
 
 At this time, only JUnit and Mocha are supported (on JVM and JS, respectively). More to come if there's interest or contributions!
 
-`
+```
     plugins {
         kotlin("multiplatform") version "1.9.10"
         id("com.zegreatrob.testmints.logs.mint-logs") version "10.2.2"
     }
-`
+```
