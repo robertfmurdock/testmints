@@ -3,7 +3,7 @@ io-kotest = "5.7.2"
 org-jetbrains-kotlin = "1.9.10"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:1.9.20-RC-1.0.13"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:1.9.10-1.0.13"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:1.14.2"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:5.1.0"
 io-kotest-kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "io-kotest" }

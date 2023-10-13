@@ -18,13 +18,13 @@ class StringDiffTest {
 
     class WhenStartsSameEndsDifferent {
         object Setup {
-            const val l = "My man"
-            const val r = "My lady"
+            const val L = "My man"
+            const val R = "My lady"
         }
 
         @Test
         fun willIndicateWhereFirstDifferenceOccurs() = setup(Setup) exercise {
-            stringDiff(l, r)
+            stringDiff(L, R)
         } verify { result ->
             val t = result.split("\n")[0]
             assertEquals("Difference at index 3.", t)
@@ -32,7 +32,7 @@ class StringDiffTest {
 
         @Test
         fun willShowDifferenceSection() = setup(Setup) exercise {
-            stringDiff(l, r)
+            stringDiff(L, R)
         } verify { result ->
             val expected = listOf(
                 "E: man",
@@ -46,13 +46,13 @@ class StringDiffTest {
 
     class WhenMiddleSectionIsDifferent {
         object Setup {
-            const val l = "The man dances well."
-            const val r = "The lady dances well."
+            const val L = "The man dances well."
+            const val R = "The lady dances well."
         }
 
         @Test
         fun willIndicateWhereFirstDifferenceOccurs() = setup(Setup) exercise {
-            stringDiff(l, r)
+            stringDiff(L, R)
         } verify { result ->
             val t = result.split("\n")[0]
             assertEquals("Difference at index 4.", t)
@@ -60,7 +60,7 @@ class StringDiffTest {
 
         @Test
         fun willShowDifferenceSection() = setup(Setup) exercise {
-            stringDiff(l, r)
+            stringDiff(L, R)
         } verify { result ->
             val expected = listOf(
                 "E: man ",
@@ -74,13 +74,13 @@ class StringDiffTest {
 
     class WhenThereAreTwoDiscreetDifferences {
         object Setup {
-            const val l = "The man dances well and is best at the jig."
-            const val r = "The lady dances well and is best at the salsa."
+            const val L = "The man dances well and is best at the jig."
+            const val R = "The lady dances well and is best at the salsa."
         }
 
         @Test
         fun willIndicateFirstDifference() = setup(Setup) exercise {
-            stringDiff(l, r)
+            stringDiff(L, R)
         } verify { result ->
             val lines = result.split("\n")
             val t = lines[0]
@@ -95,7 +95,7 @@ class StringDiffTest {
 
         @Test
         fun willIndicateSecondDifference() = setup(Setup) exercise {
-            stringDiff(l, r)
+            stringDiff(L, R)
         } verify { result ->
             val lines = result.split("\n")
             val t = lines[3]

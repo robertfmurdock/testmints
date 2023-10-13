@@ -134,7 +134,12 @@ class Features : FunSpec({
 })
 
 enum class Steps {
-    TemplateSetup, TemplateTeardown, Setup, Exercise, Verify, Teardown
+    TemplateSetup,
+    TemplateTeardown,
+    Setup,
+    Exercise,
+    Verify,
+    Teardown,
 }
 
 @Suppress("unused")
@@ -476,7 +481,12 @@ class TestTemplates : FunSpec({
 })
 
 enum class Call {
-    ExerciseStart, ExerciseFinish, VerifyStart, VerifyFinish, TeardownStart, TeardownFinish
+    ExerciseStart,
+    ExerciseFinish,
+    VerifyStart,
+    VerifyFinish,
+    TeardownStart,
+    TeardownFinish,
 }
 
 @Suppress("unused")
