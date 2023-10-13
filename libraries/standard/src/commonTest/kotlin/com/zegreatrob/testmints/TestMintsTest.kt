@@ -153,7 +153,12 @@ class TestMintsTest {
 
         class TestTemplates {
             enum class Steps {
-                TemplateSetup, TemplateTeardown, Setup, Exercise, Verify, Teardown
+                TemplateSetup,
+                TemplateTeardown,
+                Setup,
+                Exercise,
+                Verify,
+                Teardown,
             }
 
             private val correctOrder = listOf(
@@ -511,7 +516,12 @@ class TestMintsTest {
         class ReporterFeatures {
 
             enum class Call {
-                ExerciseStart, ExerciseFinish, VerifyStart, VerifyFinish, TeardownStart, TeardownFinish
+                ExerciseStart,
+                ExerciseFinish,
+                VerifyStart,
+                VerifyFinish,
+                TeardownStart,
+                TeardownFinish,
             }
 
             @Test
