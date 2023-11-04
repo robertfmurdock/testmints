@@ -6,11 +6,8 @@ plugins {
 }
 
 kotlin {
-
-    targets {
-        js { nodejs() }
-        jvm()
-    }
+    js { nodejs() }
+    jvm()
 
     sourceSets {
         getByName("commonMain") {
