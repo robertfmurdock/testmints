@@ -13,10 +13,7 @@ afterEvaluate {
     kotlinMultiplatform?.run {
         dependencies {
             configurations.names.forEach {
-                if (
-                    it.startsWith("ksp") && it != "ksp"
-                    && !it.contains("common", true)
-                ) {
+                if (it.startsWith("ksp") && it != "ksp") {
                     it("com.zegreatrob.testmints:action-processor:${PluginVersions.bomVersion}")
                 }
             }
