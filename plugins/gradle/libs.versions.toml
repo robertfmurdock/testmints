@@ -1,9 +1,8 @@
 [versions]
-org-jetbrains-kotlin = "1.9.20"
+org-jetbrains-kotlin = "1.9.21"
 
 [libraries]
-# @pin
-com-google-devtools-ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.20-1.0.13"
+com-google-devtools-ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.21-1.0.15"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-junit-junit-bom = "org.junit:junit-bom:5.10.1"
 
