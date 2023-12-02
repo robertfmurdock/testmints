@@ -9,14 +9,12 @@ repositories {
 }
 
 kotlin {
-    targets {
-        jvm {}
-        js(IR) { nodejs {} }
-        macosX64()
-        iosX64()
-        linuxX64()
-        mingwX64()
-    }
+    jvm {}
+    js(IR) { nodejs {} }
+    macosX64()
+    iosX64()
+    linuxX64()
+    mingwX64()
 
     sourceSets {
         getByName("jvmTest") {

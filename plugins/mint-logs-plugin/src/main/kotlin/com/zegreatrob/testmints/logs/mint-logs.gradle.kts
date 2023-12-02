@@ -93,7 +93,7 @@ afterEvaluate {
 }
 
 fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
-    val newKarmaConfigDir = project.buildDir.resolve("karma.config.d")
+    val newKarmaConfigDir = project.layout.buildDirectory.dir("karma.config.d")
     project.tasks {
         val karmaPrepare by registering(ProcessResources::class) {
             from(project.projectDir.resolve("karma.config.d"))
@@ -107,7 +107,7 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
             dependsOn(karmaPrepare)
             onTestFrameworkSet(fun(framework: KotlinJsTestFramework?) {
                 if (framework is KotlinKarma) {
-                    framework.useConfigDirectory(newKarmaConfigDir)
+                    framework.useConfigDirectory(newKarmaConfigDir.get().asFile)
                 }
             })
         }))
