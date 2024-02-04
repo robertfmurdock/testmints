@@ -4,7 +4,7 @@ org-jetbrains-kotlin = "1.9.22"
 [libraries]
 com-google-devtools-ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.17"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
-org-junit-junit-bom = "org.junit:junit-bom:5.10.1"
+org-junit-junit-bom = "org.junit:junit-bom:5.10.2"
 
 [plugins]
 com-github-ben-manes-versions = "com.github.ben-manes.versions:0.51.0"
