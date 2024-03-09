@@ -1,5 +1,5 @@
 [versions]
-org-jetbrains-kotlin = "1.9.22"
+org-jetbrains-kotlin = "1.9.23"
 
 [libraries]
 com-github-ben-manes-gradle-versions-plugin = "com.github.ben-manes:gradle-versions-plugin:0.51.0"
