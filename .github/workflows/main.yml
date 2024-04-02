@@ -22,18 +22,18 @@ jobs:
     outputs:
       version: ${{ env.TAGGER_VERSION }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '20'
       - uses: testspace-com/setup-testspace@v1
         with:
           domain: robertfmurdock
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Generate Version 🔢
@@ -49,7 +49,7 @@ jobs:
           coupling-secret: ${{ secrets.COUPLING_API_PARTY_SECRET }}
           party-id: 9df8b8ef-f10f-4b75-bde1-d691c148378c
           contribution-file: build/digger/current.json
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: test-output
@@ -75,10 +75,10 @@ jobs:
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -86,7 +86,7 @@ jobs:
         with:
           domain: robertfmurdock
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Release 🔨
@@ -94,7 +94,7 @@ jobs:
       - name: Collect Test Results
         if: ${{ always() }}
         run: ./gradlew collectResults
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: test-output
