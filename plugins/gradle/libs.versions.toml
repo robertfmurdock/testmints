@@ -1,5 +1,5 @@
 [versions]
-org-jetbrains-kotlin = "1.9.24"
+org-jetbrains-kotlin = "2.0.0"
 
 [libraries]
 com-google-devtools-ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.24-1.0.20"
