@@ -1,6 +1,6 @@
 [versions]
 io-kotest = "5.9.0"
-org-jetbrains-kotlin = "1.9.24"
+org-jetbrains-kotlin = "2.0.0"
 
 [libraries]
 com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:1.9.24-1.0.20"
