@@ -1,4 +1,4 @@
-
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
@@ -18,21 +18,9 @@ dependencies {
 }
 
 kotlin {
-    targets.all {
-        compilations.all {
-            kotlinOptions {
-                allWarningsAsErrors = false
-            }
-        }
-    }
-    sourceSets.jsMain {
-        kotlin.srcDir("build/generated/ksp/js/jsMain/kotlin")
-    }
-    sourceSets.jsTest {
-        kotlin.srcDir(projectDir.resolve("src/commonTest/kotlin"))
-    }
-    sourceSets.jvmMain {
-        kotlin.srcDir("build/generated/ksp/jvm/jvmMain/kotlin")
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        allWarningsAsErrors = false
     }
 }
 

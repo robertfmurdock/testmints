@@ -29,7 +29,7 @@ At this time, only JUnit and Mocha are supported (on JVM and JS, respectively). 
 
 ```
     plugins {
-        kotlin("multiplatform") version "1.9.24"
+        kotlin("multiplatform") version "2.0.0"
         id("com.zegreatrob.testmints.logs.mint-logs") version "10.2.2"
     }
 ```
