@@ -16,7 +16,7 @@ includeBuild("plugins")
 includeBuild("plugins-test")
 includeBuild("convention-plugins")
 
-val isCiServer = System.getenv().containsKey("CI")
+val isCiServer = System.getenv("CI").isNotBlank()
 
 develocity {
     buildScan {
