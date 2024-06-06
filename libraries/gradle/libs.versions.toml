@@ -1,5 +1,5 @@
 [versions]
-io-kotest = "5.9.0"
+io-kotest = "5.9.1"
 org-jetbrains-kotlin = "2.0.0"
 
 [libraries]
@@ -10,12 +10,12 @@ io-kotest-kotest-framework-engine = { module = "io.kotest:kotest-framework-engin
 io-kotest-kotest-runner-junit5-jvm = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "io-kotest" }
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.8.1"
-org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.6.3"
+org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.7.0"
 org-junit-junit-bom = "org.junit:junit-bom:5.10.2"
 org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.13"
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
-io-kotest-multiplatform = "io.kotest.multiplatform:5.9.0"
+io-kotest-multiplatform = "io.kotest.multiplatform:5.9.1"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
