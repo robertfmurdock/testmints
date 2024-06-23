@@ -7,7 +7,10 @@ import org.junit.jupiter.api.extension.BeforeTestExecutionCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import kotlin.jvm.optionals.getOrNull
 
-class MintLoggingExtension : BeforeAllCallback, BeforeTestExecutionCallback, AfterTestExecutionCallback {
+class MintLoggingExtension :
+    BeforeAllCallback,
+    BeforeTestExecutionCallback,
+    AfterTestExecutionCallback {
 
     private val logger by lazy { KotlinLogging.logger("testmints") }
 
