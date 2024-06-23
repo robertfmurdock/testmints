@@ -48,7 +48,9 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
         spy.spyReceivedValues.assertIsEqualTo(listOf(action))
     }
 
-    class Dispatcher : SuspendActionExecuteSyntax, ExecutableActionExecuteSyntax {
+    class Dispatcher :
+        SuspendActionExecuteSyntax,
+        ExecutableActionExecuteSyntax {
 
         data class AddAction(val left: Int, val right: Int) : SimpleSuspendAction<AddActionDispatcher, Int> {
             override val performFunc = link(AddActionDispatcher::invoke)
@@ -75,8 +77,7 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
             }
         }
 
-        data class SubtractAction(val left: Int, val right: Int) :
-            SimpleExecutableAction<SubtractActionDispatcher, Int> {
+        data class SubtractAction(val left: Int, val right: Int) : SimpleExecutableAction<SubtractActionDispatcher, Int> {
             override val performFunc = link(SubtractActionDispatcher::invoke)
         }
 

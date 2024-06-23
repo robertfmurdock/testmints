@@ -9,8 +9,7 @@ class Setup<C : Any, SC : Any>(
     private val wrapper: (TestFunc<SC>) -> Unit,
 ) {
     infix fun <R> exercise(codeUnderTest: C.() -> R) = Exercise<C, R> { verifyFunc ->
-        {
-                teardownFunc ->
+        { teardownFunc ->
             runTest(codeUnderTest, verifyFunc, teardownFunc)
         }
     }
