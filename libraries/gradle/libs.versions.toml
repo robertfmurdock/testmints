@@ -4,7 +4,7 @@ org-jetbrains-kotlin = "2.0.0"
 
 [libraries]
 com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.0.0-1.0.21"
-com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:1.16.0"
+com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:1.18.0"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.0"
 io-kotest-kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "io-kotest" }
 io-kotest-kotest-runner-junit5-jvm = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "io-kotest" }
