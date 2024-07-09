@@ -1,5 +1,7 @@
 package com.zegreatrob.testmints.plugins
 
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     kotlin("multiplatform")
     id("com.zegreatrob.testmints.plugins.reports")
@@ -8,12 +10,9 @@ plugins {
 
 kotlin {
     jvmToolchain(11)
-    targets.all {
-        compilations.all {
-            kotlinOptions {
-                allWarningsAsErrors = true
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        allWarningsAsErrors = true
     }
 }
 
@@ -22,7 +21,9 @@ repositories {
 }
 
 dependencies {
-    "commonMainApi"(platform(
-        findProject(":dependency-bom") ?: "com.zegreatrob.testmints:dependency-bom"
-    ))
+    "commonMainApi"(
+        platform(
+            findProject(":dependency-bom") ?: "com.zegreatrob.testmints:dependency-bom"
+        )
+    )
 }
