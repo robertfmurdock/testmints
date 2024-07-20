@@ -16,11 +16,9 @@ includeBuild("plugins")
 includeBuild("plugins-test")
 includeBuild("convention-plugins")
 
-val isCiServer = System.getenv("CI").isNullOrBlank().not()
-
 develocity {
     buildScan {
-        publishing.onlyIf { isCiServer }
+        publishing.onlyIf { System.getenv("CI").isNullOrBlank().not() }
         termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
         termsOfUseAgree = "yes"
         tag("CI")
