@@ -57,10 +57,7 @@ tasks {
     }
     release {
         mustRunAfter(check)
-        finalizedBy(publish)
-    }
-    assemble {
-        dependsOn(currentContributionData)
+        finalizedBy(publish, currentContributionData)
     }
     if (isMacRelease()) {
         tag {
