@@ -34,9 +34,16 @@ tasks {
         }
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
-    create("collectResults") {
+    create<Copy>("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
+        from(provider { (getTasksByName("collectResults", true) - this).toList() }.map {
+            it.map { task -> task.project }
+                .toSet()
+                .map { project -> project.layout.buildDirectory.dir("test-output").get() }
+        })
+        into(rootProject.layout.buildDirectory.dir("test-output/${project.path}".replace(":", "/")))
     }
+
     create("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
     }
