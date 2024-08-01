@@ -73,3 +73,9 @@ val macTargets = listOf(
 fun PublicationContainer.nonMacPublications() = matching { !macTargets.contains(it.name) }
 
 fun PublicationContainer.jvmPublication(): NamedDomainObjectSet<Publication> = matching { it.name == "jvm" }
+
+rootProject.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java).let {
+    if (it?.version != "22.5.1") {
+        it?.version = "22.5.1"
+    }
+}
