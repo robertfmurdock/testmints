@@ -59,6 +59,9 @@ tasks {
         mustRunAfter(check)
         finalizedBy(publish, currentContributionData)
     }
+    currentContributionData {
+        mustRunAfter(tag)
+    }
     if (isMacRelease()) {
         tag {
             enabled = false
