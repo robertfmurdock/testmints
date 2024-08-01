@@ -50,6 +50,14 @@ class PluginFunctionalTest {
                 "jsMainImplementation"(kotlin("test"))
                 "jsMainImplementation"("com.zegreatrob.testmints:standard")
             }
+            
+            
+            rootProject.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java).let {
+                if (it?.version != "22.5.1") {
+                    it?.version = "22.5.1"
+                }
+            }
+            
             """.trimIndent()
         )
 
