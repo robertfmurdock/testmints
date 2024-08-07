@@ -231,6 +231,8 @@ class PluginFunctionalTest {
             }
             tasks {
                 named("test", Test::class) {
+                    systemProperty("slf4j.provider", "org.slf4j.simple.SimpleServiceProvider")
+                    systemProperty("slf4j.internal.verbosity", "WARN")
                     useJUnitPlatform()
                 }
             }
@@ -257,7 +259,7 @@ class PluginFunctionalTest {
 
         assertTrue(
             result.output.trim().contains(jvmExpectedOutput)
-        )
+        ) { "${result.output}\n did not contain \n$jvmExpectedOutput" }
     }
 
     private val jvmExpectedOutput = """
