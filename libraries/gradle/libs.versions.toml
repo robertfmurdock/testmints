@@ -3,7 +3,7 @@ io-kotest = "5.9.1"
 org-jetbrains-kotlin = "2.0.10"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.0.0-1.0.21"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.0.10-1.0.24"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:1.18.1"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.0"
 io-kotest-kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "io-kotest" }
@@ -12,7 +12,7 @@ org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", 
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.8.1"
 org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.7.1"
 org-junit-junit-bom = "org.junit:junit-bom:5.10.3"
-org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.13"
+org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.14"
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
