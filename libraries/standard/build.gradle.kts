@@ -1,5 +1,3 @@
-
-
 plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.publish")

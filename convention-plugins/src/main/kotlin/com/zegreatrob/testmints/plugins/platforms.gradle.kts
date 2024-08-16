@@ -1,5 +1,7 @@
 package com.zegreatrob.testmints.plugins
 
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     id("com.zegreatrob.testmints.plugins.multiplatform")
 }
@@ -11,6 +13,9 @@ repositories {
 kotlin {
     jvm {}
     js(IR) { nodejs {} }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs { nodejs() }
     macosX64()
     iosX64()
     linuxX64()

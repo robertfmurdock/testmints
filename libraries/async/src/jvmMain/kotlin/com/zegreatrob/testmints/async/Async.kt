@@ -1,7 +1,6 @@
 package com.zegreatrob.testmints.async
 
-@Suppress("RedundantSuspendModifier")
-actual suspend fun waitForTest(testFunction: () -> Unit) {
+actual suspend fun waitForTest(testFunction: () -> kotlinx.coroutines.test.TestResult) {
     testFunction()
 }
 

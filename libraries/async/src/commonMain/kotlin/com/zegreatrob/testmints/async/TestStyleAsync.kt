@@ -1,6 +1,7 @@
 package com.zegreatrob.testmints.async
 
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -8,6 +9,6 @@ fun finalTransform(timeoutMs: Long, deferred: () -> Deferred<Unit>) = runTest(ti
     deferred().await()
 }
 
-expect suspend fun waitForTest(testFunction: () -> Unit)
+expect suspend fun waitForTest(testFunction: () -> TestResult)
 
 expect fun <T> eventLoopProtect(thing: () -> T): T

@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 import kotlin.test.Test
@@ -331,6 +332,7 @@ class AsyncMintsTest {
                     assertEquals(verifyFailure.message, result.exceptions["Failure"]?.message)
                     assertEquals(teardownException.message, result.exceptions["Teardown exception"]?.message)
                 }
+
                 else -> fail("was not correct exception type.")
             }
         }
@@ -351,6 +353,7 @@ class AsyncMintsTest {
                     assertEquals(exerciseFailure.message, result.exceptions["Exercise exception"]?.message)
                     assertEquals(teardownException.message, result.exceptions["Teardown exception"]?.message)
                 }
+
                 else -> fail("was not correct exception type.")
             }
         }
@@ -523,7 +526,7 @@ class AsyncMintsTest {
                 val originalSharedContext = 67
 
                 val extendedSetup = asyncTestTemplate(sharedSetup = { originalSharedContext })
-                    .extend<String>(wrapper = { sc, test ->
+                    .extend(wrapper = { sc, test ->
                         calls.add(Steps.TemplateSetup)
                         test("$sc bottles of beer on the wall.")
                         calls.add(Steps.TemplateTeardown)
@@ -716,7 +719,7 @@ class AsyncMintsTest {
             fun templateWithBeforeAllWillNotPerformBeforeAllWhenThereAreNoTests() = asyncSetup(object {
                 var beforeAllCount = 0
                 val customSetup = asyncTestTemplate(beforeAll = { beforeAllCount++ })
-                val testSuite: List<() -> Unit> = emptyList()
+                val testSuite: List<() -> TestResult> = emptyList()
             }) exercise {
                 testSuite.runSuite()
             } verify {
@@ -744,7 +747,7 @@ class AsyncMintsTest {
                 assertEquals(Pair(parentSharedContext, innerBeforeAllContext), capturedContext)
             }
 
-            private suspend fun List<() -> Any?>.runSuite() = forEach { waitForTest { it() } }
+            private suspend fun List<() -> TestResult>.runSuite() = forEach { waitForTest { it() } }
         }
     }
 

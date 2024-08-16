@@ -11,7 +11,6 @@ kotlin {
             dependencies {
                 api(project(":standard"))
                 implementation(kotlin("stdlib"))
-                implementation(kotlin("test"))
             }
         }
         commonTest {
@@ -35,5 +34,11 @@ kotlin {
                 implementation(libs.io.kotest.kotest.runner.junit5.jvm)
             }
         }
+    }
+}
+
+tasks {
+    wasmJsNodeTest {
+        enabled = false
     }
 }
