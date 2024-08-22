@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-action-annotation-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-action-annotation-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-action-async-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-action-async-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-action-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-action-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-async-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-async-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-kotest-example-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-kotest-example-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-minassert-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-minassert-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-mindiff-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-mindiff-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-minspy-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-minspy-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-mint-logs-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-mint-logs-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-report-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-report-wasm-js-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-standard-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-standard-wasm-js-test/node_modules" />
+  </component>
+</project>

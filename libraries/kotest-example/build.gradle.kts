@@ -20,15 +20,6 @@ kotlin {
             }
         }
 
-        val nativeCommonMain by creating {
-            dependsOn(commonMain)
-        }
-
-        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
-        getByName("iosX64Main") { dependsOn(nativeCommonMain) }
-        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
-        getByName("mingwX64Main") { dependsOn(nativeCommonMain) }
-
         jvmTest {
             dependencies {
                 implementation(libs.io.kotest.kotest.runner.junit5.jvm)
