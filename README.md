@@ -5,7 +5,6 @@
 
 ![Latest Release](https://img.shields.io/github/v/release/robertfmurdock/testmints)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/robertfmurdock/testmints)
-![Testspace tests](https://img.shields.io/testspace/passed/robertfmurdock/robertfmurdock:testmints/master)
 
 Do your tests have a great personality but have bad breath? Just looking for a way to freshen up your tests after a big meal of refactoring?
 
