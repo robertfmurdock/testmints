@@ -16,13 +16,15 @@ tagger {
 }
 
 tasks {
+    val librariesBuild = gradle.includedBuild("libraries")
     val publishableBuilds = listOf(
-        gradle.includedBuild("libraries"),
+        librariesBuild,
         gradle.includedBuild("plugins"),
     )
+    val pluginsTestBuild = gradle.includedBuild("plugins-test")
     val includedBuilds = publishableBuilds + listOf(
         gradle.includedBuild("convention-plugins"),
-        gradle.includedBuild("plugins-test")
+        pluginsTestBuild
     )
     val publish by creating {
         mustRunAfter(check)
@@ -32,7 +34,10 @@ tasks {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
     }
     create("kotlinUpgradeYarnLock") {
-        dependsOn(provider { gradle.includedBuild("libraries").task(":kotlinUpgradeYarnLock") })
+        dependsOn(provider {
+            librariesBuild.task(":kotlinUpgradeYarnLock")
+            pluginsTestBuild.task(":kotlinUpgradeYarnLock")
+        })
     }
     create<Copy>("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
