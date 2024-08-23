@@ -1,13 +1,10 @@
 [versions]
-io-kotest = "5.9.1"
 org-jetbrains-kotlin = "2.0.20"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.0.10-1.0.24"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.0.20-1.0.24"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:1.18.1"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.0"
-io-kotest-kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "io-kotest" }
-io-kotest-kotest-runner-junit5-jvm = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "io-kotest" }
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.8.1"
 org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.7.1"
@@ -17,5 +14,4 @@ org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.16"
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
-io-kotest-multiplatform = "io.kotest.multiplatform:5.9.1"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
