@@ -80,16 +80,6 @@ tasks {
     }
 }
 
-fun org.ajoberstar.grgit.Commit.extractVersion(): String? {
-    val open = fullMessage.indexOf("[")
-    val close = fullMessage.indexOf("]")
-
-    if (open < 0 || close < 0) {
-        return null
-    }
-    return fullMessage.subSequence(open + 1, close).toString()
-}
-
 fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")
 
 fun Project.isMacRelease() = findProperty("release-target") == "mac"
