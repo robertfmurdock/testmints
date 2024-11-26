@@ -81,13 +81,12 @@ class Setup<out C : Any, out SC : Any>(
         return context
     }
 
-    private suspend fun <R> performExercise(context: C, exerciseFunc: suspend C.() -> R) =
-        runCodeUnderTest(context, exerciseFunc)
-            .also {
-                if (context is ScopeMint) {
-                    waitForJobsToFinish(context.exerciseScope)
-                }
+    private suspend fun <R> performExercise(context: C, exerciseFunc: suspend C.() -> R) = runCodeUnderTest(context, exerciseFunc)
+        .also {
+            if (context is ScopeMint) {
+                waitForJobsToFinish(context.exerciseScope)
             }
+        }
 }
 
 private fun Throwable.wrapCause() = CancellationException("Test failure.", this)

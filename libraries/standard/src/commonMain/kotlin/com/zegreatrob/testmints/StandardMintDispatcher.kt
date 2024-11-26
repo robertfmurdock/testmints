@@ -19,8 +19,7 @@ interface StandardMintDispatcher : ReporterProvider {
         return testTemplate(wrapper = { it(lazy) })
     }
 
-    fun testTemplateSimple(wrapper: (() -> Unit) -> Unit): TestTemplate<Unit> =
-        testTemplate(wrapper = { wrapper { it(Unit) } })
+    fun testTemplateSimple(wrapper: (() -> Unit) -> Unit): TestTemplate<Unit> = testTemplate(wrapper = { wrapper { it(Unit) } })
 }
 
 typealias ExerciseFunc<C, R> = C.() -> R

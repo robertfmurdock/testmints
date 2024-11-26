@@ -130,9 +130,8 @@ class ActionMintTest : ActionPipe {
         val allExecutedActions = mutableListOf<Any?>()
 
         val pipe = object : ActionPipe {
-            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R =
-                action.execute(dispatcher)
-                    .also { allExecutedActions.add((action as? ActionWrapper<*, *>)?.action) }
+            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R = action.execute(dispatcher)
+                .also { allExecutedActions.add((action as? ActionWrapper<*, *>)?.action) }
         }
         val cannon = ActionCannon(dispatcher, pipe)
     }) exercise {
@@ -156,9 +155,8 @@ class ActionMintTest : ActionPipe {
         val allExecutedActions = mutableListOf<Any?>()
 
         val pipe = object : ActionPipe {
-            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R =
-                action.execute(dispatcher)
-                    .also { allExecutedActions.add((action as? ActionWrapper<*, *>)?.action) }
+            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R = action.execute(dispatcher)
+                .also { allExecutedActions.add((action as? ActionWrapper<*, *>)?.action) }
         }
         val cannon = ActionCannon(dispatcher, pipe)
     }) exercise {
@@ -177,9 +175,8 @@ class ActionMintTest : ActionPipe {
         val allExecutedActions = mutableListOf<Any?>()
 
         val pipe = object : ActionPipe {
-            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R =
-                action.execute(dispatcher)
-                    .also { allExecutedActions.add((action as? ActionWrapper<*, *>)?.action) }
+            override suspend fun <D, R> execute(dispatcher: D, action: SuspendAction<D, R>): R = action.execute(dispatcher)
+                .also { allExecutedActions.add((action as? ActionWrapper<*, *>)?.action) }
         }
         val cannon = ActionCannon(dispatcher, pipe)
     }) exercise {

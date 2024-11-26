@@ -15,12 +15,11 @@ class TestTemplate<out SC : Any>(
         this.wrapper { sc1 -> wrapper(sc1, test) }
     }
 
-    fun <SC2 : Any> extend(sharedSetup: suspend (SC) -> SC2, sharedTeardown: suspend (SC2) -> Unit = {}) =
-        extend { sc1, test ->
-            val sc2 = sharedSetup(sc1)
-            test(sc2)
-            sharedTeardown(sc2)
-        }
+    fun <SC2 : Any> extend(sharedSetup: suspend (SC) -> SC2, sharedTeardown: suspend (SC2) -> Unit = {}) = extend { sc1, test ->
+        val sc2 = sharedSetup(sc1)
+        test(sc2)
+        sharedTeardown(sc2)
+    }
 
     fun extend(sharedSetup: suspend () -> Unit = {}, sharedTeardown: suspend () -> Unit = {}) = TestTemplate(reporterProvider) { test ->
         wrapper {
@@ -45,15 +44,14 @@ class TestTemplate<out SC : Any>(
         })
     }
 
-    operator fun <C : Any> invoke(context: C, timeoutMs: Long = 60_000L, additionalActions: suspend C.() -> Unit = {}) =
-        Setup(
-            { context },
-            context.chooseTestScope(),
-            additionalActions,
-            reporterProvider.reporter,
-            timeoutMs,
-            wrapper,
-        )
+    operator fun <C : Any> invoke(context: C, timeoutMs: Long = 60_000L, additionalActions: suspend C.() -> Unit = {}) = Setup(
+        { context },
+        context.chooseTestScope(),
+        additionalActions,
+        reporterProvider.reporter,
+        timeoutMs,
+        wrapper,
+    )
 
     operator fun invoke(timeoutMs: Long = 60_000L, additionalActions: suspend SC.() -> Unit = {}) = Setup(
         { it },
