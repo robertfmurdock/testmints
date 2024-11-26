@@ -45,19 +45,16 @@ internal fun Any.chooseTestScope() = if (this is ScopeMint) testScope else mintS
 
 val asyncSetup: TestTemplate<Unit> get() = AsyncMints.asyncSetup
 
-fun <SC : Any> asyncTestTemplate(sharedSetup: suspend () -> SC, sharedTeardown: suspend (SC) -> Unit = {}) =
-    AsyncMints.asyncTestTemplate(sharedSetup, sharedTeardown)
+fun <SC : Any> asyncTestTemplate(sharedSetup: suspend () -> SC, sharedTeardown: suspend (SC) -> Unit = {}) = AsyncMints.asyncTestTemplate(sharedSetup, sharedTeardown)
 
 fun <SC : Any> asyncTestTemplate(beforeAll: suspend () -> SC) = AsyncMints.asyncTestTemplate(beforeAll = beforeAll)
 
-fun asyncTestTemplate(sharedSetup: suspend () -> Unit, sharedTeardown: suspend () -> Unit) =
-    AsyncMints.asyncTestTemplate(sharedSetup) { sharedTeardown() }
+fun asyncTestTemplate(sharedSetup: suspend () -> Unit, sharedTeardown: suspend () -> Unit) = AsyncMints.asyncTestTemplate(sharedSetup) { sharedTeardown() }
 
 @JvmName("asyncTestTemplateSimple")
 fun asyncTestTemplate(wrapper: suspend (suspend () -> Unit) -> Unit) = AsyncMints.asyncTestTemplateSimple(wrapper)
 
 @JvmName("asyncTestTemplateSC")
-fun <SC : Any> asyncTestTemplate(wrapper: suspend (TestFunc<SC>) -> Unit) =
-    AsyncMints.asyncTestTemplate(wrapper)
+fun <SC : Any> asyncTestTemplate(wrapper: suspend (TestFunc<SC>) -> Unit) = AsyncMints.asyncTestTemplate(wrapper)
 
 object AsyncMints : AsyncMintDispatcher, ReporterProvider by MintReporterConfig

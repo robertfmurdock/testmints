@@ -81,14 +81,13 @@ private fun exceptionDescriptionMap(
     teardownException: Throwable?,
     templateTeardownException: Throwable?,
     failure: Throwable?,
-) =
-    mapOf(
-        "Failure" to failure,
-        "Teardown exception" to teardownException,
-        "Template teardown exception" to templateTeardownException,
-    )
-        .mapNotNull { (descriptor, exception) -> exception?.let { descriptor to exception } }
-        .toMap()
+) = mapOf(
+    "Failure" to failure,
+    "Teardown exception" to teardownException,
+    "Template teardown exception" to templateTeardownException,
+)
+    .mapNotNull { (descriptor, exception) -> exception?.let { descriptor to exception } }
+    .toMap()
 
 private fun <SC : Any> checkedInvoke(wrapper: (TestFunc<SC>) -> Unit, test: TestFunc<SC>) = captureException {
     var testWasInvoked = false

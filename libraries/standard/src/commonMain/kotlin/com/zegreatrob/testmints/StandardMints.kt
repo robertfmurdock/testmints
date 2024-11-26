@@ -8,13 +8,11 @@ object StandardMints : StandardMintDispatcher, ReporterProvider by MintReporterC
 
 val setup get() = StandardMints.setup
 
-fun <SC : Any> testTemplate(sharedSetup: () -> SC, sharedTeardown: (SC) -> Unit = {}) =
-    StandardMints.testTemplate(sharedSetup, sharedTeardown)
+fun <SC : Any> testTemplate(sharedSetup: () -> SC, sharedTeardown: (SC) -> Unit = {}) = StandardMints.testTemplate(sharedSetup, sharedTeardown)
 
 fun <SC : Any> testTemplate(beforeAll: () -> SC) = StandardMints.testTemplate(beforeAll = beforeAll)
 
-fun testTemplate(sharedSetup: () -> Unit, sharedTeardown: () -> Unit) =
-    StandardMints.testTemplate(sharedSetup, { sharedTeardown() })
+fun testTemplate(sharedSetup: () -> Unit, sharedTeardown: () -> Unit) = StandardMints.testTemplate(sharedSetup, { sharedTeardown() })
 
 @JvmName("testTemplateSimple")
 fun testTemplate(wrapper: SimpleWrapper) = StandardMints.testTemplateSimple(wrapper)

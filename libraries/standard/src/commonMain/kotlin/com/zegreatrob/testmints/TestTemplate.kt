@@ -34,14 +34,12 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
         return TestTemplate(reporterProvider) { test -> wrapper { sc -> test(mergeContext(sc, lazy)) } }
     }
 
-    operator fun <C : Any> invoke(contextProvider: (SC) -> C, additionalSetupActions: C.() -> Unit = {}) =
-        Setup(contextProvider, reporterProvider.reporter, additionalSetupActions, wrapper)
+    operator fun <C : Any> invoke(contextProvider: (SC) -> C, additionalSetupActions: C.() -> Unit = {}) = Setup(contextProvider, reporterProvider.reporter, additionalSetupActions, wrapper)
 
     operator fun <C : Any> invoke(
         context: C,
         additionalSetupActions: C.() -> Unit = {},
     ) = Setup({ context }, reporterProvider.reporter, additionalSetupActions, wrapper)
 
-    operator fun invoke(additionalSetupActions: SC.() -> Unit = {}): Setup<SC, SC> =
-        Setup({ it }, reporterProvider.reporter, additionalSetupActions, wrapper)
+    operator fun invoke(additionalSetupActions: SC.() -> Unit = {}): Setup<SC, SC> = Setup({ it }, reporterProvider.reporter, additionalSetupActions, wrapper)
 }

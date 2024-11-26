@@ -38,7 +38,6 @@ class GeneralExecutableActionDispatcherTest {
         GeneralExecutableActionDispatcher,
         Spy<Pair<ExecutableAction<*, *>, *>, Any> by SpyData() {
         @Suppress("UNCHECKED_CAST")
-        override fun <D, R> dispatch(action: ExecutableAction<D, R>, dispatcher: D): R =
-            spyFunction(action to dispatcher) as R
+        override fun <D, R> dispatch(action: ExecutableAction<D, R>, dispatcher: D): R = spyFunction(action to dispatcher) as R
     }
 }

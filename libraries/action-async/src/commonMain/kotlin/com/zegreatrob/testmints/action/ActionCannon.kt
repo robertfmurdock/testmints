@@ -6,8 +6,7 @@ interface ActionCannon<out D> {
     suspend fun <R> fire(action: SuspendAction<D, R>): R
 
     companion object {
-        operator fun <D> invoke(dispatcher: D, pipe: ActionPipe = ActionPipe): ActionCannon<D> =
-            DispatcherPipeCannon(dispatcher, pipe)
+        operator fun <D> invoke(dispatcher: D, pipe: ActionPipe = ActionPipe): ActionCannon<D> = DispatcherPipeCannon(dispatcher, pipe)
     }
 }
 

@@ -16,8 +16,7 @@ data class MultiplyAction(val left: Int, val right: Int) {
 }
 
 interface ExampleActionDispatcher : MultiplyAction.Dispatcher {
-    override suspend fun handle(action: MultiplyAction): MultiplyAction.Result =
-        MultiplyAction.Result.Success(action.left * action.right)
+    override suspend fun handle(action: MultiplyAction): MultiplyAction.Result = MultiplyAction.Result.Success(action.left * action.right)
 }
 
 @ActionMint

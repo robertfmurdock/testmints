@@ -60,9 +60,8 @@ private fun diffDescription(index: Int, eDiff: String, aDiff: String) = listOf(
     "A: $aDiff",
 )
 
-private fun String.diffRange(firstDiffIndex: Int, endOfString: Int) =
-    (firstDiffIndex until endOfString).let {
-        substring(it)
-    }
+private fun String.diffRange(firstDiffIndex: Int, endOfString: Int) = (firstDiffIndex until endOfString).let {
+    substring(it)
+}
 
 private fun String.firstDiffIndex() = indexOf("x")
