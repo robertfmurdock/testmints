@@ -1,5 +1,5 @@
 [versions]
-org-jetbrains-kotlin = "2.0.21"
+org-jetbrains-kotlin = "2.1.0"
 
 [libraries]
 com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.0.21-1.0.28"
