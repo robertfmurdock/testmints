@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 plugins {
     kotlin("multiplatform")
     id("com.zegreatrob.testmints.plugins.reports")
-    id("org.jmailen.kotlinter")
+//    id("org.jmailen.kotlinter")
 }
 
 kotlin {
