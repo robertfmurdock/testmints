@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
+import kotlin.test.DefaultAsserter.fail
 
 class PluginFunctionalTest {
 
@@ -33,7 +34,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.0.20"
+                kotlin("multiplatform") version "2.1.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -95,7 +96,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.0.20"
+                kotlin("multiplatform") version "2.1.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -149,7 +150,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.0.20"
+                kotlin("multiplatform") version "2.1.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -223,7 +224,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("jvm") version "2.0.20"
+                kotlin("jvm") version "2.1.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             repositories {

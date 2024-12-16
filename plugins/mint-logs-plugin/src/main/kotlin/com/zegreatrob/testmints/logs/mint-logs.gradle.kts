@@ -6,10 +6,8 @@ import org.jetbrains.kotlin.com.google.gson.JsonArray
 import org.jetbrains.kotlin.com.google.gson.JsonElement
 import org.jetbrains.kotlin.com.google.gson.JsonObject
 import org.jetbrains.kotlin.com.google.gson.JsonPrimitive
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages.KOTLIN_RUNTIME
-import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
+import org.jetbrains.kotlin.gradle.plugin.usesPlatformOf
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
@@ -25,19 +23,6 @@ plugins {
 }
 
 afterEvaluate {
-
-    val hooksConfiguration: Configuration by configurations.creating {
-        isCanBeResolved = true
-        isCanBeConsumed = false
-        attributes.attribute(KotlinPlatformType.attribute, KotlinPlatformType.js)
-        attributes.attribute(KotlinJsCompilerAttribute.jsCompilerAttribute, KotlinJsCompilerAttribute.ir)
-        attributes.attribute(Usage.USAGE_ATTRIBUTE, project.objects.named(Usage::class.java, KOTLIN_RUNTIME))
-        attributes.attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class.java, Category.LIBRARY))
-    }
-
-    dependencies {
-        hooksConfiguration("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
-    }
 
     val kotlinJvm = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
@@ -56,6 +41,19 @@ afterEvaluate {
         extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
     if (kotlinMultiplatform?.targets?.findByName("js") != null) {
+
+
+        val hooksConfiguration: Configuration by configurations.creating {
+            isCanBeResolved = true
+            isCanBeConsumed = false
+
+            usesPlatformOf(kotlinMultiplatform.js().compilations.getByName("test").target)
+        }
+
+        dependencies {
+            hooksConfiguration("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
+        }
+
         kotlinMultiplatform.js(configure = fun KotlinJsTargetDsl.() {
             val compilation = compilations["test"]
 
@@ -68,7 +66,8 @@ afterEvaluate {
 
             tasks {
                 named<DefaultIncrementalSyncTask>("jsTestTestDevelopmentExecutableCompileSync") {
-                    from.from(zipTree(hooksConfiguration.resolve().first()))
+                    dependsOn(hooksConfiguration)
+                    from.from(zipTree(hooksConfiguration.first()))
                 }
             }
 
@@ -96,9 +95,10 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
     val newKarmaConfigDir = project.layout.buildDirectory.dir("karma.config.d")
     project.tasks {
         val karmaPrepare by registering(ProcessResources::class) {
+            dependsOn(hooksConfiguration)
             from(project.projectDir.resolve("karma.config.d"))
             from(
-                project.zipTree(hooksConfiguration.resolve().first())
+                project.zipTree(hooksConfiguration.first())
                     .filter { file -> file.name == "karma-mint-logs.js" }
             )
             into(newKarmaConfigDir)
