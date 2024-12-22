@@ -26,30 +26,30 @@ tasks {
         gradle.includedBuild("convention-plugins"),
         pluginsTestBuild
     )
-    val publish by creating {
+    val publish by registering {
         mustRunAfter(check)
         dependsOn(provider { publishableBuilds.map { it.task(":publish") } })
     }
     "versionCatalogUpdate" {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
     }
-    create("kotlinUpgradeYarnLock") {
+    register("kotlinUpgradeYarnLock") {
         dependsOn(provider {
             librariesBuild.task(":kotlinUpgradeYarnLock")
             pluginsTestBuild.task(":kotlinUpgradeYarnLock")
         })
     }
-    create<Copy>("collectResults") {
+    register<Copy>("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":collectResults") } })
         from(includedBuilds.map { it.projectDir.resolve("build/test-output") })
         into(rootProject.layout.buildDirectory.dir("test-output/${project.path}".replace(":", "/")))
     }
-    create("formatKotlin") {
+    register("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":formatKotlin") } })
     }
-    create("lintKotlin") {
+    register("lintKotlin") {
         dependsOn(provider { (getTasksByName("lintKotlin", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":lintKotlin") } })
     }
@@ -80,24 +80,4 @@ tasks {
     }
 }
 
-fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")
-
 fun Project.isMacRelease() = findProperty("release-target") == "mac"
-
-fun TaskCollection<AbstractPublishToMaven>.disableTaskForPublication(
-    targetPub: MavenPublication
-) {
-    matching { it.publication == targetPub }
-        .configureEach { this.onlyIf { false } }
-}
-
-val macTargets = listOf(
-    "macosX64",
-    "iosX64",
-    "iosArm32",
-    "iosArm64"
-)
-
-fun PublicationContainer.nonMacPublications() = matching { !macTargets.contains(it.name) }
-
-fun PublicationContainer.jvmPublication(): NamedDomainObjectSet<Publication> = matching { it.name == "jvm" }

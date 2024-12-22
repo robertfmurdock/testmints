@@ -7,14 +7,14 @@ repositories {
 }
 
 tasks {
-    create("versionCatalogUpdate") {}
-    create("collectResults") {
+    register("versionCatalogUpdate") {}
+    register("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
     }
-    create("formatKotlin") {
+    register("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
     }
-    create("lintKotlin") {
+    register("lintKotlin") {
         dependsOn(provider { (getTasksByName("lintKotlin", true) - this).toList() })
     }
     check {

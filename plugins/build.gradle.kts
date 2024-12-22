@@ -34,7 +34,7 @@ tasks {
         }
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
-    create<Copy>("collectResults") {
+    register<Copy>("collectResults") {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
         from(provider { (getTasksByName("collectResults", true) - this).toList() }.map {
             it.map { task -> task.project }
@@ -44,10 +44,10 @@ tasks {
         into(rootProject.layout.buildDirectory.dir("test-output/${project.path}".replace(":", "/")))
     }
 
-    create("formatKotlin") {
+    register("formatKotlin") {
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
     }
-    create("lintKotlin") {
+    register("lintKotlin") {
         dependsOn(provider { (getTasksByName("lintKotlin", true) - this).toList() })
     }
     check {
