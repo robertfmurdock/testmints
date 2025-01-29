@@ -2,7 +2,7 @@
 org-jetbrains-kotlin = "2.1.10"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.1.0-1.0.29"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.1.10-1.0.29"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.0.0"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.3"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
