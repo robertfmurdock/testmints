@@ -2,7 +2,7 @@
 org-jetbrains-kotlin = "2.1.10"
 
 [libraries]
-com-google-devtools-ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:2.1.0-1.0.29"
+com-google-devtools-ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:2.1.10-1.0.29"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-junit-junit-bom = "org.junit:junit-bom:5.11.4"
 
