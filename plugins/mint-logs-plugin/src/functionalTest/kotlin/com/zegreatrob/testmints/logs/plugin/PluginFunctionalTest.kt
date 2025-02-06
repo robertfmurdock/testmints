@@ -4,13 +4,13 @@ import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.CleanupMode
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
-import kotlin.test.DefaultAsserter.fail
 
 class PluginFunctionalTest {
 
-    @field:TempDir
+    @field:TempDir(cleanup = CleanupMode.ON_SUCCESS)
     lateinit var projectDir: File
 
     private val buildFile by lazy { projectDir.resolve("build.gradle.kts") }
@@ -19,7 +19,7 @@ class PluginFunctionalTest {
     private val releaseVersion = System.getenv("RELEASE_VERSION")
 
     @Test
-    fun willConfigureKotlinJsNode() {
+    fun willConfigureKotlinJsNodeDefaults() {
         settingsFile.writeText(
             """
             rootProject.name = "testmints-functional-test"
@@ -78,6 +78,69 @@ class PluginFunctionalTest {
             result.output.trim().contains(multiplatformNodeJsExpectedOutput)
         )
     }
+
+    @Test
+    fun willConfigureKotlinJsNodeEs2015() {
+        settingsFile.writeText(
+            """
+            rootProject.name = "testmints-functional-test"
+            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
+            """.trimIndent()
+        )
+        val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
+        testFile.parentFile.mkdirs()
+        testFile.writeBytes(
+            this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
+        )
+        buildFile.writeText(
+            """
+            plugins {
+                kotlin("multiplatform") version "2.1.0"
+                id("com.zegreatrob.testmints.logs.mint-logs")
+            }
+            
+            repositories {
+                mavenCentral()
+            }
+            
+            kotlin {
+                js(IR) {
+                    nodejs()
+                    compilerOptions { target = "es2015" }
+                }
+            }
+            dependencies {
+                "jsMainImplementation"(kotlin("test"))
+                "jsMainImplementation"("com.zegreatrob.testmints:standard")
+            }
+            
+            
+            rootProject.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java).let {
+                if (it?.version != "22.5.1") {
+                    it?.version = "22.5.1"
+                }
+            }
+            
+            """.trimIndent()
+        )
+
+        val runner = GradleRunner.create()
+        runner.forwardOutput()
+        runner.withPluginClasspath()
+        runner.withArguments(
+            "jsTest",
+            "--info",
+            "-P",
+            "org.gradle.caching=true",
+            "-Pversion=$releaseVersion"
+        )
+        runner.withProjectDir(projectDir)
+        val result = runner.build()
+        assertTrue(
+            result.output.trim().contains(multiplatformNodeJsExpectedOutput)
+        )
+    }
+
 
     @Test
     @Disabled("temporary until can figure out what changed about the karma mocha setup")

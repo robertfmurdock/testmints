@@ -10,7 +10,7 @@ kotlin {
         binaries.executable(compilation)
 
         compilation.packageJson {
-            customField("mocha", mapOf("require" to "./kotlin/mint-logs.mjs"))
+            customField("mocha", mapOf("require" to "./kotlin/testmints-mint-logs.mjs"))
         }
     }
 
