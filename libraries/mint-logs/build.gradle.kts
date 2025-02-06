@@ -10,7 +10,7 @@ kotlin {
         binaries.executable(compilation)
 
         compilation.packageJson {
-            customField("mocha", mapOf("require" to "./kotlin/testmints-mint-logs.mjs"))
+            customField("mocha", mapOf("require" to "./kotlin/testmints-mint-logs-test.mjs"))
         }
     }
 
@@ -21,8 +21,7 @@ kotlin {
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
-
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(project(":standard"))
                 implementation(project(":report"))
@@ -33,42 +32,22 @@ kotlin {
                 api("io.github.oshai:kotlin-logging")
             }
         }
-        getByName("commonTest") {
+        commonTest {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
-        getByName("jvmMain") {
+        jvmMain {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
                 implementation("org.junit.jupiter:junit-jupiter-api")
                 implementation("org.junit.jupiter:junit-jupiter-engine")
             }
         }
-        val nativeCommonMain by creating {
-            dependsOn(commonMain)
-        }
-        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
-        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
-        getByName("iosX64Main") { dependsOn(nativeCommonMain) }
-        getByName("mingwX64Main") { dependsOn(nativeCommonMain) }
-        getByName("jsMain") {
-            dependencies {
-                dependsOn(commonMain)
-            }
-        }
     }
 }
 
 tasks {
-    jsTestProcessResources {
-        dependsOn(jsProcessResources)
-        from(jsProcessResources.map { it.outputs.files })
-    }
-    jsNodeTest {
-        dependsOn(jsTestTestProductionExecutableCompileSync)
-    }
-
     jvmTest {
         useJUnitPlatform()
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
