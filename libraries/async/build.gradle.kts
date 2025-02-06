@@ -12,8 +12,7 @@ kotlin {
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
-
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(project(":standard"))
                 api(project(":report"))
@@ -28,28 +27,9 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
-
         jvmMain {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-            }
-        }
-
-        val nativeCommonMain by creating {
-            dependsOn(commonMain)
-        }
-
-        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
-
-        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
-
-        getByName("iosX64Main") { dependsOn(nativeCommonMain) }
-
-        getByName("mingwX64Main") { dependsOn(nativeCommonMain) }
-
-        jsMain {
-            dependencies {
-                dependsOn(commonMain)
             }
         }
     }
@@ -59,13 +39,13 @@ tasks {
 
     // Appears to be a bug with delay on these platforms with the new compiler. We'll bring these back online later.
 
-    named("linuxX64Test") {
+    linuxX64Test {
         enabled = false
     }
-    named("macosX64Test") {
+    macosX64Test {
         enabled = false
     }
-    named("iosX64Test") {
+    iosX64Test {
         enabled = false
     }
 }

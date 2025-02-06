@@ -7,7 +7,7 @@ plugins {
 kotlin {
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib")
                 implementation("org.jetbrains.kotlin:kotlin-test")
@@ -20,12 +20,5 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-test")
             }
         }
-
-        val nativeCommonMain by creating {
-            dependsOn(commonMain)
-        }
-
-        getByName("macosX64Main") { dependsOn(nativeCommonMain) }
-        getByName("linuxX64Main") { dependsOn(nativeCommonMain) }
     }
 }
