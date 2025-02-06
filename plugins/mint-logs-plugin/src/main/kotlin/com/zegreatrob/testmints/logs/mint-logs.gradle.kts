@@ -136,7 +136,7 @@ fun applyMochaSettings(compilation: KotlinJsCompilation) {
             }
         }
             ?: emptyList()
-        val suffix = if (compilation.kotlinOptions.target == "es5") "js" else "mjs"
+        val suffix = if (compilation.compileTaskProvider.get().compilerOptions.target.get() == "es5") "js" else "mjs"
         val requires = previousRequires + JsonPrimitive("./kotlin/testmints-mint-logs.$suffix")
         mochaSettings.add("require", JsonArray().apply { requires.forEach(::add) })
         customField("mocha", gson.toJson(mochaSettings).let { gson.fromJson(it, Map::class.java) })
