@@ -47,10 +47,23 @@ kotlin {
     }
 }
 
+val mintLogsSetup: Configuration by configurations.creating {
+    isCanBeResolved = false
+    isCanBeConsumed = true
+    attributes { attribute(Attribute.of("com.zegreatrob.testmints.mint-logs-setup", String::class.java), "runner") }
+}
 tasks {
     jvmTest {
         useJUnitPlatform()
         systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
+    }
+    val mintLogsSetupJar by registering(Jar::class) {
+        archiveClassifier.set("mint-logs-setup")
+        from(layout.projectDirectory.file("MintLogsSetup.kt.template"))
+    }
+    artifacts.add(mintLogsSetup.name, mintLogsSetupJar) { builtBy(mintLogsSetupJar) }
+    publishing.publications {
+        withType<MavenPublication> { artifact(mintLogsSetupJar) }
     }
 }
 

@@ -1,0 +1,15 @@
+import com.zegreatrob.testmints.logs.StructuredLoggingTestMintsReporter
+import kotlin.test.Test
+import kotlin.test.assertTrue
+
+
+val ignoreMe = Unit.also {
+    StructuredLoggingTestMintsReporter.initialize()
+}
+
+class MintLogsSetup {
+    @Test
+    fun ensureMintsAreSetup() {
+        assertTrue(true)
+    }
+}

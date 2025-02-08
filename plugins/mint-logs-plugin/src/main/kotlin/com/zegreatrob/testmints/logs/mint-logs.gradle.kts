@@ -16,10 +16,29 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.PackageJsonTypeAdapter
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTestFramework
 import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
+import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
 import org.jetbrains.kotlin.gradle.utils.toSetOrEmpty
 
 plugins {
     base
+}
+
+val setupConfiguration: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+    attributes {
+        attribute(Attribute.of("com.zegreatrob.testmints.mint-logs-setup", String::class.java), "runner")
+    }
+}
+
+dependencies {
+    setupConfiguration("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}") {
+        artifact(fun DependencyArtifact.() {
+            classifier = "mint-logs-setup"
+        })
+    }
 }
 
 afterEvaluate {
@@ -40,9 +59,32 @@ afterEvaluate {
     val kotlinMultiplatform =
         extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
+    val mintLogsSetupSrc = layout.buildDirectory.dir("mint-logs-setup")
+    kotlinMultiplatform?.sourceSets {
+        "commonTest" {
+            kotlin.srcDir(mintLogsSetupSrc)
+        }
+    }
+
+    tasks {
+        val mintLogsSetup by registering(Copy::class) {
+            dependsOn(setupConfiguration)
+            from(zipTree(setupConfiguration.resolve().first()))
+            into(mintLogsSetupSrc)
+            rename("(.+).template", "$1")
+        }
+        withType(KotlinCompileCommon::class) {
+            dependsOn(mintLogsSetup)
+        }
+        withType(KotlinCompile::class) {
+            dependsOn(mintLogsSetup)
+        }
+        withType(Kotlin2JsCompile::class) {
+            dependsOn(mintLogsSetup)
+        }
+    }
+
     if (kotlinMultiplatform?.targets?.findByName("js") != null) {
-
-
         val hooksConfiguration: Configuration by configurations.creating {
             isCanBeResolved = true
             isCanBeConsumed = false

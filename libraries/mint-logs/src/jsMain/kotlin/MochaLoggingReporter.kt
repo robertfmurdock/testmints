@@ -1,5 +1,4 @@
 
-import com.zegreatrob.testmints.logs.StructuredLoggingTestMintsReporter
 import io.github.oshai.kotlinlogging.KotlinLogging
 
 @JsName("MochaLoggingReporter")
@@ -8,7 +7,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 object MochaLoggingReporter {
     private val logger by lazy { KotlinLogging.logger("testmints") }
 
-    fun beforeAll() = StructuredLoggingTestMintsReporter.initialize()
+    fun beforeAll() {}
 
     fun beforeEach(context: MochaContext?) = logger.atInfo {
         message = "setup-start"
