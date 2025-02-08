@@ -2,7 +2,6 @@ package com.zegreatrob.testmints.logs.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.CleanupMode
 import org.junit.jupiter.api.io.TempDir
@@ -145,7 +144,6 @@ class PluginFunctionalTest {
 
 
     @Test
-    @Disabled("temporary until can figure out what changed about the karma mocha setup")
     fun willConfigureKotlinJsBrowser() {
         settingsFile.writeText(
             """
@@ -187,6 +185,7 @@ class PluginFunctionalTest {
         runner.withArguments(
             "jsTest",
             "--info",
+            "--configuration-cache",
             "-P",
             "org.gradle.caching=true",
             "-Pversion=$releaseVersion"
@@ -199,7 +198,6 @@ class PluginFunctionalTest {
     }
 
     @Test
-    @Disabled("temporary until can figure out what changed about the karma mocha setup")
     fun willConfigureMultiplatform() {
         settingsFile.writeText(
             """
@@ -221,7 +219,7 @@ class PluginFunctionalTest {
             
             repositories {
                 mavenCentral()
-            }º
+            }
             
             kotlin {
                 js(IR) {
@@ -252,6 +250,7 @@ class PluginFunctionalTest {
             "jsTest",
             "jvmTest",
             "--info",
+            "--configuration-cache",
             "-P",
             "org.gradle.caching=true",
             "-Pversion=$releaseVersion"
@@ -358,42 +357,29 @@ Test > example() STANDARD_ERROR
 
     private val multiplatformJvmExpectedOutput = """
 Test[jvm] > example()[jvm] STANDARD_ERROR
-    [Test worker] INFO testmints - {step=test, state=start}
-    [Test worker] INFO testmints - {step=setup, state=start, name=Test.example()}
+    [Test worker] INFO testmints - step=test state=start test-start
+    [Test worker] INFO testmints - step=setup state=start name=Test.example() setup-start
 
 Test[jvm] > example()[jvm] STANDARD_OUT
     setup
 
 Test[jvm] > example()[jvm] STANDARD_ERROR
-    [Test worker] INFO testmints - {step=setup, state=finish}
-    [Test worker] INFO testmints - {step=exercise, state=start}
+    [Test worker] INFO testmints - step=setup state=finish setup-finish
+    [Test worker] INFO testmints - step=exercise state=start exercise-start
 
 Test[jvm] > example()[jvm] STANDARD_OUT
     exercise
 
 Test[jvm] > example()[jvm] STANDARD_ERROR
-    [Test worker] INFO testmints - {step=exercise, state=finish}
-    [Test worker] INFO testmints - {step=verify, state=start, payload=kotlin.Unit}
+    [Test worker] INFO testmints - step=exercise state=finish exercise-finish
+    [Test worker] INFO testmints - step=verify state=start payload=kotlin.Unit verify-start
 
 Test[jvm] > example()[jvm] STANDARD_OUT
     verify
 
 Test[jvm] > example()[jvm] STANDARD_ERROR
-    [Test worker] INFO testmints - {step=verify, state=finish}
-    [Test worker] INFO testmints - {step=test, state=finish}
-    """.trim()
-
-    private val nodeJsExpectedOutput = """
-Test.example[node] STANDARD_OUT
-    INFO: [testmints] {step=setup, state=start, name=Test.example}
-    setup
-    [info] INFO: [testmints] {step=setup, state=finish}
-    [info] INFO: [testmints] {step=exercise, state=start}
-    exercise
-    [info] INFO: [testmints] {step=exercise, state=finish}
-    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
-    verify
-    [info] INFO: [testmints] {step=verify, state=finish}
+    [Test worker] INFO testmints - step=verify state=finish verify-finish
+    [Test worker] INFO testmints - step=test state=finish test-finish
     """.trim()
 
     private val multiplatformNodeJsExpectedOutput = """
@@ -410,14 +396,16 @@ Test.example[js, node] STANDARD_OUT
     """.trim()
 
     private val browserJsExpectedOutput = """
-    INFO: [testmints] {step=setup, state=start, name=Test.example}
+    INFO: [testmints] setup-start {step=setup, state=start, name=Test.example}
     [log] setup
-    [info] INFO: [testmints] {step=setup, state=finish}
-    [info] INFO: [testmints] {step=exercise, state=start}
+    [info] INFO: [testmints] setup-finish {step=setup, state=finish}
+    [info] INFO: [testmints] exercise-start {step=exercise, state=start}
     [log] exercise
-    [info] INFO: [testmints] {step=exercise, state=finish}
-    [info] INFO: [testmints] {step=verify, state=start, payload=kotlin.Unit}
+    [info] INFO: [testmints] exercise-finish {step=exercise, state=finish}
+    [info] INFO: [testmints] verify-start {step=verify, state=start, payload=kotlin.Unit}
     [log] verify
-    [info] INFO: [testmints] {step=verify, state=finish}
+    [info] INFO: [testmints] verify-finish {step=verify, state=finish}
     """.trim()
+
+
 }
