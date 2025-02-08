@@ -70,6 +70,7 @@ class PluginFunctionalTest {
             "--info",
             "-P",
             "org.gradle.caching=true",
+            "--configuration-cache",
             "-Pversion=$releaseVersion"
         )
         runner.withProjectDir(projectDir)
@@ -132,6 +133,7 @@ class PluginFunctionalTest {
             "--info",
             "-P",
             "org.gradle.caching=true",
+            "--configuration-cache",
             "-Pversion=$releaseVersion"
         )
         runner.withProjectDir(projectDir)
@@ -314,6 +316,7 @@ class PluginFunctionalTest {
         runner.withArguments(
             "test",
             "--info",
+            "--configuration-cache",
             "-P",
             "org.gradle.caching=true",
             "-Pversion=$releaseVersion"

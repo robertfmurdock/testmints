@@ -60,7 +60,8 @@ afterEvaluate {
             (this as? KotlinJsIrTarget)?.let {
                 it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
                 it.whenNodejsConfigured {
-                    applyMochaSettings(compilation)
+                    val target = compilation.kotlinOptions.target
+                    applyMochaSettings(compilation, target)
                 }
             }
 
@@ -114,7 +115,7 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
     }
 }
 
-fun applyMochaSettings(compilation: KotlinJsCompilation) {
+fun applyMochaSettings(compilation: KotlinJsCompilation, target: String) {
     compilation.packageJson {
         val gson: Gson = GsonBuilder()
             .setPrettyPrinting()
@@ -136,7 +137,7 @@ fun applyMochaSettings(compilation: KotlinJsCompilation) {
             }
         }
             ?: emptyList()
-        val suffix = if (compilation.compileTaskProvider.get().compilerOptions.target.get() == "es5") "js" else "mjs"
+        val suffix = if (target == "es5") "js" else "mjs"
         val requires = previousRequires + JsonPrimitive("./kotlin/testmints-mint-logs.$suffix")
         mochaSettings.add("require", JsonArray().apply { requires.forEach(::add) })
         customField("mocha", gson.toJson(mochaSettings).let { gson.fromJson(it, Map::class.java) })
