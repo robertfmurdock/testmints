@@ -33,7 +33,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.1.0"
+                kotlin("multiplatform") version "2.1.10"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -69,6 +69,8 @@ class PluginFunctionalTest {
             "--info",
             "-P",
             "org.gradle.caching=true",
+            "-P",
+            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
             "--configuration-cache",
             "-Pversion=$releaseVersion"
         )
@@ -95,7 +97,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.1.0"
+                kotlin("multiplatform") version "2.1.10"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -132,6 +134,8 @@ class PluginFunctionalTest {
             "--info",
             "-P",
             "org.gradle.caching=true",
+            "-P",
+            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
             "--configuration-cache",
             "-Pversion=$releaseVersion"
         )
@@ -159,7 +163,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.1.0"
+                kotlin("multiplatform") version "2.1.10"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -188,6 +192,8 @@ class PluginFunctionalTest {
             "--configuration-cache",
             "-P",
             "org.gradle.caching=true",
+            "-P",
+            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
             "-Pversion=$releaseVersion"
         )
         runner.withProjectDir(projectDir)
@@ -213,7 +219,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.1.0"
+                kotlin("multiplatform") version "2.1.10"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -253,6 +259,8 @@ class PluginFunctionalTest {
             "--configuration-cache",
             "-P",
             "org.gradle.caching=true",
+            "-P",
+            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
             "-Pversion=$releaseVersion"
         )
         runner.withProjectDir(projectDir)
@@ -288,7 +296,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("jvm") version "2.1.0"
+                kotlin("jvm") version "2.1.10"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             repositories {
@@ -318,6 +326,8 @@ class PluginFunctionalTest {
             "--configuration-cache",
             "-P",
             "org.gradle.caching=true",
+            "-P",
+            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
             "-Pversion=$releaseVersion"
         )
         runner.withProjectDir(projectDir)

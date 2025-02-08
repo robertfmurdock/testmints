@@ -60,7 +60,7 @@ afterEvaluate {
             (this as? KotlinJsIrTarget)?.let {
                 it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
                 it.whenNodejsConfigured {
-                    val target = compilation.kotlinOptions.target
+                    val target = compilation.compileTaskProvider.get().compilerOptions.target.get()
                     applyMochaSettings(compilation, target)
                 }
             }
