@@ -4,12 +4,19 @@ import kotlin.test.assertTrue
 
 
 val ignoreMe = Unit.also {
+    println("initializing")
     StructuredLoggingTestMintsReporter.initialize()
+    println("after initializing")
 }
 
 class MintLogsSetup {
+    init {
+        println("$ignoreMe")
+    }
+
     @Test
     fun ensureMintsAreSetup() {
+        println("ensureMintsAreSetup")
         assertTrue(true)
     }
 }

@@ -146,6 +146,72 @@ class PluginFunctionalTest {
         )
     }
 
+    @Test
+    fun willConfigureKotlinWasmJsNode() {
+        settingsFile.writeText(
+            """
+            rootProject.name = "testmints-functional-test"
+            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
+            """.trimIndent()
+        )
+        val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
+        testFile.parentFile.mkdirs()
+        testFile.writeBytes(
+            this::class.java.getResourceAsStream("/Test.kt")!!.readAllBytes()
+        )
+        buildFile.writeText(
+            """
+            import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+            
+            plugins {
+                kotlin("multiplatform") version "2.1.10"
+                id("com.zegreatrob.testmints.logs.mint-logs")
+            }
+            
+            repositories {
+                mavenCentral()
+            }
+            
+            kotlin {
+                @OptIn(ExperimentalWasmDsl::class)
+                wasmJs {
+                    nodejs()
+                }
+            }
+            dependencies {
+                "wasmJsMainImplementation"(kotlin("test"))
+                "wasmJsMainImplementation"("com.zegreatrob.testmints:standard")
+            }
+            
+            
+            rootProject.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java).let {
+                if (it?.version != "22.5.1") {
+                    it?.version = "22.5.1"
+                }
+            }
+            
+            """.trimIndent()
+        )
+
+        val runner = GradleRunner.create()
+        runner.forwardOutput()
+        runner.withPluginClasspath()
+        runner.withArguments(
+            "wasmJsTest",
+            "--info",
+            "-P",
+            "org.gradle.caching=true",
+            "-P",
+            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
+            "--configuration-cache",
+            "-Pversion=$releaseVersion"
+        )
+        runner.withProjectDir(projectDir)
+        val result = runner.build()
+        assertTrue(
+            result.output.trim().contains(multiplatformNodeJsExpectedOutput)
+        )
+    }
 
     @Test
     fun willConfigureKotlinJsBrowser() {

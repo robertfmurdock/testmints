@@ -39,6 +39,7 @@ dependencies {
             classifier = "mint-logs-setup"
         })
     }
+
 }
 
 afterEvaluate {
@@ -63,6 +64,11 @@ afterEvaluate {
     kotlinMultiplatform?.sourceSets {
         "commonTest" {
             kotlin.srcDir(mintLogsSetupSrc)
+        }
+    }
+    if (kotlinMultiplatform != null) {
+        dependencies {
+            "commonTestImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
         }
     }
 

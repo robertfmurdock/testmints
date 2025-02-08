@@ -42,6 +42,7 @@ class StructuredLoggingTestMintsReporter private constructor() : MintReporter {
         fun initialize() {
             platformDefaults()
             MintReporterConfig.reporter = StructuredLoggingTestMintsReporter()
+            println("MintReporterConfig.reporter ${MintReporterConfig.reporter}")
         }
     }
 }
