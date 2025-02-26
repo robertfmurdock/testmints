@@ -32,6 +32,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '20'
+      - uses: testspace-com/setup-testspace@v1
+        with:
+          domain: robertfmurdock
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
@@ -58,6 +61,10 @@ jobs:
         with:
           name: test-output
           path: build/test-output/
+      - name: Push result to Testspace server
+        if: always()
+        run: |
+          testspace $(find . -path *test-results* -name *.xml)
   build-job-mac:
     name: "Build Mac"
     runs-on: macos-latest
@@ -81,6 +88,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '20'
+      - uses: testspace-com/setup-testspace@v1
+        with:
+          domain: robertfmurdock
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
@@ -96,3 +106,7 @@ jobs:
           name: test-output
           path: |
             build/test-output/
+      - name: Push result to Testspace server
+        if: always()
+        run: |
+          testspace $(find . -path *test-results* -name *.xml)
