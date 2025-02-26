@@ -33,6 +33,7 @@ jobs:
           distribution: 'zulu'
           java-version: '20'
       - uses: testspace-com/setup-testspace@v1
+        if: ${{ github.ref == 'refs/heads/master' }}
         with:
           domain: robertfmurdock
       - name: Setup Gradle
@@ -62,7 +63,7 @@ jobs:
           name: test-output
           path: build/test-output/
       - name: Push result to Testspace server
-        if: always()
+        if: ${{ github.ref == 'refs/heads/master' && always()}}
         run: |
           testspace $(find . -path *test-results* -name *.xml)
   build-job-mac:
@@ -89,6 +90,7 @@ jobs:
           distribution: 'zulu'
           java-version: '20'
       - uses: testspace-com/setup-testspace@v1
+        if: ${{ github.ref == 'refs/heads/master' }}
         with:
           domain: robertfmurdock
       - name: Setup Gradle
@@ -107,6 +109,6 @@ jobs:
           path: |
             build/test-output/
       - name: Push result to Testspace server
-        if: always()
+        if: ${{ github.ref == 'refs/heads/master' && always()}}
         run: |
           testspace $(find . -path *test-results* -name *.xml)
