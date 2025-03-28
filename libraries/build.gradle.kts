@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
+
 plugins {
     alias(libs.plugins.com.github.sghill.distribution.sha)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
@@ -52,30 +54,6 @@ tasks {
     }
 }
 
-fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")
-
-fun Project.isMacRelease() = findProperty("release-target") == "mac"
-
-fun TaskCollection<AbstractPublishToMaven>.disableTaskForPublication(
-    targetPub: MavenPublication
-) {
-    matching { it.publication == targetPub }
-        .configureEach { this.onlyIf { false } }
-}
-
-val macTargets = listOf(
-    "macosX64",
-    "iosX64",
-    "iosArm32",
-    "iosArm64"
-)
-
-fun PublicationContainer.nonMacPublications() = matching { !macTargets.contains(it.name) }
-
-fun PublicationContainer.jvmPublication(): NamedDomainObjectSet<Publication> = matching { it.name == "jvm" }
-
-rootProject.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java).let {
-    if (it?.version != "22.5.1") {
-        it?.version = "22.5.1"
-    }
+rootProject.extensions.findByType(NodeJsEnvSpec::class.java).let {
+    it?.version = "23.9.0"
 }
