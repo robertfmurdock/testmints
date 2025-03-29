@@ -7,7 +7,7 @@ org-jmailen-gradle-kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:5.0.1
 
 [plugins]
 com-github-ben-manes-versions = "com.github.ben-manes.versions:0.52.0"
-nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.5"
+nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.0.0"
 
 [versions]
 org-jetbrains-kotlin = "2.1.20"
