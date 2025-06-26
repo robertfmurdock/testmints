@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.com.google.gson.JsonArray
 import org.jetbrains.kotlin.com.google.gson.JsonElement
 import org.jetbrains.kotlin.com.google.gson.JsonObject
 import org.jetbrains.kotlin.com.google.gson.JsonPrimitive
-import org.jetbrains.kotlin.gradle.plugin.attributes.KlibPackaging
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
 import org.jetbrains.kotlin.gradle.plugin.usesPlatformOf
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
@@ -47,8 +46,8 @@ afterEvaluate {
         val hooksConfiguration: Configuration by configurations.creating {
             isCanBeResolved = true
             isCanBeConsumed = false
-            @Suppress("OPT_IN_USAGE")
-            attributes.attribute(KlibPackaging.ATTRIBUTE, project.objects.named(KlibPackaging.PACKED))
+//            @Suppress("OPT_IN_USAGE")
+//            attributes.attribute(KlibPackaging.ATTRIBUTE, project.objects.named(KlibPackaging.PACKED))
             attributes.attribute(
                 Usage.USAGE_ATTRIBUTE,
                 project.objects.named<Usage>(Usage::class.java, "kotlin-runtime")
