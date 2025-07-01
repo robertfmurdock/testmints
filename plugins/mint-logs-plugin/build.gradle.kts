@@ -6,7 +6,7 @@ plugins {
     `kotlin-dsl`
     alias(libs.plugins.com.gradle.plugin.publish)
     base
-    id("org.jetbrains.kotlin.jvm") version(embeddedKotlinVersion)
+    id("org.jetbrains.kotlin.jvm") version(libs.versions.org.jetbrains.kotlin)
     signing
 }
 
@@ -15,7 +15,7 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 
 gradlePlugin {
@@ -39,9 +39,9 @@ testing {
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:$embeddedKotlinVersion"))
-    implementation(kotlin("gradle-plugin", embeddedKotlinVersion))
-    implementation(kotlin("test", embeddedKotlinVersion))
+    implementation(platform(libs.org.jetbrains.kotlin.kotlin.bom))
+    implementation(kotlin("gradle-plugin"))
+    implementation(kotlin("test"))
 
     "functionalTestImplementation"(platform(libs.org.junit.junit.bom))
 }
@@ -60,7 +60,6 @@ tasks {
     named<Test>("functionalTest") {
         environment("ROOT_DIR", rootDir)
         environment("RELEASE_VERSION", rootProject.version)
-        enabled = false
     }
     val copyTemplates by registering(Copy::class) {
         inputs.property("version", rootProject.version)
@@ -68,7 +67,7 @@ tasks {
 
         from(project.projectDir.resolve("src/main/templates")) {
             filter<org.apache.tools.ant.filters.ReplaceTokens>(
-                "tokens" to mapOf("TESTMINTS_BOM_VERSION" to rootProject.version,)
+                "tokens" to mapOf("TESTMINTS_BOM_VERSION" to rootProject.version)
             )
         }
         into(project.layout.buildDirectory.dir("generated-sources/templates/kotlin/main"))
