@@ -14,7 +14,19 @@ class AssertionsTest {
     } verify { result ->
         result.exceptionOrNull()
             ?.message
-            ?.assertIsEqualTo("[A, B, C] did not contain Z")
+            .assertIsEqualTo("[A, B, C] did not contain Z")
+    }
+
+    @Test
+    fun onFailureSupportsNulls() = setup(object {
+        val actual = null
+        val expected = "Z"
+    }) exercise {
+        runCatching { actual.assertContains(expected) }
+    } verify { result ->
+        result.exceptionOrNull()
+            ?.message
+            .assertIsEqualTo("Target list was null")
     }
 
     @Test
@@ -26,6 +38,6 @@ class AssertionsTest {
     } verify { result ->
         result.exceptionOrNull()
             ?.message
-            ?.assertIsEqualTo("Two values were unexpectedly identical: a")
+            .assertIsEqualTo("Two values were unexpectedly identical: a")
     }
 }
