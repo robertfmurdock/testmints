@@ -98,7 +98,7 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Release 🔨
-        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache -x :plugins:action-mint-plugin:publishPlugins -x :plugins:mint-logs-plugin:publishPlugins
+        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache -x :plugins:initializeSonatypeStagingRepository -x :plugins:closeSonatypeStagingRepository -x :plugins:action-mint-plugin:publishPlugins -x :plugins:mint-logs-plugin:publishPlugins
       - name: Collect Test Results
         if: ${{ always() }}
         run: ./gradlew collectResults
