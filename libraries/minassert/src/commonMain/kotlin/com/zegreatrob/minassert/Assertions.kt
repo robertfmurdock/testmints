@@ -15,7 +15,7 @@ fun <T> T?.assertIsNotEqualTo(expected: T, message: String? = null) {
     }
 }
 
-fun <T> List<T>?.assertContains(item: T): List<T>? {
+fun <T> List<T>?.assertContains(item: T): List<T> {
     if (this == null) {
         fail("Target list was null")
     }
