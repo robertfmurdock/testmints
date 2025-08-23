@@ -30,7 +30,7 @@ tasks {
         revision = "release"
 
         rejectVersionIf {
-            "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|-beta.*|-Beta.*|-alpha.*)\$"
+            "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|-beta.*|-Beta.*|-alpha.*)$"
                 .toRegex()
                 .matches(candidate.version)
         }

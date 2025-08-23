@@ -33,22 +33,14 @@ project.rootProject.tasks.named("kotlinNodeJsSetup") {
 }
 
 tasks {
-    formatKotlinJsMain {
-        dependsOn("kspKotlinJs")
-    }
-    formatKotlinJsTest {
-        dependsOn("kspTestKotlinJs")
-    }
     withType(FormatTask::class) {
+        dependsOn("kspKotlinJs")
+        dependsOn("kspTestKotlinJs")
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
     withType(LintTask::class) {
-        exclude { spec -> spec.file.absolutePath.contains("generated") }
-    }
-    lintKotlinJsMain {
         dependsOn("kspKotlinJs")
-    }
-    lintKotlinJsTest {
         dependsOn("kspTestKotlinJs")
+        exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
 }
