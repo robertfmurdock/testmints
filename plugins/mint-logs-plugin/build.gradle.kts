@@ -6,7 +6,7 @@ plugins {
     `kotlin-dsl`
     alias(libs.plugins.com.gradle.plugin.publish)
     base
-    id("org.jetbrains.kotlin.jvm") version(libs.versions.org.jetbrains.kotlin)
+    id("org.jetbrains.kotlin.jvm") version(embeddedKotlinVersion)
     signing
 }
 
