@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalWasmJsInterop::class)
+
 package com.zegreatrob.testmints.async
 
 import kotlinx.coroutines.await
