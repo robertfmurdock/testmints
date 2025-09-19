@@ -37,7 +37,7 @@ jobs:
         with:
           domain: robertfmurdock
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Generate Version 🔢
@@ -94,7 +94,7 @@ jobs:
         with:
           domain: robertfmurdock
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Release 🔨
