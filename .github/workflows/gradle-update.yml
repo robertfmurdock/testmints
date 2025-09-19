@@ -25,6 +25,7 @@ jobs:
         with:
           branch: "create-pull-request/${{github.job}}/${{github.run_id}}"
           commit-message: "[patch] libraries ${{github.workflow}}"
+          labels: autorebase:opt-in
           token: ${{ secrets.TESTMINTS_PAT }}
           delete-branch: true
       - name: Enable Pull Request Automerge

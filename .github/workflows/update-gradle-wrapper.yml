@@ -21,6 +21,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: "create-pull-request/${{github.job}}/${{github.run_id}}"
+          labels: autorebase:opt-in
           commit-message: "[patch] ${{github.workflow}}"
           token: ${{ secrets.TESTMINTS_PAT }}
           delete-branch: true
