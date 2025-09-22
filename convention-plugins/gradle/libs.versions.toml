@@ -10,4 +10,4 @@ com-github-ben-manes-versions = "com.github.ben-manes.versions:0.52.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.0.0"
 
 [versions]
-org-jetbrains-kotlin = "2.2.10"
+org-jetbrains-kotlin = "2.2.20"
