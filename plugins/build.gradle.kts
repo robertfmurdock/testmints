@@ -8,6 +8,10 @@ plugins {
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
 }
 
+repositories {
+    mavenCentral()
+}
+
 nexusPublishing {
     this@nexusPublishing.repositories {
         sonatype {

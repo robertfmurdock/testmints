@@ -9,7 +9,6 @@ plugins {
 
 group = "com.zegreatrob.testmints"
 
-
 tagger {
     releaseBranch = "master"
     githubReleaseEnabled.set(true)
