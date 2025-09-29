@@ -1,9 +1,3 @@
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-    }
-}
-
 plugins {
     id("com.gradle.develocity") version "3.17.3"
 }
