@@ -14,9 +14,9 @@ class MintLoggingExtension :
 
     private val logger by lazy { KotlinLogging.logger("testmints") }
 
-    override fun beforeAll(context: ExtensionContext?) = StructuredLoggingTestMintsReporter.initialize()
+    override fun beforeAll(context: ExtensionContext) = StructuredLoggingTestMintsReporter.initialize()
 
-    override fun beforeTestExecution(context: ExtensionContext?) {
+    override fun beforeTestExecution(context: ExtensionContext) {
         logger.atInfo {
             message = "test-start"
             payload = mapOf(
@@ -32,7 +32,7 @@ class MintLoggingExtension :
 
     private fun ExtensionContext?.testName() = "${this?.parent?.getOrNull()?.displayName}.${this?.displayName}"
 
-    override fun afterTestExecution(context: ExtensionContext?) = logger.atInfo {
+    override fun afterTestExecution(context: ExtensionContext) = logger.atInfo {
         message = "test-finish"
         payload = mapOf("step" to "test", "state" to "finish")
     }
