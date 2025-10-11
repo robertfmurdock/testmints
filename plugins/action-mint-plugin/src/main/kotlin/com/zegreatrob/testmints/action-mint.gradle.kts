@@ -9,7 +9,6 @@ afterEvaluate {
     val kotlinMultiplatform =
         extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-
     kotlinMultiplatform?.run {
         dependencies {
             configurations.names.forEach {

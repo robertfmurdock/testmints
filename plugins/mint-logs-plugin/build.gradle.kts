@@ -39,9 +39,9 @@ testing {
 }
 
 dependencies {
-    implementation(platform(libs.org.jetbrains.kotlin.kotlin.bom))
-    implementation(kotlin("gradle-plugin"))
-    implementation(kotlin("test"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:$embeddedKotlinVersion"))
+    implementation(kotlin("gradle-plugin", embeddedKotlinVersion))
+    implementation(kotlin("test", embeddedKotlinVersion))
 
     "functionalTestImplementation"(platform(libs.org.junit.junit.bom))
 }
