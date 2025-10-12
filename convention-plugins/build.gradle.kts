@@ -14,8 +14,8 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(kotlin("bom", embeddedKotlinVersion)))
-    implementation(kotlin("stdlib", embeddedKotlinVersion))
+    implementation(platform(libs.org.jetbrains.kotlin.kotlin.bom))
+    implementation(kotlin("stdlib"))
     implementation(libs.org.jetbrains.kotlin.kotlin.gradle.plugin)
     implementation(libs.com.github.ben.manes.gradle.versions.plugin)
     implementation(libs.org.jmailen.gradle.kotlinter.gradle)
