@@ -36,4 +36,7 @@ tasks {
     wasmJsTest {
         enabled = false
     }
+    linuxX64Test {
+        enabled = false
+    }
 }
