@@ -21,6 +21,7 @@ dependencies {
     constraints {
         api(libs.org.slf4j.slf4j.simple)
         api(libs.io.github.oshai.kotlin.logging)
+        api(libs.de.infix.testBalloon.testBalloon.framework.core)
     }
 }
 
