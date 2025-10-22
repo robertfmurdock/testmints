@@ -1,12 +1,14 @@
 package com.zegreatrob.testmints.example.testballoon
 
 import com.zegreatrob.testmints.CompoundMintTestException
+import com.zegreatrob.testmints.async.AsyncMintDispatcher
 import com.zegreatrob.testmints.async.ScopeMint
 import com.zegreatrob.testmints.async.asyncSetup
 import com.zegreatrob.testmints.async.asyncTestTemplate
 import com.zegreatrob.testmints.async.eventLoopProtect
 import com.zegreatrob.testmints.async.waitForTest
 import com.zegreatrob.testmints.captureException
+import com.zegreatrob.testmints.report.MintReporter
 import de.infix.testBalloon.framework.testSuite
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +28,15 @@ enum class Steps {
     Exercise,
     Verify,
     Teardown,
+}
+
+enum class Call {
+    ExerciseStart,
+    ExerciseFinish,
+    VerifyStart,
+    VerifyFinish,
+    TeardownStart,
+    TeardownFinish,
 }
 
 @Suppress("unused")
@@ -746,124 +757,116 @@ val AsyncMintsTest by testSuite {
             }
         }
         testSuite("ReporterFeatures") {
-//
-//                enum class Call {
-//                    ExerciseStart,
-//                    ExerciseFinish,
-//                    VerifyStart,
-//                    VerifyFinish,
-//                    TeardownStart,
-//                    TeardownFinish,
-//                }
-//
-//                @Test
-//                fun willReportTestEventInOrderToReporter() = asyncSetup(object : AsyncMintDispatcher {
-//                    val calls = mutableListOf<Call>()
-//                    private fun record(call: Call) = calls.add(call).let { }
-//
-//                    override val reporter = object : MintReporter {
-//                        override fun exerciseStart(context: Any) = record(Call.ExerciseStart)
-//                        override fun exerciseFinish() = record(Call.ExerciseFinish)
-//                        override fun verifyStart(payload: Any?) = record(Call.VerifyStart)
-//                        override fun verifyFinish() = record(Call.VerifyFinish)
-//                        override fun teardownStart() = record(Call.TeardownStart)
-//                        override fun teardownFinish() = record(Call.TeardownFinish)
-//                    }
-//
-//                    fun exampleTest() = asyncSetup() exercise {} verifyAnd {} teardown {}
-//                }) exercise {
-//                    waitForTest { exampleTest() }
-//                } verify {
-//                    assertEquals(
-//                        expected = listOf(
-//                            Call.ExerciseStart,
-//                            Call.ExerciseFinish,
-//                            Call.VerifyStart,
-//                            Call.VerifyFinish,
-//                            Call.TeardownStart,
-//                            Call.TeardownFinish,
-//                        ),
-//                        actual = calls,
-//                    )
-//                }
-//
-//                @Test
-//                fun reporterCanBeConfiguredAfterTemplatesAreDefined() = asyncSetup(object : AsyncMintDispatcher {
-//                    val templatedSetup = asyncTestTemplate(sharedSetup = {})
-//
-//                    fun simpleTest() = templatedSetup() exercise {} verifyAnd {} teardown {}
-//                    var exerciseCalled = false
-//                    override val reporter = object : MintReporter {
-//                        override fun exerciseStart(context: Any) {
-//                            exerciseCalled = true
-//                        }
-//                    }
-//                }) exercise {
-//                    waitForTest { simpleTest() }
-//                } verify {
-//                    assertEquals(true, exerciseCalled)
-//                }
-//
-//                @Test
-//                fun exerciseStartWillLogContext() = asyncSetup(object : AsyncMintDispatcher {
-//                    var exerciseStartPayload: Any? = null
-//                    override val reporter = object : MintReporter {
-//                        override fun exerciseStart(context: Any) {
-//                            exerciseStartPayload = context
-//                        }
-//                    }
-//                    val expectedObject = object {}
-//
-//                    fun simpleTest() = asyncSetup(expectedObject) exercise { } verify {}
-//                }) exercise {
-//                    waitForTest { simpleTest() }
-//                } verify {
-//                    assertEquals(expectedObject, exerciseStartPayload)
-//                }
-//
-//                @Test
-//                fun verifyStartWillLogThePayload() = asyncSetup(object : AsyncMintDispatcher {
-//                    var verifyStartPayload: Any? = null
-//
-//                    override val reporter = object : MintReporter {
-//                        override fun verifyStart(payload: Any?) {
-//                            verifyStartPayload = payload
-//                        }
-//                    }
-//                    val expectedResult = object {}
-//                    fun simpleTest() = asyncSetup() exercise { expectedResult } verify {}
-//                }) exercise {
-//                    waitForTest { simpleTest() }
-//                } verify {
-//                    assertEquals(expectedResult, verifyStartPayload)
-//                }
-//
-//                @Test
-//                fun verifyFinishWillWaitUntilVerifyIsComplete() = asyncSetup(object : AsyncMintDispatcher {
-//                    val verifyState = mutableListOf<String>()
-//                    var result: String? = null
-//                    override val reporter = object : MintReporter {
-//                        override fun verifyFinish() {
-//                            result = verifyState.joinToString("")
-//                        }
-//                    }
-//                    val expectedResult = object {}
-//                    val expectedException = Exception("end in failure")
-//
-//                    fun simpleTest() = asyncSetup() exercise { expectedResult } verify {
-//                        verifyState.add("a")
-//                        delay(20)
-//                        verifyState.add("b")
-//                        delay(20)
-//                        verifyState.add("c")
-//                        throw expectedException
-//                    }
-//                }) exercise {
-//                    captureException { waitForTest { simpleTest() } }
-//                } verify { exception ->
-//                    assertEquals(expectedException.message, exception?.message)
-//                    assertEquals("abc", result)
-//                }
+            test("willReportTestEventInOrderToReporter") {
+                asyncSetup(object : AsyncMintDispatcher {
+                    val calls = mutableListOf<Call>()
+                    private fun record(call: Call) = calls.add(call).let { }
+
+                    override val reporter = object : MintReporter {
+                        override fun exerciseStart(context: Any) = record(Call.ExerciseStart)
+                        override fun exerciseFinish() = record(Call.ExerciseFinish)
+                        override fun verifyStart(payload: Any?) = record(Call.VerifyStart)
+                        override fun verifyFinish() = record(Call.VerifyFinish)
+                        override fun teardownStart() = record(Call.TeardownStart)
+                        override fun teardownFinish() = record(Call.TeardownFinish)
+                    }
+
+                    fun exampleTest() = asyncSetup() exercise {} verifyAnd {} teardown {}
+                }) exercise {
+                    waitForTest { exampleTest() }
+                } verify {
+                    assertEquals(
+                        expected = listOf(
+                            Call.ExerciseStart,
+                            Call.ExerciseFinish,
+                            Call.VerifyStart,
+                            Call.VerifyFinish,
+                            Call.TeardownStart,
+                            Call.TeardownFinish,
+                        ),
+                        actual = calls,
+                    )
+                }
+            }
+            test("reporterCanBeConfiguredAfterTemplatesAreDefined") {
+                asyncSetup(object : AsyncMintDispatcher {
+                    val templatedSetup = asyncTestTemplate(sharedSetup = {})
+
+                    fun simpleTest() = templatedSetup() exercise {} verifyAnd {} teardown {}
+                    var exerciseCalled = false
+                    override val reporter = object : MintReporter {
+                        override fun exerciseStart(context: Any) {
+                            exerciseCalled = true
+                        }
+                    }
+                }) exercise {
+                    waitForTest { simpleTest() }
+                } verify {
+                    assertEquals(true, exerciseCalled)
+                }
+            }
+
+            test("exerciseStartWillLogContext") {
+                asyncSetup(object : AsyncMintDispatcher {
+                    var exerciseStartPayload: Any? = null
+                    override val reporter = object : MintReporter {
+                        override fun exerciseStart(context: Any) {
+                            exerciseStartPayload = context
+                        }
+                    }
+                    val expectedObject = object {}
+
+                    fun simpleTest() = asyncSetup(expectedObject) exercise { } verify {}
+                }) exercise {
+                    waitForTest { simpleTest() }
+                } verify {
+                    assertEquals(expectedObject, exerciseStartPayload)
+                }
+            }
+            test("verifyStartWillLogThePayload") {
+                asyncSetup(object : AsyncMintDispatcher {
+                    var verifyStartPayload: Any? = null
+
+                    override val reporter = object : MintReporter {
+                        override fun verifyStart(payload: Any?) {
+                            verifyStartPayload = payload
+                        }
+                    }
+                    val expectedResult = object {}
+                    fun simpleTest() = asyncSetup() exercise { expectedResult } verify {}
+                }) exercise {
+                    waitForTest { simpleTest() }
+                } verify {
+                    assertEquals(expectedResult, verifyStartPayload)
+                }
+            }
+            test("verifyFinishWillWaitUntilVerifyIsComplete") {
+                asyncSetup(object : AsyncMintDispatcher {
+                    val verifyState = mutableListOf<String>()
+                    var result: String? = null
+                    override val reporter = object : MintReporter {
+                        override fun verifyFinish() {
+                            result = verifyState.joinToString("")
+                        }
+                    }
+                    val expectedResult = object {}
+                    val expectedException = Exception("end in failure")
+
+                    fun simpleTest() = asyncSetup() exercise { expectedResult } verify {
+                        verifyState.add("a")
+                        delay(20)
+                        verifyState.add("b")
+                        delay(20)
+                        verifyState.add("c")
+                        throw expectedException
+                    }
+                }) exercise {
+                    captureException { waitForTest { simpleTest() } }
+                } verify { exception ->
+                    assertEquals(expectedException.message, exception?.message)
+                    assertEquals("abc", result)
+                }
+            }
         }
     }
 }
