@@ -1,19 +1,19 @@
 [versions]
-org-jetbrains-kotlin = "2.2.10"
+org-jetbrains-kotlin = "2.2.20"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.2.10-2.0.2"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.0"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.2.0"
+de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBalloon-framework-core:0.6.0-K2.2.20-RC"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.13"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.2"
 org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.9.0"
 org-junit-junit-bom = "org.junit:junit-bom:6.0.0"
 org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.17"
-de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBalloon-framework-core:0.6.0-K2.2.0"
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
+de-infix-testBalloon = "de.infix.testBalloon:0.6.0-K2.2.20-RC"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.0.1"
-de-infix-testBalloon = "de.infix.testBalloon:0.6.0-K2.2.0"
