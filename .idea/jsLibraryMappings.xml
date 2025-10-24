@@ -12,7 +12,7 @@
     <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-mint-logs-test/node_modules" />
     <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-report-test/node_modules" />
     <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-standard-test/node_modules" />
-    <excludedPredefinedLibrary name="testmints/plugins-test/build/js/node_modules" />
-    <excludedPredefinedLibrary name="testmints/plugins-test/build/js/packages/plugins-test-mint-action-test-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/js/packages/testmints-test-balloon-example-test/node_modules" />
+    <excludedPredefinedLibrary name="testmints/libraries/build/wasm/node_modules" />
   </component>
 </project>
