@@ -42,7 +42,7 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Build 🔨
-        run: ./gradlew -p plugins check
+        run: ./gradlew check
       - name: Collect Results
         if: ${{ always() }}
         run: ./gradlew collectResults
