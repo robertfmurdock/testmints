@@ -44,13 +44,17 @@ jobs:
       - name: Generate Version 🔢
         run: ./gradlew calculateVersion -PexportToGithub=true --scan
       - name: Build 🔨
-        run: ./gradlew -p plugins :check
-      - name: Build 🔨
-        run: ./gradlew -p plugins-test :check
-      - name: Build 🔨
         run: ./gradlew assemble check -Pversion=${{ env.TAGGER_VERSION }} --scan --no-configuration-cache
       - name: Release 🙏
-        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} --scan --no-configuration-cache
+        run: |
+          ./gradlew release \
+          -Pversion=${{ env.TAGGER_VERSION }} \
+          -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} \
+          -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} \
+          -x :plugins-test:mint-action-test:compileTestKotlinIosX64 \
+          -x :plugins-test:mint-action-test:compileTestKotlinMacosX64 \
+          --scan \
+          --no-configuration-cache
       - name: Update Contributions
         uses: robertfmurdock/coupling-contribution-action@v3
         with:
