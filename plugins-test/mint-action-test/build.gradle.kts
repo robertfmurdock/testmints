@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
@@ -24,7 +25,7 @@ kotlin {
     }
 }
 
-org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.apply(project.rootProject)
+NodeJsRootPlugin.apply(project.rootProject)
 project.rootProject.tasks.named("kotlinNpmInstall") {
     dependsOn(gradle.includedBuild("libraries").task(":kotlinNpmInstall"))
 }

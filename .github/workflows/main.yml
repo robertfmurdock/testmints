@@ -46,7 +46,15 @@ jobs:
       - name: Build 🔨
         run: ./gradlew assemble check -Pversion=${{ env.TAGGER_VERSION }} --scan --no-configuration-cache
       - name: Release 🙏
-        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} --scan --no-configuration-cache
+        run: |
+          ./gradlew release \
+          -Pversion=${{ env.TAGGER_VERSION }} \
+          -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} \
+          -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} \
+          -x :plugins-test:mint-action-test:compileTestKotlinIosX64 \
+          -x :plugins-test:mint-action-test:compileTestKotlinMacosX64 \
+          --scan \
+          --no-configuration-cache
       - name: Update Contributions
         uses: robertfmurdock/coupling-contribution-action@v3
         with:
@@ -99,7 +107,17 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Release 🔨
-        run: ./gradlew release -Pversion=${{ env.TAGGER_VERSION }} -Prelease-target=mac --scan --no-configuration-cache -x :plugins:publish -x :plugins:initializeSonatypeStagingRepository -x :plugins:closeSonatypeStagingRepository -x :plugins:action-mint-plugin:publishPlugins -x :plugins:mint-logs-plugin:publishPlugins
+        run: |
+          ./gradlew release \
+          -Pversion=${{ env.TAGGER_VERSION }} \
+          -Prelease-target=mac \
+          --scan \
+          --no-configuration-cache \
+          -x :plugins:publish \
+          -x :plugins:initializeSonatypeStagingRepository \
+          -x :plugins:closeSonatypeStagingRepository \
+          -x :plugins:action-mint-plugin:publishPlugins \
+          -x :plugins:mint-logs-plugin:publishPlugins
       - name: Collect Test Results
         if: ${{ always() }}
         run: ./gradlew collectResults

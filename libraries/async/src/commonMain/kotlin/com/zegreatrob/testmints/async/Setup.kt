@@ -16,7 +16,7 @@ class Setup<out C : Any, out SC : Any>(
     private val timeoutMs: Long,
     private val wrapper: suspend (TestFunc<SC>) -> Unit,
 ) {
-    infix fun <R> exercise(exerciseFunc: suspend C.() -> R) = Exercise<C, R>(timeoutMs) { verifyFunc ->
+    infix fun <R> exercise(exerciseFunc: suspend C.() -> R) = Exercise(timeoutMs) { verifyFunc ->
         { teardownFunc ->
             scope.async { runTest(exerciseFunc, verifyFunc, teardownFunc) }.apply {
                 invokeOnCompletion { cause -> scope.cancel(cause?.wrapCause()) }

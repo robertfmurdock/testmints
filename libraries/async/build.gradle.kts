@@ -34,18 +34,3 @@ kotlin {
         }
     }
 }
-
-tasks {
-
-    // Appears to be a bug with delay on these platforms with the new compiler. We'll bring these back online later.
-
-    linuxX64Test {
-        enabled = false
-    }
-    macosX64Test {
-        enabled = false
-    }
-    iosX64Test {
-        enabled = false
-    }
-}

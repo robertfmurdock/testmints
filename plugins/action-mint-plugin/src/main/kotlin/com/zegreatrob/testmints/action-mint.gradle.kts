@@ -8,8 +8,7 @@ plugins {
 afterEvaluate {
     val kotlinMultiplatform =
         extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-
-    kotlinMultiplatform?.run {
+    if (kotlinMultiplatform != null) {
         dependencies {
             configurations.names.forEach {
                 if (it.startsWith("ksp") && it != "ksp") {
