@@ -72,11 +72,11 @@ tasks {
         jvmPublication().withType<MavenPublication> {
             artifact(javadocJar)
         }
-
         val publishTasks = withType<AbstractPublishToMaven>()
-        val nonMacPublications = nonMacPublications()
         if (isMacRelease()) {
-            nonMacPublications.withType<MavenPublication> { publishTasks.disableTaskForPublication(this) }
+            nonMacPublications().withType<MavenPublication> { publishTasks.disableTaskForPublication(this) }
+        } else {
+            macPublications().withType<MavenPublication> { publishTasks.disableTaskForPublication(this) }
         }
     }
 }
@@ -88,6 +88,15 @@ fun TaskCollection<AbstractPublishToMaven>.disableTaskForPublication(
 ) {
     matching { it.publication == targetPub }
         .configureEach { this.onlyIf { false } }
+}
+
+fun PublicationContainer.macPublications() = matching {
+    it.name in listOf(
+        "macosX64",
+        "iosX64",
+        "iosArm32",
+        "iosArm64"
+    )
 }
 
 fun PublicationContainer.nonMacPublications() = matching {
