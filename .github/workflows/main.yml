@@ -32,7 +32,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '22'
+          java-version: '21'
       - uses: testspace-com/setup-testspace@v1
         if: ${{ github.ref == 'refs/heads/master' }}
         with:
@@ -103,7 +103,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '22'
+          java-version: '21'
       - uses: testspace-com/setup-testspace@v1
         if: ${{ github.ref == 'refs/heads/master' }}
         with:
