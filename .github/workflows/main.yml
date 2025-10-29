@@ -42,7 +42,7 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
       - name: Generate Version 🔢
-        run: ./gradlew calculateVersion -PexportToGithub=true --scan
+        run: ./gradlew calculateVersion -PexportToGithub=true --scan :libraries:kotlinWasmToolingSetup
       - name: Build 🔨
         run: |
           ./gradlew \
