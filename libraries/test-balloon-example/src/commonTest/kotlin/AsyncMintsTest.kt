@@ -9,7 +9,7 @@ import com.zegreatrob.testmints.async.eventLoopProtect
 import com.zegreatrob.testmints.async.waitForTest
 import com.zegreatrob.testmints.captureException
 import com.zegreatrob.testmints.report.MintReporter
-import de.infix.testBalloon.framework.testSuite
+import de.infix.testBalloon.framework.core.testSuite
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

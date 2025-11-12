@@ -22,11 +22,9 @@ kotlin {
 
 tasks {
     withType(FormatTask::class) {
-        dependsOn("generateTestBalloonInitialization")
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
     withType(LintTask::class) {
-        dependsOn("generateTestBalloonInitialization")
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
     wasmJsNodeTest {
