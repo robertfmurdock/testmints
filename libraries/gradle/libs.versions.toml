@@ -2,7 +2,7 @@
 org-jetbrains-kotlin = "2.2.21"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.3"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.4"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.2.0"
 de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBalloon-framework-core:0.7.1-K2.2.21"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.13"

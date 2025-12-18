@@ -32,7 +32,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.2.21"
+                kotlin("multiplatform") version "2.3.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -91,7 +91,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.2.21"
+                kotlin("multiplatform") version "2.3.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -152,7 +152,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.2.21"
+                kotlin("multiplatform") version "2.3.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -208,7 +208,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.2.21"
+                kotlin("multiplatform") version "2.3.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -285,7 +285,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("jvm") version "2.2.21"
+                kotlin("jvm") version "2.3.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             repositories {
