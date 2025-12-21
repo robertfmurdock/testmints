@@ -1,10 +1,10 @@
 [versions]
-org-jetbrains-kotlin = "2.2.21"
+org-jetbrains-kotlin = "2.3.0"
 
 [libraries]
 com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.4"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.2.0"
-de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBalloon-framework-core:0.7.1-K2.2.21"
+de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBalloon-framework-core:0.7.1-K2.3.0"
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.13"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.2"
@@ -14,6 +14,6 @@ org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.17"
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
-de-infix-testBalloon = "de.infix.testBalloon:0.7.1-K2.2.21"
+de-infix-testBalloon = "de.infix.testBalloon:0.7.1-K2.3.0"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.0.1"

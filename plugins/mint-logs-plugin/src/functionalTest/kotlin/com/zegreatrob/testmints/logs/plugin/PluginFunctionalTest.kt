@@ -3,6 +3,7 @@ package com.zegreatrob.testmints.logs.plugin
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.CleanupMode
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
@@ -18,12 +19,7 @@ class PluginFunctionalTest {
 
     @Test
     fun willConfigureKotlinJsNodeDefaults() {
-        settingsFile.writeText(
-            """
-            rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
-            """.trimIndent()
-        )
+        createSettingsFile()
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
@@ -46,8 +42,8 @@ class PluginFunctionalTest {
                 }
             }
             dependencies {
-                "jsMainImplementation"(kotlin("test"))
-                "jsMainImplementation"("com.zegreatrob.testmints:standard")
+                "commonTestImplementation"(kotlin("test"))
+                "commonTestImplementation"("com.zegreatrob.testmints:standard")
             }
             rootProject.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec::class.java).let {
                 it?.version = "23.9.0"
@@ -57,7 +53,6 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withPluginClasspath()
         runner.withArguments(
             "jsTest",
             "--info",
@@ -77,12 +72,7 @@ class PluginFunctionalTest {
 
     @Test
     fun willConfigureKotlinJsNodeEs2015() {
-        settingsFile.writeText(
-            """
-            rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
-            """.trimIndent()
-        )
+        createSettingsFile()
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
@@ -106,8 +96,8 @@ class PluginFunctionalTest {
                 }
             }
             dependencies {
-                "jsMainImplementation"(kotlin("test"))
-                "jsMainImplementation"("com.zegreatrob.testmints:standard")
+                "commonTestImplementation"(kotlin("test"))
+                "commonTestImplementation"("com.zegreatrob.testmints:standard")
             }
             rootProject.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec::class.java).let {
                 it?.version = "23.9.0"
@@ -117,7 +107,6 @@ class PluginFunctionalTest {
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withPluginClasspath()
         runner.withArguments(
             "jsTest",
             "--info",
@@ -138,12 +127,7 @@ class PluginFunctionalTest {
 
     @Test
     fun willConfigureKotlinJsBrowser() {
-        settingsFile.writeText(
-            """
-            rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
-            """.trimIndent()
-        )
+        createSettingsFile()
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
@@ -166,15 +150,14 @@ class PluginFunctionalTest {
                 }
             }
             dependencies {
-                "jsMainImplementation"(kotlin("test"))
-                "jsMainImplementation"("com.zegreatrob.testmints:standard")
+                "commonTestImplementation"(kotlin("test"))
+                "commonTestImplementation"("com.zegreatrob.testmints:standard")
             }
             """.trimIndent()
         )
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withPluginClasspath()
         runner.withArguments(
             "jsTest",
             "--info",
@@ -194,12 +177,7 @@ class PluginFunctionalTest {
 
     @Test
     fun willConfigureMultiplatform() {
-        settingsFile.writeText(
-            """
-            rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
-            """.trimIndent()
-        )
+        createSettingsFile()
         val testFile = projectDir.resolve("src/commonTest/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
@@ -239,7 +217,6 @@ class PluginFunctionalTest {
         )
 
         val runner = GradleRunner.create()
-        runner.withPluginClasspath()
         runner.forwardOutput()
         runner.withArguments(
             "jsTest",
@@ -250,7 +227,7 @@ class PluginFunctionalTest {
             "org.gradle.caching=true",
             "-P",
             "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
-            "-Pversion=$releaseVersion"
+            "-Pversion=$releaseVersion",
         )
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -271,12 +248,7 @@ class PluginFunctionalTest {
 
     @Test
     fun willConfigureKotlinJvm() {
-        settingsFile.writeText(
-            """
-            rootProject.name = "testmints-functional-test"
-            includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
-            """.trimIndent()
-        )
+        createSettingsFile()
         val testFile = projectDir.resolve("src/test/kotlin/Test.kt")
         testFile.parentFile.mkdirs()
         testFile.writeBytes(
@@ -299,16 +271,15 @@ class PluginFunctionalTest {
                 }
             }
             dependencies {
-                implementation(kotlin("test"))
-                implementation("com.zegreatrob.testmints:standard")
-                implementation("org.slf4j:slf4j-simple:2.0.6")
+                testImplementation(kotlin("test"))
+                testImplementation("com.zegreatrob.testmints:standard")
+                testImplementation("org.slf4j:slf4j-simple:2.0.6")
             }
             """.trimIndent()
         )
 
         val runner = GradleRunner.create()
         runner.forwardOutput()
-        runner.withPluginClasspath()
         runner.withArguments(
             "test",
             "--info",
@@ -325,6 +296,16 @@ class PluginFunctionalTest {
         assertTrue(
             result.output.trim().contains(jvmExpectedOutput)
         ) { "${result.output}\n did not contain \n$jvmExpectedOutput" }
+    }
+
+    private fun createSettingsFile() {
+        settingsFile.writeText(
+            """
+                rootProject.name = "testmints-functional-test"
+                includeBuild("${System.getenv("ROOT_DIR")}/../plugins")
+                includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
+                """.trimIndent()
+        )
     }
 
     private val jvmExpectedOutput = """
