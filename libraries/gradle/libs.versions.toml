@@ -5,7 +5,7 @@ org-jetbrains-kotlin = "2.3.0"
 com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.4"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.2.0"
 de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBalloon-framework-core:0.8.0-Beta2"
-io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.13"
+io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.14"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.2"
 org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.9.0"
