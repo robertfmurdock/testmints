@@ -57,3 +57,4 @@ tasks {
 rootProject.extensions.findByType(NodeJsEnvSpec::class.java).let {
     it?.version = "23.9.0"
 }
+

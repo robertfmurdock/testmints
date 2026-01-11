@@ -3,7 +3,6 @@ import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 plugins {
-    id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.platforms")
     alias(libs.plugins.de.infix.testBalloon)
 }

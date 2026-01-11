@@ -1,6 +1,5 @@
 plugins {
     `java-platform`
-    id("com.zegreatrob.testmints.plugins.versioning")
     id("com.zegreatrob.testmints.plugins.publish")
     id("org.jmailen.kotlinter")
 }

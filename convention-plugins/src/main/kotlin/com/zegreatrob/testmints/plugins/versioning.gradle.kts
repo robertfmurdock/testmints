@@ -1,28 +1,18 @@
 package com.zegreatrob.testmints.plugins
 
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import nl.littlerobots.vcu.plugin.versionSelector
 
 plugins {
-    id("com.github.ben-manes.versions")
+    id("nl.littlerobots.version-catalog-update")
 }
 
 repositories {
     mavenCentral()
 }
 
-tasks {
-    withType<DependencyUpdatesTask> {
-        gradleReleaseChannel = "current"
-        checkForGradleUpdate = true
-        outputFormatter = "json"
-        outputDir = "build/dependencyUpdates"
-        reportfileName = "report"
-        revision = "release"
-
-        rejectVersionIf {
-            "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|-beta.*|-Beta.*|-alpha.*)\$"
-                .toRegex()
-                .matches(candidate.version)
-        }
+versionCatalogUpdate {
+    val rejectRegex = "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|-beta.*|-Beta.*|-alpha.*)$".toRegex()
+    versionSelector { versionCandidate ->
+        !rejectRegex.matches(versionCandidate.candidate.version)
     }
 }
