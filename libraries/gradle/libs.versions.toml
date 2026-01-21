@@ -8,7 +8,7 @@ de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBall
 io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:7.0.14"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.2"
-org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.9.0"
+org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.10.0"
 org-junit-junit-bom = "org.junit:junit-bom:6.0.2"
 org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.17"
 
