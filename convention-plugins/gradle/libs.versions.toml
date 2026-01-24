@@ -3,7 +3,7 @@ nl-littlerobots-vcu-plugin = "nl.littlerobots.vcu:plugin:1.0.1"
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlin-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlin-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "org-jetbrains-kotlin" }
-org-jmailen-gradle-kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:5.3.0"
+org-jmailen-gradle-kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:5.4.0"
 
 [plugins]
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.0.1"
