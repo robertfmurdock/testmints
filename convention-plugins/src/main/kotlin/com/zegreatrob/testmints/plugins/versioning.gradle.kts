@@ -11,7 +11,7 @@ repositories {
 }
 
 versionCatalogUpdate {
-    val rejectRegex = "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|-beta.*|-Beta.*|-alpha.*)$".toRegex()
+    val rejectRegex = "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|.*-beta.*|.*-Beta.*|.*-alpha.*)$".toRegex()
     versionSelector { versionCandidate ->
         !rejectRegex.matches(versionCandidate.candidate.version)
     }
