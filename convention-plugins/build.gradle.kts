@@ -44,10 +44,8 @@ versionCatalogUpdate {
     keep {
         keepUnusedVersions.set(true)
     }
-    val rejectRegex = "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|-beta.*|-Beta.*|-alpha.*)$".toRegex()
+    val rejectRegex = "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|.*-beta.*|.*-Beta.*|.*-alpha.*)$".toRegex()
     versionSelector { versionCandidate ->
-        val reject = rejectRegex.matches(versionCandidate.candidate.version)
-        println(versionCandidate.candidate.version + " $reject")
-        !reject
+        !rejectRegex.matches(versionCandidate.candidate.version)
     }
 }
