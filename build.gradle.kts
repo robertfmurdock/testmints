@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     alias(libs.plugins.com.zegreatrob.tools.tagger)
     alias(libs.plugins.com.zegreatrob.tools.digger)
+    alias(libs.plugins.com.zegreatrob.tools.fingerprint)
     base
 }
 
@@ -16,7 +17,14 @@ tagger {
     githubReleaseEnabled.set(true)
 }
 
+fingerprintConfig {
+    includedBuilds = listOf("libraries", "plugins")
+}
+
 tasks {
+    assemble {
+        dependsOn(aggregateFingerprints)
+    }
     val librariesBuild = gradle.includedBuild("libraries")
     val publishableBuilds = listOf(
         librariesBuild,

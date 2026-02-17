@@ -61,6 +61,13 @@ jobs:
           -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }} \
           --scan \
           --no-configuration-cache
+      - name: Include fingerprint
+        continue-on-error: true
+        run: |
+          gh release upload ${{ env.TAGGER_VERSION }} \
+            build/aggregate-fingerprint.txt \
+            build/aggregate-fingerprint-manifest.log \
+            --clobber
       - name: Update Contributions
         uses: robertfmurdock/coupling-contribution-action@v3
         with:

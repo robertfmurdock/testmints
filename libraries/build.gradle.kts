@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.com.github.sghill.distribution.sha)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     id("com.zegreatrob.testmints.plugins.versioning")
+    alias(libs.plugins.com.zegreatrob.tools.fingerprint)
     alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     `maven-publish`
     signing
@@ -26,6 +27,18 @@ nexusPublishing {
             stagingProfileId.set("59331990bed4c")
         }
     }
+}
+
+fingerprintConfig {
+    includedProjects = setOf(
+        ":minassert",
+        ":standard",
+        ":async",
+        ":action",
+        ":action-async",
+        ":action-annotation",
+        ":action-processor",
+    )
 }
 
 tasks {
