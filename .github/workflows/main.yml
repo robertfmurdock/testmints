@@ -41,8 +41,25 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' }}
+      - name: Check Fingerprint 🔨
+        continue-on-error: true
+        run: |
+          export PREVIOUS_VERSION=$(./gradlew previousVersion -q)
+          gh release download "$PREVIOUS_VERSION" -p "aggregate-fingerprint.txt" -O build/prev-aggregate-fingerprint.txt || true
+
+              ./gradlew -q compareAggregateFingerprints \
+                -Pversion=$PREVIOUS_VERSION \
+                -PfingerprintCompareToFile=build/prev-aggregate-fingerprint.txt \
+                && echo "FINGERPRINT_MATCHES_PREVIOUS=true" >> "$GITHUB_ENV" \
+                || echo "FINGERPRINT_MATCHES_PREVIOUS=false" >> "$GITHUB_ENV"
+
+              [ "${FINGERPRINT_MATCHES_PREVIOUS}" = "false" ] \
+                && gh release download "$PREVIOUS_VERSION" -p "aggregate-fingerprint-manifest.log" -D build/prev-aggregate-fingerprint-manifest.log \
+                && diff -u build/prev-aggregate-fingerprint-manifest.log build/aggregate-fingerprint-manifest.log \
+                && echo "UNEXPECTED: aggregate log matches release $PREVIOUS_VERSION" \
+                || true
       - name: Generate Version 🔢
-        run: ./gradlew calculateVersion -PexportToGithub=true --scan
+        run: ./gradlew calculateVersion -PexportToGithub=true -PtaggerForceSnapshot=${{ env.FINGERPRINT_MATCHES_PREVIOUS }} --scan
       - name: Build 🔨
         run: |
           ./gradlew \
