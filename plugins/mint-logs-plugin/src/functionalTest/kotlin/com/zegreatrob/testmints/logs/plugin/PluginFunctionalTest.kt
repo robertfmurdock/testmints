@@ -364,6 +364,7 @@ Test[jvm] > example()[jvm] STANDARD_ERROR
 
     private val multiplatformNodeJsExpectedOutput = """
 Test.example[js, node] STANDARD_OUT
+    kotlin-logging: initializing... active logger factory: DirectLoggerFactory
     INFO: [testmints] setup-start {step=setup, state=start, name=Test.example}
     setup
     [info] INFO: [testmints] setup-finish {step=setup, state=finish}
