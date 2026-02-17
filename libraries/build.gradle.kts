@@ -31,13 +31,17 @@ nexusPublishing {
 
 fingerprintConfig {
     includedProjects = setOf(
-        ":minassert",
-        ":standard",
-        ":async",
-        ":action",
-        ":action-async",
-        ":action-annotation",
-        ":action-processor",
+        "minassert",
+        "standard",
+        "async",
+        "action",
+        "action-async",
+        "action-annotation",
+        "action-processor",
+        "minspy",
+        "mindiff",
+        "report",
+        "mint-logs",
     )
 }
 
