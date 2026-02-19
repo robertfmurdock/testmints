@@ -70,7 +70,7 @@ tasks {
         dependsOn(provider { includedBuilds.map { it.task(":clean") } })
     }
     release {
-        mustRunAfter(check)
+        mustRunAfter(check, assemble)
         finalizedBy(publish, currentContributionData)
     }
     currentContributionData {
