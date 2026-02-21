@@ -53,6 +53,7 @@ fingerprintConfig {
         "action-async",
         "action-annotation",
         "action-processor",
+        "dependency-bom",
         "minspy",
         "mindiff",
         "report",
