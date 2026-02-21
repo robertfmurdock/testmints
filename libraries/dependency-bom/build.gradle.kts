@@ -13,6 +13,7 @@ javaPlatform {
 }
 
 dependencies {
+    api(platform(libs.org.jetbrains.kotlin.kotlin.bom))
     api(platform(libs.org.jetbrains.kotlinx.kotlinx.coroutines.bom))
     api(platform(libs.org.jetbrains.kotlinx.kotlinx.serialization.bom))
     api(platform(libs.org.junit.junit.bom))
