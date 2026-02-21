@@ -61,6 +61,13 @@ jobs:
             && echo "UNEXPECTED: aggregate log matches release $PREVIOUS_VERSION"
       - name: Generate Version 🔢
         run: ./gradlew calculateVersion -PexportToGithub=true -PtaggerForceSnapshot=${{ env.FINGERPRINT_MATCHES_PREVIOUS }} --scan
+      - name: Warm Kotlin WASM Tooling 🔧
+        run: |
+          ./gradlew \
+          :libraries:kotlinWasmToolingSetup \
+          :plugins-test:kotlinWasmToolingSetup \
+          --no-parallel \
+          --no-configuration-cache
       - name: Build 🔨
         run: |
           ./gradlew \
