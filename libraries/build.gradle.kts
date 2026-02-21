@@ -17,6 +17,21 @@ repositories {
     mavenCentral()
 }
 
+val kotlinVersion = libs.versions.org.jetbrains.kotlin.get()
+
+allprojects {
+    configurations.configureEach {
+        if (isCanBeResolved) {
+            resolutionStrategy.eachDependency {
+                if (requested.group == "org.jetbrains.kotlin") {
+                    useVersion(kotlinVersion)
+                    because("Align Kotlin dependencies for internal builds")
+                }
+            }
+        }
+    }
+}
+
 nexusPublishing {
     this@nexusPublishing.repositories {
         sonatype {
@@ -74,4 +89,3 @@ tasks {
 rootProject.extensions.findByType(NodeJsEnvSpec::class.java).let {
     it?.version = "23.9.0"
 }
-
