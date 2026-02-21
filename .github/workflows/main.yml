@@ -63,10 +63,11 @@ jobs:
         run: ./gradlew calculateVersion -PexportToGithub=true -PtaggerForceSnapshot=${{ env.FINGERPRINT_MATCHES_PREVIOUS }} --scan
       - name: Warm Kotlin WASM Tooling 🔧
         run: |
-          ./gradlew :libraries:kotlinWasmNodeJsSetup --no-parallel --no-configuration-cache
-          ./gradlew :plugins-test:kotlinWasmNodeJsSetup --no-parallel --no-configuration-cache
-          ./gradlew :libraries:kotlinWasmToolingSetup --no-parallel --no-configuration-cache
-          ./gradlew :plugins-test:kotlinWasmToolingSetup --no-parallel --no-configuration-cache
+          rm -rf "${GRADLE_USER_HOME:-$HOME/.gradle}/yarn"
+          ./gradlew :libraries:kotlinWasmNodeJsSetup --no-parallel --no-configuration-cache --rerun-tasks --no-build-cache
+          ./gradlew :plugins-test:kotlinWasmNodeJsSetup --no-parallel --no-configuration-cache --rerun-tasks --no-build-cache
+          ./gradlew :libraries:kotlinWasmToolingSetup --no-parallel --no-configuration-cache --rerun-tasks --no-build-cache
+          ./gradlew :plugins-test:kotlinWasmToolingSetup --no-parallel --no-configuration-cache --rerun-tasks --no-build-cache
       - name: Build 🔨
         run: |
           ./gradlew \
