@@ -13,8 +13,8 @@ kotlin {
             dependencies {
                 implementation(project(":action"))
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
+                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
+                implementation(libs.org.jetbrains.kotlinx.kotlinx.serialization.json)
             }
         }
         commonTest {

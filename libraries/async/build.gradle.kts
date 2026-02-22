@@ -17,8 +17,8 @@ kotlin {
                 api(project(":report"))
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation("org.jetbrains.kotlin:kotlin-test")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
+                api(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
             }
         }
         commonTest {
@@ -28,7 +28,7 @@ kotlin {
         }
         jvmMain {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
             }
         }
     }

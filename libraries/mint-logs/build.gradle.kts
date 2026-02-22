@@ -26,9 +26,9 @@ kotlin {
                 implementation(project(":report"))
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation("org.jetbrains.kotlin:kotlin-test")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-                api("io.github.oshai:kotlin-logging")
+                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
+                api(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
+                api(libs.io.github.oshai.kotlin.logging)
             }
         }
         commonTest {
@@ -38,9 +38,9 @@ kotlin {
         }
         jvmMain {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-                implementation("org.junit.jupiter:junit-jupiter-api")
-                implementation("org.junit.jupiter:junit-jupiter-engine")
+                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
+                implementation(libs.org.junit.jupiter.junit.jupiter.api)
+                implementation(libs.org.junit.jupiter.junit.jupiter.engine)
             }
         }
     }
@@ -54,5 +54,5 @@ tasks {
 }
 
 dependencies {
-    jvmTestImplementation("org.slf4j:slf4j-simple")
+    jvmTestImplementation(libs.org.slf4j.slf4j.simple)
 }

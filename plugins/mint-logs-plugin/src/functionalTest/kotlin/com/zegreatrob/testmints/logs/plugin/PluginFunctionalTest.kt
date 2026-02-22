@@ -54,14 +54,7 @@ class PluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withArguments(
-            "jsTest",
-            "--info",
-            "-P",
-            "org.gradle.caching=true",
-            "-P",
-            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
-            "--configuration-cache",
-            "-Pversion=$releaseVersion"
+            buildArgs("jsTest")
         )
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -108,14 +101,7 @@ class PluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withArguments(
-            "jsTest",
-            "--info",
-            "-P",
-            "org.gradle.caching=true",
-            "-P",
-            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
-            "--configuration-cache",
-            "-Pversion=$releaseVersion"
+            buildArgs("jsTest")
         )
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -159,14 +145,7 @@ class PluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withArguments(
-            "jsTest",
-            "--info",
-            "--configuration-cache",
-            "-P",
-            "org.gradle.caching=true",
-            "-P",
-            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
-            "-Pversion=$releaseVersion"
+            buildArgs("jsTest")
         )
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -219,15 +198,7 @@ class PluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withArguments(
-            "jsTest",
-            "jvmTest",
-            "--info",
-            "--configuration-cache",
-            "-P",
-            "org.gradle.caching=true",
-            "-P",
-            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
-            "-Pversion=$releaseVersion",
+            buildArgs("jsTest", "jvmTest")
         )
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -281,14 +252,7 @@ class PluginFunctionalTest {
         val runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withArguments(
-            "test",
-            "--info",
-            "--configuration-cache",
-            "-P",
-            "org.gradle.caching=true",
-            "-P",
-            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
-            "-Pversion=$releaseVersion"
+            buildArgs("test")
         )
         runner.withProjectDir(projectDir)
         val result = runner.build()
@@ -305,6 +269,19 @@ class PluginFunctionalTest {
                 includeBuild("${System.getenv("ROOT_DIR")}/../plugins")
                 includeBuild("${System.getenv("ROOT_DIR")}/../libraries")
                 """.trimIndent()
+        )
+    }
+
+    private fun buildArgs(vararg tasks: String): List<String> {
+        return tasks.asList() + listOf(
+            "--info",
+            "--configuration-cache",
+            "--no-watch-fs",
+            "-P",
+            "org.gradle.caching=true",
+            "-P",
+            "org.gradle.kotlin.dsl.allWarningsAsErrors=true",
+            "-Pversion=$releaseVersion"
         )
     }
 
