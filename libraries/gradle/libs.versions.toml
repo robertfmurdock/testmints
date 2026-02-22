@@ -1,16 +1,22 @@
 [versions]
+de-infix-testballoon = "0.8.2-K2.3.0"
+io-github-oshai-kotlin-logging = "8.0.01"
 org-jetbrains-kotlin = "2.3.10"
+org-jetbrains-kotlinx-coroutines = "1.10.2"
+org-jetbrains-kotlinx-serialization = "1.10.0"
+org-junit = "6.0.3"
+org-slf4j = "2.0.17"
 
 [libraries]
 com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.6"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.2.0"
-de-infix-testBalloon-testBalloon-framework-core = "de.infix.testBalloon:testBalloon-framework-core:0.8.2-K2.3.0"
-io-github-oshai-kotlin-logging = "io.github.oshai:kotlin-logging:8.0.01"
+de-infix-testBalloon-testBalloon-framework-core = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "de-infix-testballoon" }
+io-github-oshai-kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "io-github-oshai-kotlin-logging" }
 org-jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "org-jetbrains-kotlin" }
-org-jetbrains-kotlinx-kotlinx-coroutines-bom = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.2"
-org-jetbrains-kotlinx-kotlinx-serialization-bom = "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.10.0"
-org-junit-junit-bom = "org.junit:junit-bom:6.0.3"
-org-slf4j-slf4j-simple = "org.slf4j:slf4j-simple:2.0.17"
+org-jetbrains-kotlinx-kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "org-jetbrains-kotlinx-coroutines" }
+org-jetbrains-kotlinx-kotlinx-serialization-bom = { module = "org.jetbrains.kotlinx:kotlinx-serialization-bom", version.ref = "org-jetbrains-kotlinx-serialization" }
+org-junit-junit-bom = { module = "org.junit:junit-bom", version.ref = "org-junit" }
+org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org-slf4j" }
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"

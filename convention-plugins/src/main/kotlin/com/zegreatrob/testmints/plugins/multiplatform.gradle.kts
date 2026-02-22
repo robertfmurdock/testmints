@@ -19,11 +19,3 @@ kotlin {
 repositories {
     mavenCentral()
 }
-
-dependencies {
-    "commonMainApi"(
-        platform(
-            findProject(":dependency-bom") ?: "com.zegreatrob.testmints:dependency-bom"
-        )
-    )
-}

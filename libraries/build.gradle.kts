@@ -18,14 +18,39 @@ repositories {
 }
 
 val kotlinVersion = libs.versions.org.jetbrains.kotlin.get()
+val coroutinesVersion = libs.versions.org.jetbrains.kotlinx.coroutines.get()
+val serializationVersion = libs.versions.org.jetbrains.kotlinx.serialization.get()
+val kotlinLoggingVersion = libs.versions.io.github.oshai.kotlin.logging.get()
+val testBalloonVersion = libs.versions.de.infix.testballoon.get()
+val slf4jVersion = libs.versions.org.slf4j.get()
+val junitVersion = libs.versions.org.junit.get()
 
 allprojects {
     configurations.configureEach {
         if (isCanBeResolved) {
+            resolutionStrategy.force(
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+                "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion",
+                "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion",
+                "org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion",
+                "io.github.oshai:kotlin-logging:$kotlinLoggingVersion",
+                "de.infix.testBalloon:testBalloon-framework-core:$testBalloonVersion",
+                "org.slf4j:slf4j-simple:$slf4jVersion",
+            )
             resolutionStrategy.eachDependency {
                 if (requested.group == "org.jetbrains.kotlin") {
                     useVersion(kotlinVersion)
-                    because("Align Kotlin dependencies for internal builds")
+                }
+                if (requested.group == "org.junit.jupiter") {
+                    useVersion(junitVersion)
+                }
+                if (requested.group == "org.jetbrains.kotlinx") {
+                    if (requested.name.startsWith("kotlinx-coroutines")) {
+                        useVersion(coroutinesVersion)
+                    }
+                    if (requested.name.startsWith("kotlinx-serialization")) {
+                        useVersion(serializationVersion)
+                    }
                 }
             }
         }
@@ -53,7 +78,6 @@ fingerprintConfig {
         "action-async",
         "action-annotation",
         "action-processor",
-        "dependency-bom",
         "minspy",
         "mindiff",
         "report",
