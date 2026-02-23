@@ -26,7 +26,7 @@ org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
-com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:1.9.6"
+com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:1.9.9"
 de-infix-testBalloon = "de.infix.testBalloon:0.8.2-K2.3.0"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.0"
