@@ -92,8 +92,7 @@ fun TaskCollection<AbstractPublishToMaven>.disableTaskForPublication(
 
 fun PublicationContainer.macPublications() = matching {
     it.name in listOf(
-        "macosX64",
-        "iosX64",
+        "macosArm64",
         "iosArm32",
         "iosArm64"
     )
@@ -101,8 +100,7 @@ fun PublicationContainer.macPublications() = matching {
 
 fun PublicationContainer.nonMacPublications() = matching {
     it.name !in listOf(
-        "macosX64",
-        "iosX64",
+        "macosArm64",
         "iosArm32",
         "iosArm64"
     )

@@ -12,7 +12,7 @@ repositories {
 }
 
 kotlin {
-    jvm {}
+    jvm()
     js(IR) {
         nodejs {}
         useEsModules()
@@ -25,8 +25,8 @@ kotlin {
         useEsModules()
         compilerOptions { target = "es2015" }
     }
-    macosX64()
-    iosX64()
+    macosArm64()
+    iosArm64()
     linuxX64()
     mingwX64()
 
@@ -35,6 +35,7 @@ kotlin {
             dependencies {
                 implementation("org.junit.jupiter:junit-jupiter-api")
                 implementation("org.junit.jupiter:junit-jupiter-engine")
+                runtimeOnly("org.junit.platform:junit-platform-launcher")
             }
         }
     }
