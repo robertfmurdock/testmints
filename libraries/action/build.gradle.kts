@@ -18,8 +18,7 @@ kotlin {
                 implementation(project(":async"))
                 implementation(project(":minassert"))
                 implementation(project(":minspy"))
-                implementation("org.jetbrains.kotlin:kotlin-test")
-                implementation("org.jetbrains.kotlin:kotlin-test-annotations-common")
+                implementation(kotlin("test"))
             }
         }
 
@@ -33,7 +32,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("reflect"))
                 implementation("org.slf4j:slf4j-simple")
-                implementation("org.jetbrains.kotlin:kotlin-test")
+                implementation(kotlin("test"))
                 implementation("org.junit.jupiter:junit-jupiter-api")
                 implementation("org.junit.jupiter:junit-jupiter-engine")
             }

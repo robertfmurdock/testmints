@@ -23,8 +23,7 @@ kotlin {
                 implementation(project(":async"))
                 implementation(project(":minassert"))
                 implementation(project(":minspy"))
-                implementation("org.jetbrains.kotlin:kotlin-test")
-                implementation("org.jetbrains.kotlin:kotlin-test-annotations-common")
+                implementation(kotlin("test"))
             }
         }
 
