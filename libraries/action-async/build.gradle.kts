@@ -40,6 +40,7 @@ kotlin {
                 implementation("org.slf4j:slf4j-simple")
                 implementation("org.junit.jupiter:junit-jupiter-api")
                 implementation("org.junit.jupiter:junit-jupiter-engine")
+                runtimeOnly("org.junit.platform:junit-platform-launcher")
             }
         }
 
