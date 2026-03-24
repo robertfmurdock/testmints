@@ -67,6 +67,8 @@ jobs:
           assemble \
           check \
           -Pversion=${{ env.TAGGER_VERSION }} \
+          -x :plugins-test:mint-action-test:compileTestKotlinIosArm64 \
+          -x :plugins-test:mint-action-test:compileTestKotlinMacosArm64 \
           --scan \
           --no-configuration-cache \
       - name: Release 🙏
