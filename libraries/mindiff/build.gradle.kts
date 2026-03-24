@@ -9,14 +9,14 @@ kotlin {
         commonMain {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib")
-                implementation("org.jetbrains.kotlin:kotlin-test")
+                implementation(kotlin("test"))
             }
         }
 
         commonTest {
             dependencies {
                 implementation(project(":standard"))
-                implementation("org.jetbrains.kotlin:kotlin-test")
+                implementation(kotlin("test"))
             }
         }
     }

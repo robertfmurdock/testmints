@@ -10,12 +10,12 @@ kotlin {
             dependencies {
                 api(project(":report"))
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-                implementation("org.jetbrains.kotlin:kotlin-test")
+                implementation(kotlin("test"))
             }
         }
         commonTest {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test")
+                implementation(kotlin("test"))
             }
         }
         jsMain {

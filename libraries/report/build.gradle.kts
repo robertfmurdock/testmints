@@ -8,8 +8,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-                implementation("org.jetbrains.kotlin:kotlin-test")
-                implementation("org.jetbrains.kotlin:kotlin-test-annotations-common")
+                implementation(kotlin("test"))
             }
         }
         jsMain {
