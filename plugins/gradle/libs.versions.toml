@@ -3,7 +3,7 @@ com-google-devtools-ksp = "com.google.devtools.ksp:symbol-processing-gradle-plug
 org-junit-junit-bom = "org.junit:junit-bom:6.0.3"
 
 [plugins]
-com-github-ben-manes-versions = "com.github.ben-manes.versions:0.53.0"
+com-github-ben-manes-versions = "com.github.ben-manes.versions:0.54.0"
 com-gradle-plugin-publish = "com.gradle.plugin-publish:2.1.1"
 com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:1.9.15"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
