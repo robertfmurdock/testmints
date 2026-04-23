@@ -9,4 +9,4 @@ org-jmailen-gradle-kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:5.4.2
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.0"
 
 [versions]
-org-jetbrains-kotlin = "2.3.20"
+org-jetbrains-kotlin = "2.3.21"
