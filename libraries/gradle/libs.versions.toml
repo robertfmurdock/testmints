@@ -5,10 +5,10 @@ org-jetbrains-kotlin = "2.3.21"
 org-jetbrains-kotlinx-coroutines = "1.11.0"
 org-jetbrains-kotlinx-serialization = "1.11.0"
 org-junit = "6.0.3"
-org-slf4j = "2.0.17"
+org-slf4j = "2.0.18"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.7"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.8"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.3.0"
 de-infix-testBalloon-testBalloon-framework-core = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "de-infix-testballoon" }
 io-github-oshai-kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "io-github-oshai-kotlin-logging" }
@@ -26,7 +26,7 @@ org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
-com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:1.9.18"
+com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:1.9.19"
 de-infix-testBalloon = "de.infix.testBalloon:0.8.4-K2.3.20"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.0"
