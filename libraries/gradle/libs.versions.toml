@@ -1,6 +1,6 @@
 [versions]
 de-infix-testballoon = "1.0.0-K2.3.20"
-io-github-oshai-kotlin-logging = "8.0.03"
+io-github-oshai-kotlin-logging = "8.0.4"
 org-jetbrains-kotlin = "2.3.21"
 org-jetbrains-kotlinx-coroutines = "1.11.0"
 org-jetbrains-kotlinx-serialization = "1.11.0"
@@ -8,7 +8,7 @@ org-junit = "6.1.0"
 org-slf4j = "2.0.18"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.8"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.9"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.3.0"
 de-infix-testBalloon-testBalloon-framework-core = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "de-infix-testballoon" }
 io-github-oshai-kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "io-github-oshai-kotlin-logging" }
