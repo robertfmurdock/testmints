@@ -13,7 +13,7 @@ repositories {
 
 kotlin {
     jvm()
-    js(IR) {
+    js {
         nodejs {}
         useEsModules()
         compilerOptions { target = "es2015" }

@@ -28,7 +28,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.3.20"
+                kotlin("multiplatform") version "2.4.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -37,7 +37,7 @@ class PluginFunctionalTest {
             }
             
             kotlin {
-                js(IR) {
+                js {
                     nodejs()
                 }
             }
@@ -74,7 +74,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.3.20"
+                kotlin("multiplatform") version "2.4.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -83,7 +83,7 @@ class PluginFunctionalTest {
             }
             
             kotlin {
-                js(IR) {
+                js {
                     nodejs()
                     compilerOptions { target = "es2015" }
                 }
@@ -122,7 +122,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.3.20"
+                kotlin("multiplatform") version "2.4.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -131,7 +131,7 @@ class PluginFunctionalTest {
             }
             
             kotlin {
-                js(IR) {
+                js {
                     browser()
                 }
             }
@@ -165,7 +165,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("multiplatform") version "2.3.20"
+                kotlin("multiplatform") version "2.4.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             
@@ -174,7 +174,7 @@ class PluginFunctionalTest {
             }
             
             kotlin {
-                js(IR) {
+                js {
                     nodejs()
                     browser()
                 }
@@ -228,7 +228,7 @@ class PluginFunctionalTest {
         buildFile.writeText(
             """
             plugins {
-                kotlin("jvm") version "2.3.20"
+                kotlin("jvm") version "2.4.0"
                 id("com.zegreatrob.testmints.logs.mint-logs")
             }
             repositories {
