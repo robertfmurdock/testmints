@@ -86,7 +86,7 @@ fingerprintConfig {
 }
 
 tasks {
-    val closeAndReleaseSonatypeStagingRepository by getting {
+    val closeAndReleaseSonatypeStagingRepository = getByName("closeAndReleaseSonatypeStagingRepository") {
         mustRunAfter(publish)
     }
     publish {
