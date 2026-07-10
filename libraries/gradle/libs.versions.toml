@@ -8,7 +8,7 @@ org-junit = "6.1.1"
 org-slf4j = "2.0.18"
 
 [libraries]
-com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.9"
+com-google-devtools-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.10"
 com-squareup-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.3.0"
 de-infix-testBalloon-testBalloon-framework-core = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "de-infix-testballoon" }
 io-github-oshai-kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "io-github-oshai-kotlin-logging" }
