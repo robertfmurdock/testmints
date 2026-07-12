@@ -4,7 +4,7 @@ io-github-oshai-kotlin-logging = "8.0.4"
 org-jetbrains-kotlin = "2.4.0"
 org-jetbrains-kotlinx-coroutines = "1.11.0"
 org-jetbrains-kotlinx-serialization = "1.11.0"
-org-junit = "6.1.1"
+org-junit = "6.1.2"
 org-slf4j = "2.0.18"
 
 [libraries]
