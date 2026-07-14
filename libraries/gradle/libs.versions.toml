@@ -1,7 +1,7 @@
 [versions]
 de-infix-testballoon = "1.0.1-K2.4.0"
 io-github-oshai-kotlin-logging = "8.0.4"
-org-jetbrains-kotlin = "2.4.0"
+org-jetbrains-kotlin = "2.4.10"
 org-jetbrains-kotlinx-coroutines = "1.11.0"
 org-jetbrains-kotlinx-serialization = "1.11.0"
 org-junit = "6.1.2"
