@@ -43,7 +43,7 @@ afterEvaluate {
     if (kotlinMultiplatform?.targets?.findByName("js") != null) {
 
 
-        val hooksConfiguration: Configuration by configurations.creating {
+        val hooksConfiguration: Configuration = configurations.create("hooks") {
             isCanBeResolved = true
             isCanBeConsumed = false
 //            @Suppress("OPT_IN_USAGE")
@@ -100,7 +100,7 @@ afterEvaluate {
 fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
     val newKarmaConfigDir = project.layout.buildDirectory.dir("karma.config.d")
     project.tasks {
-        val karmaPrepare by registering(ProcessResources::class) {
+        val karmaPrepare = register("karmaPrepare", ProcessResources::class) {
             dependsOn(hooksConfiguration)
             from(project.projectDir.resolve("karma.config.d"))
             from(

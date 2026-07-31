@@ -1,10 +1,9 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import nl.littlerobots.vcu.plugin.versionSelector
 
 plugins {
     base
     alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
     `maven-publish`
-    alias(libs.plugins.com.github.ben.manes.versions)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     alias(libs.plugins.com.zegreatrob.tools.fingerprint)
 }
@@ -61,18 +60,13 @@ tasks {
     clean {
         dependsOn(provider { (getTasksByName("clean", true) - this).toList() })
     }
-    withType<DependencyUpdatesTask> {
-        checkForGradleUpdate = true
-        outputFormatter = "json"
-        outputDir = "build/dependencyUpdates"
-        reportfileName = "report"
-        revision = "release"
+}
 
-        rejectVersionIf {
-            "^[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|.*-beta.*|.*-Beta.*|.*-alpha.*)$"
-                .toRegex()
-                .matches(candidate.version)
-        }
+versionCatalogUpdate {
+    val rejectRegex = "^.*[0-9.]+[0-9](-RC|-M[0-9]*|-RC[0-9]*.*|.*-beta.*|.*-Beta.*|.*-alpha.*)$".toRegex()
+    versionSelector { versionCandidate ->
+        !rejectRegex.matches(versionCandidate.candidate.version)
     }
 }
+
 fun Project.isSnapshot() = version.toString().contains("SNAPSHOT")
