@@ -22,14 +22,14 @@ jobs:
     outputs:
       version: ${{ env.TAGGER_VERSION }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Set Up Git User
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "6215634+robertfmurdock@users.noreply.github.com"
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '21'
@@ -97,7 +97,7 @@ jobs:
       - name: Collect Results
         if: ${{ always() }}
         run: ./gradlew collectResults
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
           name: test-output
@@ -122,10 +122,10 @@ jobs:
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '21'
@@ -152,7 +152,7 @@ jobs:
       - name: Collect Test Results
         if: ${{ always() }}
         run: ./gradlew collectResults
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
           name: test-output
