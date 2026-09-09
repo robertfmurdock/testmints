@@ -12,7 +12,9 @@ val serializationVersion = libs.versions.org.jetbrains.kotlinx.serialization.get
 
 allprojects {
     configurations.configureEach {
-        if (isCanBeResolved) {
+        // Ktlint runs in an isolated worker with its own Kotlin compiler dependencies.
+        // Do not overwrite that toolchain with the versions used by this build.
+        if (isCanBeResolved && name != "ktlint") {
             resolutionStrategy.force(
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
                 "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion",
