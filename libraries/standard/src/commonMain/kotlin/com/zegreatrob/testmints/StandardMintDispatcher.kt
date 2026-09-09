@@ -9,9 +9,7 @@ interface StandardMintDispatcher : ReporterProvider {
     fun <SC : Any> testTemplate(wrapper: (TestFunc<SC>) -> Unit): TestTemplate<SC> = TestTemplate(this, wrapper)
 
     fun <SC : Any> testTemplate(sharedSetup: () -> SC, sharedTeardown: (SC) -> Unit = {}) = testTemplate<SC> { test ->
-        sharedSetup()
-            .also(test)
-            .also(sharedTeardown)
+        runBuiltInSharedTemplate(sharedSetup, sharedTeardown, test)
     }
 
     fun <SC : Any> testTemplate(beforeAll: () -> SC): TestTemplate<SC> {

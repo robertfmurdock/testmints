@@ -14,18 +14,14 @@ interface SetupSyntax : ReporterProvider {
     val asyncSetup get() = TestTemplate(this, mintScope()) { it(Unit) }
 
     fun asyncTestTemplate(sharedSetup: suspend () -> Unit, sharedTeardown: suspend () -> Unit) = TestTemplate(this) {
-        sharedSetup()
-        it(Unit)
-        sharedTeardown()
+        runBuiltInSharedTemplate(sharedSetup, { sharedTeardown() }) { it(Unit) }
     }
 
     fun <SC : Any> asyncTestTemplate(
         sharedSetup: suspend () -> SC,
         sharedTeardown: suspend (SC) -> Unit = {},
     ) = TestTemplate(this) {
-        val sc = sharedSetup()
-        it(sc)
-        sharedTeardown(sc)
+        runBuiltInSharedTemplate(sharedSetup, sharedTeardown, it)
     }
 
     fun <SC : Any> asyncTestTemplate(beforeAll: suspend () -> SC): TestTemplate<SC> {

@@ -54,13 +54,6 @@ class Setup<out C : Any, out SC : Any>(
         return captureException { teardownFunc(context, result.getOrNull()) }
     }
 
-    private suspend fun <R> runCodeUnderTest(context: C, codeUnderTest: suspend C.() -> R): R {
-        reporter.exerciseStart(context)
-        val result = codeUnderTest(context)
-        reporter.exerciseFinish()
-        return result
-    }
-
     private suspend fun <R> performVerify(
         context: C,
         result: R,
@@ -81,12 +74,19 @@ class Setup<out C : Any, out SC : Any>(
         return context
     }
 
-    private suspend fun <R> performExercise(context: C, exerciseFunc: suspend C.() -> R) = runCodeUnderTest(context, exerciseFunc)
-        .also {
-            if (context is ScopeMint) {
-                waitForJobsToFinish(context.exerciseScope)
-            }
+    private suspend fun <R> performExercise(context: C, exerciseFunc: suspend C.() -> R): R {
+        reporter.exerciseStart(context)
+        val result = try {
+            Result.success(exerciseFunc(context))
+        } catch (failure: Throwable) {
+            Result.failure(failure)
         }
+        if (context is ScopeMint) {
+            waitForJobsToFinish(context.exerciseScope)
+        }
+        reporter.exerciseFinish()
+        return result.getOrThrow()
+    }
 }
 
 private fun Throwable.wrapCause() = CancellationException("Test failure.", this)

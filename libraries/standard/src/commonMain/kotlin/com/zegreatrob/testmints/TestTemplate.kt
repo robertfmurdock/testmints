@@ -9,18 +9,21 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
     }
 
     fun <SC2 : Any> extend(sharedSetup: (SC) -> SC2, sharedTeardown: (SC2) -> Unit = {}) = extend<SC2> { sc1, test ->
-        val sc2 = sharedSetup(sc1)
-        test(sc2)
-        sharedTeardown(sc2)
+        runBuiltInSharedTemplate({ sharedSetup(sc1) }, sharedTeardown, test)
     }
 
     fun extend(sharedSetup: () -> Unit = {}, sharedTeardown: () -> Unit = {}) = TestTemplate<SC>(
         reporterProvider,
     ) { test ->
         wrapper {
-            sharedSetup()
-            test(it)
-            sharedTeardown()
+            runBuiltInSharedTemplate(
+                sharedSetup = {
+                    sharedSetup()
+                    it
+                },
+                sharedTeardown = { sharedTeardown() },
+                test = test,
+            )
         }
     }
 

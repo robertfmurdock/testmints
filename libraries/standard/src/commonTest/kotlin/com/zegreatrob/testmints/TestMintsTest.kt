@@ -374,6 +374,53 @@ class TestMintsTest {
             }
 
             @Test
+            fun whenExerciseEscapesSuppliedTemplatesUnwindEstablishedLayersInReverseOrder() {
+                val exerciseFailure = Exception("exercise failed")
+                val calls = mutableListOf<String>()
+                val template = testTemplate(
+                    sharedSetup = { calls.add("outer setup") },
+                    sharedTeardown = { calls.add("outer teardown") },
+                ).extend(
+                    sharedSetup = { calls.add("inner setup") },
+                    sharedTeardown = { calls.add("inner teardown") },
+                )
+
+                val failure = captureException {
+                    template() exercise { throw exerciseFailure } verify { }
+                }
+
+                assertEquals(exerciseFailure, failure)
+                assertEquals(
+                    listOf("outer setup", "inner setup", "inner teardown", "outer teardown"),
+                    calls,
+                )
+            }
+
+            @Test
+            fun suppliedTemplateTeardownDoesNotMaskEscapingExerciseFailure() {
+                val exerciseFailure = Exception("exercise failed")
+                val templateTeardownFailure = Exception("template teardown failed")
+                val template = testTemplate(
+                    sharedSetup = {},
+                    sharedTeardown = { throw templateTeardownFailure },
+                )
+
+                val failure = captureException {
+                    template() exercise { throw exerciseFailure } verify { }
+                }
+
+                assertEquals(
+                    CompoundMintTestException(
+                        mapOf(
+                            "Failure" to exerciseFailure,
+                            "Template teardown exception" to templateTeardownFailure,
+                        ),
+                    ),
+                    failure,
+                )
+            }
+
+            @Test
             fun whenExceptionOccursInTeardownAndInTemplateTeardownBothAreReported() = setup(object {
                 val teardownException = Exception("Oh man, not good.")
                 val templateTeardownException = Exception("Now we're really off-road")

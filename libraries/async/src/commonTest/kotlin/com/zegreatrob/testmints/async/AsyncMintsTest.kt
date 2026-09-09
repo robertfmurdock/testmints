@@ -4,6 +4,7 @@ import com.zegreatrob.testmints.CompoundMintTestException
 import com.zegreatrob.testmints.captureException
 import com.zegreatrob.testmints.report.MintReporter
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -14,6 +15,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
+import kotlin.time.Duration.Companion.milliseconds
 
 @Suppress("unused")
 class AsyncMintsTest {
@@ -39,7 +41,7 @@ class AsyncMintsTest {
             var databaseSetupCounter = 0
         }) {
             withContext(Dispatchers.Default) {
-                delay(4)
+                delay(4.milliseconds)
                 databaseSetupCounter++
             }
         } exercise {
@@ -68,8 +70,8 @@ class AsyncMintsTest {
         fun canFailAsyncWithCoroutine() = asyncSetup(object {
             fun testThatFailsWithCoroutine() = asyncSetup().exercise {
             } verify {
-                withContext<Unit>(Dispatchers.Default) {
-                    delay(3)
+                withContext(Dispatchers.Default) {
+                    delay(3.milliseconds)
                     fail("LOL")
                 }
             }
@@ -256,7 +258,7 @@ class AsyncMintsTest {
             asyncSetup(object : ScopeMint() {
                 val expectedValue = Random.nextInt()
                 val asyncProducedValue = setupScope.async {
-                    delay(40)
+                    delay(40.milliseconds)
                     expectedValue
                 }
             }) exercise {
@@ -274,7 +276,7 @@ class AsyncMintsTest {
             val expectedValue = Random.nextInt()
         }) exercise {
             exerciseScope.async {
-                delay(40)
+                delay(40.milliseconds)
                 expectedValue
             }
         } verify { result ->
@@ -288,7 +290,7 @@ class AsyncMintsTest {
         }) exercise {
             coroutineScope {
                 async {
-                    delay(40)
+                    delay(40.milliseconds)
                     expectedValue
                 }
             }
@@ -629,6 +631,31 @@ class AsyncMintsTest {
             }
 
             @Test
+            fun suppliedTemplatesUnwindEstablishedLayersWhenExerciseFails() = asyncSetup(object {
+                val exerciseFailure = Exception("exercise failed")
+                val calls = mutableListOf<String>()
+                val template = asyncTestTemplate(
+                    sharedSetup = { calls.add("outer setup") },
+                    sharedTeardown = { calls.add("outer teardown") },
+                ).extend(
+                    sharedSetup = { calls.add("inner setup") },
+                    sharedTeardown = { calls.add("inner teardown") },
+                )
+
+                fun failingTest() = template() exercise { throw exerciseFailure } verify { }
+
+                suspend fun check() = captureException { waitForTest { failingTest() } }
+            }) exercise {
+                check()
+            } verify { failure ->
+                assertEquals(exerciseFailure.message, failure?.message)
+                assertEquals(
+                    listOf("outer setup", "inner setup", "inner teardown", "outer teardown"),
+                    calls,
+                )
+            }
+
+            @Test
             fun whenExceptionOccursInTeardownAndInTemplateTeardownBothAreReported() = asyncSetup(object {
                 val teardownException = Exception("Oh man, not good.")
                 val templateTeardownException = Exception("Now we're really off-road")
@@ -794,6 +821,80 @@ class AsyncMintsTest {
         }
 
         @Test
+        fun exerciseFinishWaitsForTrackedExerciseJobs() = asyncSetup(object {
+            val jobStarted = CompletableDeferred<Unit>()
+            val releaseJob = CompletableDeferred<Unit>()
+            val jobSettled = CompletableDeferred<Unit>()
+            var exerciseFinishedBeforeJobSettled = false
+
+            val reporterDispatcher = object : AsyncMintDispatcher {
+                override val reporter = object : MintReporter {
+                    override fun exerciseFinish() {
+                        exerciseFinishedBeforeJobSettled = !jobSettled.isCompleted
+                    }
+                }
+            }
+            val releaseScope = CoroutineScope(Dispatchers.Default)
+            val release = releaseScope.async {
+                jobStarted.await()
+                releaseJob.complete(Unit)
+            }
+            val context = object : ScopeMint() {}
+
+            fun test() = reporterDispatcher.asyncSetup(context) exercise {
+                exerciseScope.async {
+                    jobStarted.complete(Unit)
+                    releaseJob.await()
+                    jobSettled.complete(Unit)
+                }
+            } verify { }
+        }) exercise {
+            waitForTest { test() }
+        } verify {
+            assertEquals(true, jobSettled.isCompleted)
+            assertEquals(false, exerciseFinishedBeforeJobSettled)
+        }
+
+        @Test
+        fun trackedExerciseJobsSettleBeforeTeardownAfterExerciseFailure() = asyncSetup(object {
+            val exerciseFailure = Exception("exercise failed")
+            val jobStarted = CompletableDeferred<Unit>()
+            val releaseJob = CompletableDeferred<Unit>()
+            val jobSettled = CompletableDeferred<Unit>()
+            var teardownStartedBeforeJobSettled = false
+
+            val reporterDispatcher = object : AsyncMintDispatcher {
+                override val reporter = object : MintReporter {
+                    override fun teardownStart() {
+                        teardownStartedBeforeJobSettled = !jobSettled.isCompleted
+                    }
+                }
+            }
+            val releaseScope = CoroutineScope(Dispatchers.Default)
+            val release = releaseScope.async {
+                jobStarted.await()
+                releaseJob.complete(Unit)
+            }
+            val context = object : ScopeMint() {}
+
+            fun test() = reporterDispatcher.asyncSetup(context) exercise {
+                @Suppress("DeferredResultUnused")
+                exerciseScope.async {
+                    jobStarted.complete(Unit)
+                    releaseJob.await()
+                    jobSettled.complete(Unit)
+                }
+                throw exerciseFailure
+            } verifyAnd { } teardown { }
+        }) exercise {
+            captureException { waitForTest { test() } }
+        } verify { failure ->
+            assertEquals(exerciseFailure.message, failure?.message)
+            assertEquals(true, jobSettled.isCompleted)
+            assertEquals(false, teardownStartedBeforeJobSettled)
+        }
+
+        @Test
         fun reporterCanBeConfiguredAfterTemplatesAreDefined() = asyncSetup(object : AsyncMintDispatcher {
             val templatedSetup = asyncTestTemplate(sharedSetup = {})
 
@@ -858,9 +959,9 @@ class AsyncMintsTest {
 
             fun simpleTest() = asyncSetup() exercise { expectedResult } verify {
                 verifyState.add("a")
-                delay(20)
+                delay(20.milliseconds)
                 verifyState.add("b")
-                delay(20)
+                delay(20.milliseconds)
                 verifyState.add("c")
                 throw expectedException
             }
