@@ -25,15 +25,6 @@ kotlin {
 }
 
 NodeJsRootPlugin.apply(project.rootProject)
-project.rootProject.tasks.named("kotlinNpmInstall") {
-    dependsOn(gradle.includedBuild("libraries").task(":kotlinNpmInstall"))
-}
-project.rootProject.tasks.named("kotlinNodeJsSetup") {
-    dependsOn(provider { gradle.includedBuild("libraries").task(":kotlinNodeJsSetup") })
-}
-project.rootProject.tasks.named("kotlinWasmToolingSetup") {
-    dependsOn(provider { gradle.includedBuild("libraries").task(":kotlinWasmToolingSetup") })
-}
 
 tasks {
     withType(FormatTask::class) {

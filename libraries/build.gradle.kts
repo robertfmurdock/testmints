@@ -13,6 +13,10 @@ plugins {
 
 group = "com.zegreatrob.testmints"
 
+// Kotlin/Wasm tooling is otherwise stored in the user's shared ~/.kotlin directory.
+// Keep it local to this included build so its task outputs are not shared with plugins-test.
+extra["kotlin.user.home"] = layout.projectDirectory.dir(".kotlin-user-home").asFile.absolutePath
+
 repositories {
     mavenCentral()
 }

@@ -1,5 +1,6 @@
 .gradle
 .kotlin
+.kotlin-user-home
 node_modules
 build
 data
