@@ -28,7 +28,7 @@ gradlePlugin {
         named("com.zegreatrob.testmints.action-mint") {
             displayName = "Action-Mint Plugin"
             description = "This plugin will generate boilerplate for using 'actions' easily."
-            tags.addAll("action", "domain-driven design", "command", "query", "logging", "testmints", "kotlin")
+            tags.addAll("action", "domain-driven-design", "command", "query", "logging", "testmints", "kotlin")
         }
     }
 }
