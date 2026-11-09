@@ -211,10 +211,7 @@ class PluginFunctionalTest {
             result.output.trim().contains(browserJsExpectedOutput),
             "Browser Js did not have expected output"
         )
-        assertTrue(
-            result.output.trim().contains(multiplatformJvmExpectedOutput),
-            "Jvm did not have expected output"
-        )
+        assertOutputBlocksInOrder(result.output, multiplatformJvmExpectedOutput)
     }
 
     @Test
@@ -260,6 +257,17 @@ class PluginFunctionalTest {
         assertTrue(
             result.output.trim().contains(jvmExpectedOutput)
         ) { "${result.output}\n did not contain \n$jvmExpectedOutput" }
+    }
+
+    private fun assertOutputBlocksInOrder(output: String, expected: String) {
+        val consoleOutput = "\n$output\n"
+        var searchFrom = 0
+        for (block in expected.split("\n\n")) {
+            val delimitedBlock = "\n$block\n"
+            val blockStart = consoleOutput.indexOf(delimitedBlock, startIndex = searchFrom)
+            assertTrue(blockStart >= 0) { "Missing or out-of-order output block:\n$block" }
+            searchFrom = blockStart + delimitedBlock.lastIndex
+        }
     }
 
     private fun createSettingsFile() {
