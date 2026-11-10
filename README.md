@@ -131,6 +131,17 @@ An essay about what the right priorities should be when writing tests.
 
 An essay about an attempt to embed those priorities in the test code itself.
 
+## Agent skill
+
+Install the [Testmints skill](skills/testmints/) for guidance on writing and reviewing tests with
+Testmints. The test-design guidance is shared across languages, with runnable Kotlin examples.
+
+- In Codex, ask `$skill-installer` to install
+  [the skill folder from GitHub](https://github.com/robertfmurdock/testmints/tree/master/skills/testmints).
+  Invoke it with `$testmints` or let Codex discover it from your request.
+- For another agent that supports `SKILL.md`, copy the complete `skills/testmints` folder into
+  that agent's skills directory.
+
 ## Where did minenzyme, minreact, or react-data-loader go?
 
 Those now live in the [JsMints repo!](https://github.com/robertfmurdock/jsmints), under new version numbers. Those were never really intended to be part of the testmints multiplatform suite, so it made sense to give them their own home.
