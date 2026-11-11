@@ -6,6 +6,7 @@ plugins {
     id("com.zegreatrob.testmints.plugins.versioning")
     alias(libs.plugins.com.zegreatrob.tools.fingerprint)
     alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
+    id("com.zegreatrob.tools.dashboard-test-summary")
     `maven-publish`
     signing
     base

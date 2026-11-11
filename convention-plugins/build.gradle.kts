@@ -9,6 +9,7 @@ repositories {
 plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
+    id("com.zegreatrob.tools.dashboard-test-summary")
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
 }
 

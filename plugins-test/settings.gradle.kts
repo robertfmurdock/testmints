@@ -1,3 +1,11 @@
+pluginManagement {
+    includeBuild("../../ze-great-tools/tools-plugins")
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral()

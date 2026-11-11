@@ -1,3 +1,11 @@
+pluginManagement {
+    includeBuild("../ze-great-tools/tools-plugins")
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 plugins {
     id("com.gradle.develocity") version "4.0.2"
 }
