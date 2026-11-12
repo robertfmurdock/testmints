@@ -119,6 +119,18 @@ and not
 In order to write tests safely on all platforms... especially KotlinJs.
 
 
+## Automatic context cleanup
+
+When a per-test context passed to `setup` or `asyncSetup` implements Kotlin's
+`AutoCloseable`, Testmints calls `close()` after explicit teardown, if supplied.
+Cleanup also runs if a test phase fails after the context has been obtained.
+On the JVM this includes `java.lang.AutoCloseable` and `java.io.Closeable`.
+A context returned by `sharedSetup` closes after `sharedTeardown`. A nested
+template that reuses its parent's context leaves cleanup to the parent.
+A fresh context returned by `mergeContext` closes after each test. Cached
+`beforeAll` contexts keep their existing lifetime. Custom template wrappers
+can use `use` or `try/finally` to close resources they acquire.
+
 ## I Still Don't Get It...
 
 For more on the thinking, read these two essays:

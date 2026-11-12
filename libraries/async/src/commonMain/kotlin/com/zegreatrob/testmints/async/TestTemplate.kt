@@ -16,7 +16,7 @@ class TestTemplate<out SC : Any>(
     }
 
     fun <SC2 : Any> extend(sharedSetup: suspend (SC) -> SC2, sharedTeardown: suspend (SC2) -> Unit = {}) = extend { sc1, test ->
-        runBuiltInSharedTemplate({ sharedSetup(sc1) }, sharedTeardown, test)
+        runBuiltInSharedTemplate({ sharedSetup(sc1) }, sharedTeardown, borrowedContext = sc1, test = test)
     }
 
     fun extend(sharedSetup: suspend () -> Unit = {}, sharedTeardown: suspend () -> Unit = {}) = TestTemplate(reporterProvider) { test ->
@@ -27,6 +27,7 @@ class TestTemplate<out SC : Any>(
                     it
                 },
                 sharedTeardown = { sharedTeardown() },
+                borrowedContext = it,
                 test = test,
             )
         }
@@ -42,9 +43,16 @@ class TestTemplate<out SC : Any>(
         mergeContext: suspend (SC, BAC) -> SC2,
     ): TestTemplate<SC2> {
         val deferred = templateScope.async(start = CoroutineStart.LAZY) { beforeAll() }
-        return extend(sharedSetup = { sharedContext ->
-            mergeContext(sharedContext, deferred.await())
-        })
+        return extend { sharedContext, test ->
+            val cachedContext = deferred.await()
+            runBuiltInSharedTemplate(
+                sharedSetup = { mergeContext(sharedContext, cachedContext) },
+                sharedTeardown = {},
+                borrowedContext = sharedContext,
+                cachedContext = cachedContext,
+                test = test,
+            )
+        }
     }
 
     operator fun <C : Any> invoke(context: C, timeoutMs: Long = 60_000L, additionalActions: suspend C.() -> Unit = {}) = Setup(

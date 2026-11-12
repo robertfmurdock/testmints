@@ -1,10 +1,13 @@
 package com.zegreatrob.testmints.async
 
 import com.zegreatrob.testmints.CompoundMintTestException
+import com.zegreatrob.testmints.captureException
 
 internal suspend fun <SC : Any> runBuiltInSharedTemplate(
     sharedSetup: suspend () -> SC,
     sharedTeardown: suspend (SC) -> Unit,
+    borrowedContext: Any? = null,
+    cachedContext: Any? = null,
     test: TestFunc<SC>,
 ) {
     val sharedContext = sharedSetup()
@@ -21,16 +24,21 @@ internal suspend fun <SC : Any> runBuiltInSharedTemplate(
         teardownFailure = failure
     }
 
-    when {
-        testFailure != null && teardownFailure != null -> throw CompoundMintTestException(
-            mapOf(
-                "Failure" to testFailure,
-                "Template teardown exception" to teardownFailure,
-            ),
-        )
+    val closeFailure = if (sharedContext !== borrowedContext && sharedContext !== cachedContext && sharedContext is AutoCloseable) {
+        captureException { sharedContext.close() }
+    } else {
+        null
+    }
 
-        testFailure != null -> throw testFailure
+    val failures = mapOf(
+        "Failure" to testFailure,
+        "Template teardown exception" to teardownFailure,
+        "Shared context close exception" to closeFailure,
+    ).mapNotNull { (phase, failure) -> failure?.let { phase to it } }.toMap()
 
-        teardownFailure != null -> throw teardownFailure
+    when (failures.size) {
+        0 -> Unit
+        1 -> throw failures.values.first()
+        else -> throw CompoundMintTestException(failures)
     }
 }

@@ -9,7 +9,7 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
     }
 
     fun <SC2 : Any> extend(sharedSetup: (SC) -> SC2, sharedTeardown: (SC2) -> Unit = {}) = extend<SC2> { sc1, test ->
-        runBuiltInSharedTemplate({ sharedSetup(sc1) }, sharedTeardown, test)
+        runBuiltInSharedTemplate({ sharedSetup(sc1) }, sharedTeardown, borrowedContext = sc1, test = test)
     }
 
     fun extend(sharedSetup: () -> Unit = {}, sharedTeardown: () -> Unit = {}) = TestTemplate<SC>(
@@ -22,6 +22,7 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
                     it
                 },
                 sharedTeardown = { sharedTeardown() },
+                borrowedContext = it,
                 test = test,
             )
         }
@@ -34,7 +35,16 @@ class TestTemplate<SC : Any>(val reporterProvider: ReporterProvider, val wrapper
 
     fun <BAC : Any, SC2 : Any> extend(beforeAll: () -> BAC, mergeContext: (SC, BAC) -> SC2): TestTemplate<SC2> {
         val lazy by lazy { beforeAll() }
-        return TestTemplate(reporterProvider) { test -> wrapper { sc -> test(mergeContext(sc, lazy)) } }
+        return extend { sharedContext, test ->
+            val cachedContext = lazy
+            runBuiltInSharedTemplate(
+                sharedSetup = { mergeContext(sharedContext, cachedContext) },
+                sharedTeardown = {},
+                borrowedContext = sharedContext,
+                cachedContext = cachedContext,
+                test = test,
+            )
+        }
     }
 
     operator fun <C : Any> invoke(contextProvider: (SC) -> C, additionalSetupActions: C.() -> Unit = {}) = Setup(contextProvider, reporterProvider.reporter, additionalSetupActions, wrapper)

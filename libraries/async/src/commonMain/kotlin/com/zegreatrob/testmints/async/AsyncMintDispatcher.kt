@@ -21,7 +21,7 @@ interface SetupSyntax : ReporterProvider {
         sharedSetup: suspend () -> SC,
         sharedTeardown: suspend (SC) -> Unit = {},
     ) = TestTemplate(this) {
-        runBuiltInSharedTemplate(sharedSetup, sharedTeardown, it)
+        runBuiltInSharedTemplate(sharedSetup, sharedTeardown, test = it)
     }
 
     fun <SC : Any> asyncTestTemplate(beforeAll: suspend () -> SC): TestTemplate<SC> {

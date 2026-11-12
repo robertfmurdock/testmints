@@ -21,29 +21,37 @@ class Setup<C : Any, SC : Any>(
     ) {
         var verifyFailure: Throwable? = null
         var teardownException: Throwable? = null
+        var closeException: Throwable? = null
         val wrapperException = checkedInvoke(wrapper) { sharedContext ->
             val reportedExerciseFunc = exerciseFunc.makeReporting(reporter)
             val reportedVerifyFunc = verifyFunc.makeReporting(reporter)
             val reportedTeardownFunc = teardownFunc.makeReporting(reporter)
 
-            val context = setup(sharedContext)
-
-            val result = reportedExerciseFunc(context)
-            verifyFailure = reportedVerifyFunc(context, result)
-            teardownException = reportedTeardownFunc(context, result)
+            val context = contextProvider(sharedContext)
+            try {
+                additionalSetupActions(context)
+                val result = reportedExerciseFunc(context)
+                verifyFailure = reportedVerifyFunc(context, result)
+                teardownException = reportedTeardownFunc(context, result)
+            } finally {
+                if (context !== sharedContext && context is AutoCloseable) {
+                    closeException = captureException { context.close() }
+                }
+            }
         }
 
         reporter.teardownFinish()
 
-        reportExceptions(verifyFailure, teardownException, wrapperException)
+        reportExceptions(verifyFailure, teardownException, wrapperException, closeException)
     }
 
     private fun reportExceptions(
         verifyFailure: Throwable?,
         teardownException: Throwable?,
         wrapperException: Throwable?,
+        closeException: Throwable?,
     ) {
-        val problems = exceptionDescriptionMap(teardownException, wrapperException, verifyFailure)
+        val problems = exceptionDescriptionMap(teardownException, wrapperException, verifyFailure, closeException)
 
         if (problems.size == 1) {
             throw problems.values.first()
@@ -55,12 +63,6 @@ class Setup<C : Any, SC : Any>(
     private fun <R> TeardownFunc<C, R>.makeReporting(mintReporter: MintReporter) = { c: C, r: R ->
         mintReporter.teardownStart()
         captureException { this(c, r) }
-    }
-
-    private fun setup(sc: SC): C {
-        val context = contextProvider(sc)
-        additionalSetupActions(context)
-        return context
     }
 }
 
@@ -81,10 +83,12 @@ private fun exceptionDescriptionMap(
     teardownException: Throwable?,
     templateTeardownException: Throwable?,
     failure: Throwable?,
+    closeException: Throwable?,
 ) = mapOf(
     "Failure" to failure,
     "Teardown exception" to teardownException,
     "Template teardown exception" to templateTeardownException,
+    "Context close exception" to closeException,
 )
     .mapNotNull { (descriptor, exception) -> exception?.let { descriptor to exception } }
     .toMap()

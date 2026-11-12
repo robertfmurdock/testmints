@@ -32,21 +32,29 @@ class Setup<out C : Any, out SC : Any>(
         var exerciseProblem: Throwable? = null
         var verifyFailure: Throwable? = null
         var teardownException: Throwable? = null
+        var closeException: Throwable? = null
         val wrapperException = checkedInvoke(wrapper) { sharedContext ->
-            val context = performSetup(sharedContext)
-            val result = try {
-                performExercise(context, exerciseFunc)
-                    .let { Result.success(it) }
-            } catch (uhOh: Throwable) {
-                exerciseProblem = uhOh
-                Result.failure(uhOh)
-            }
-            verifyFailure = if (result.isSuccess) performVerify(context, result.getOrThrow(), verifyFunc) else null
+            val context = contextProvider(sharedContext)
+            try {
+                performSetup(context)
+                val result = try {
+                    performExercise(context, exerciseFunc)
+                        .let { Result.success(it) }
+                } catch (uhOh: Throwable) {
+                    exerciseProblem = uhOh
+                    Result.failure(uhOh)
+                }
+                verifyFailure = if (result.isSuccess) performVerify(context, result.getOrThrow(), verifyFunc) else null
 
-            teardownException = performTeardown(context, result, teardownFunc)
+                teardownException = performTeardown(context, result, teardownFunc)
+            } finally {
+                if (context !== sharedContext && context is AutoCloseable) {
+                    closeException = captureException { context.close() }
+                }
+            }
         }
         reporter.teardownFinish()
-        handleTeardownExceptions(exerciseProblem, verifyFailure, teardownException, wrapperException)
+        handleTeardownExceptions(exerciseProblem, verifyFailure, teardownException, wrapperException, closeException)
     }
 
     private suspend fun <R> performTeardown(context: C, result: Result<R>, teardownFunc: suspend C.(R?) -> Unit): Throwable? {
@@ -65,13 +73,11 @@ class Setup<out C : Any, out SC : Any>(
         }
     }
 
-    private suspend fun performSetup(sharedContext: SC): C {
-        val context = contextProvider(sharedContext)
+    private suspend fun performSetup(context: C) {
         additionalActions(context)
         if (context is ScopeMint) {
             waitForJobsToFinish(context.setupScope)
         }
-        return context
     }
 
     private suspend fun <R> performExercise(context: C, exerciseFunc: suspend C.() -> R): R {
@@ -96,8 +102,9 @@ private fun handleTeardownExceptions(
     failure: Throwable?,
     teardownException: Throwable?,
     templateTeardownException: Throwable?,
+    closeException: Throwable?,
 ) {
-    val problems = exceptionDescriptionMap(exerciseProblem, failure, teardownException, templateTeardownException)
+    val problems = exceptionDescriptionMap(exerciseProblem, failure, teardownException, templateTeardownException, closeException)
 
     if (problems.size == 1) {
         throw problems.values.first()
@@ -111,7 +118,8 @@ private fun exceptionDescriptionMap(
     failure: Throwable?,
     teardownException: Throwable?,
     templateTeardownException: Throwable?,
-) = descriptionMap(exerciseProblem, failure, teardownException, templateTeardownException)
+    closeException: Throwable?,
+) = descriptionMap(exerciseProblem, failure, teardownException, templateTeardownException, closeException)
     .mapNotNull { (descriptor, exception) -> exception?.let { descriptor to exception } }
     .toMap()
 
@@ -120,11 +128,13 @@ private fun descriptionMap(
     failure: Throwable?,
     teardownException: Throwable?,
     templateTeardownException: Throwable?,
+    closeException: Throwable?,
 ) = mapOf(
     "Exercise exception" to exerciseProblem,
     "Failure" to failure,
     "Teardown exception" to teardownException,
     "Template teardown exception" to templateTeardownException,
+    "Context close exception" to closeException,
 )
 
 private suspend fun <SC : Any> checkedInvoke(
