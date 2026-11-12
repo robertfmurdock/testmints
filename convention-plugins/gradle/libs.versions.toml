@@ -6,6 +6,7 @@ org-jetbrains-kotlin-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-std
 org-jmailen-gradle-kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:5.7.0"
 
 [plugins]
+com-zegreatrob-tools-dashboard-test-summary = "com.zegreatrob.tools.dashboard-test-summary:3.9.1"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.2"
 
 [versions]

@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.com.zegreatrob.tools.tagger)
     alias(libs.plugins.com.zegreatrob.tools.digger)
     alias(libs.plugins.com.zegreatrob.tools.fingerprint)
-    id("com.zegreatrob.tools.dashboard-test-summary")
+    alias(libs.plugins.com.zegreatrob.tools.dashboard.test.summary)
     base
 }
 

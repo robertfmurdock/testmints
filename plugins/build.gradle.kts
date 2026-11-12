@@ -6,7 +6,7 @@ plugins {
     `maven-publish`
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     alias(libs.plugins.com.zegreatrob.tools.fingerprint)
-    id("com.zegreatrob.tools.dashboard-test-summary")
+    alias(libs.plugins.com.zegreatrob.tools.dashboard.test.summary)
 }
 
 repositories {

@@ -1,6 +1,6 @@
 plugins {
     base
-    id("com.zegreatrob.tools.dashboard-test-summary")
+    alias(libs.plugins.com.zegreatrob.tools.dashboard.test.summary)
 }
 
 // Kotlin/Wasm tooling is otherwise stored in the user's shared ~/.kotlin directory.
