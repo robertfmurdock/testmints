@@ -1,4 +1,4 @@
-
+import java.time.LocalDate
 
 plugins {
     alias(libs.plugins.com.github.sghill.distribution.sha)
@@ -56,7 +56,12 @@ tasks {
     )
     val publish = register("publish") {
         mustRunAfter(check)
-        dependsOn(provider { publishableBuilds.map { it.task(":publish") } })
+        // Pause snapshot publication through Sunday, November 15, 2026.
+        val snapshotPublishingPaused = project.version.toString().contains("SNAPSHOT") &&
+            providers.provider { LocalDate.now() < LocalDate.of(2026, 11, 16) }.get()
+        if (!snapshotPublishingPaused) {
+            dependsOn(provider { publishableBuilds.map { it.task(":publish") } })
+        }
     }
     "versionCatalogUpdate" {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
