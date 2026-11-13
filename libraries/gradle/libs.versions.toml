@@ -1,33 +1,33 @@
 [versions]
-testballoon = "1.2.0"
+junit = "6.1.3"
 kotlin-logging = "8.0.7"
 kotlin-toolchain = "2.4.21"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.13.0"
-junit = "6.1.3"
 slf4j = "2.0.20"
+testballoon = "1.2.0"
 
 [libraries]
-ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.13"
-kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.4.0"
-testBalloon-framework-core = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "testballoon" }
-kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlin-logging" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin-toolchain" }
+kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlin-logging" }
+kotlinpoet-ksp = "com.squareup:kotlinpoet-ksp:2.4.0"
 kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-bom = { module = "org.jetbrains.kotlinx:kotlinx-serialization-bom", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+ksp-symbol-processing-api = "com.google.devtools.ksp:symbol-processing-api:2.3.14"
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+testBalloon-framework-core = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "testballoon" }
 
 [plugins]
 com-github-sghill-distribution-sha = "com.github.sghill.distribution-sha:0.4.0"
-com-zegreatrob-tools-dashboard-test-summary = "com.zegreatrob.tools.dashboard-test-summary:3.9.1"
-com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:3.9.1"
+com-zegreatrob-tools-dashboard-test-summary = "com.zegreatrob.tools.dashboard-test-summary:3.9.3"
+com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:3.9.3"
 de-infix-testBalloon = "de.infix.testBalloon:1.2.0"
 io-github-gradle-nexus-publish-plugin = "io.github.gradle-nexus.publish-plugin:2.0.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.2"
