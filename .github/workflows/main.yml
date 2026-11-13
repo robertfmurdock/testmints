@@ -69,8 +69,7 @@ jobs:
           -Pversion=${{ env.TAGGER_VERSION }} \
           -x :plugins-test:mint-action-test:compileTestKotlinIosArm64 \
           -x :plugins-test:mint-action-test:compileTestKotlinMacosArm64 \
-          --scan \
-          --no-configuration-cache \
+          --scan
       - uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
