@@ -37,6 +37,7 @@ tasks {
         environment("RELEASE_VERSION", rootProject.version)
     }
     val copyTemplates = register<Copy>("copyTemplates") {
+        description = "Copies plugin source templates with the current library version."
         inputs.property("version", rootProject.version)
         filteringCharset = "UTF-8"
 

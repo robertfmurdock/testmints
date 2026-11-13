@@ -28,6 +28,7 @@ tasks {
     publish { finalizedBy("::closeAndReleaseSonatypeStagingRepository") }
 
     val javadocJar = register<Jar>("javadocJar") {
+        description = "Assembles the Javadoc archive for the JVM publication."
         archiveClassifier.set("javadoc")
         from("${rootDir.absolutePath}/javadocs")
     }

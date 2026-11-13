@@ -92,9 +92,13 @@ tasks {
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
     }
     register("formatKotlin") {
+        group = "formatting"
+        description = "Formats Kotlin sources."
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
     }
     register("lintKotlin") {
+        group = "verification"
+        description = "Checks Kotlin source formatting."
         dependsOn(provider { (getTasksByName("lintKotlin", true) - this).toList() })
     }
     check {

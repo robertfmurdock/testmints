@@ -74,6 +74,8 @@ tasks {
         pluginsTestBuild
     )
     val publish = register("publish") {
+        group = "publishing"
+        description = "Publishes the libraries and Gradle plugins."
         mustRunAfter(check)
         // Pause snapshot publication through Sunday, November 15, 2026.
         val snapshotPublishingPaused = project.version.toString().contains("SNAPSHOT") &&
@@ -100,10 +102,14 @@ tasks {
         into(rootProject.layout.buildDirectory.dir("test-output/${project.path}".replace(":", "/")))
     }
     register("formatKotlin") {
+        group = "formatting"
+        description = "Formats Kotlin sources."
         dependsOn(provider { (getTasksByName("formatKotlin", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":formatKotlin") } })
     }
     register("lintKotlin") {
+        group = "verification"
+        description = "Checks Kotlin source formatting."
         dependsOn(provider { (getTasksByName("lintKotlin", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":lintKotlin") } })
     }

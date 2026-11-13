@@ -52,6 +52,7 @@ pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
         }
 
         val extractMintLogsHooks = tasks.register<Sync>("extractMintLogsHooks") {
+            description = "Extracts the Mint Logs hooks for JavaScript tests."
             from(zipTree(hooksConfiguration.elements.map { it.single().asFile }))
             into(layout.buildDirectory.dir("mint-logs/hooks"))
         }
@@ -93,6 +94,7 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(extractedHooks: Provider<File>) {
     val newKarmaConfigDir = project.layout.buildDirectory.dir("karma.config.d")
     project.tasks {
         val karmaPrepare = register("karmaPrepare", ProcessResources::class) {
+            description = "Combines the project Karma configuration with the Mint Logs hook."
             from(project.projectDir.resolve("karma.config.d"))
             from(extractedHooks) {
                 include("**/karma-mint-logs.js")
