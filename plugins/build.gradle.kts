@@ -10,10 +10,6 @@ plugins {
     alias(libs.plugins.com.zegreatrob.tools.dashboard.test.summary)
 }
 
-repositories {
-    mavenCentral()
-}
-
 nexusPublishing {
     this@nexusPublishing.repositories {
         sonatype {

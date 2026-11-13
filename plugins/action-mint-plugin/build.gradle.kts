@@ -10,10 +10,6 @@ plugins {
     signing
 }
 
-repositories {
-    mavenCentral()
-}
-
 kotlin {
     jvmToolchain(21)
     compilerOptions {

@@ -7,10 +7,6 @@ plugins {
     id("com.zegreatrob.testmints.plugins.multiplatform")
 }
 
-repositories {
-    mavenCentral()
-}
-
 kotlin {
     jvm()
     js {

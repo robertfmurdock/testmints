@@ -8,10 +8,6 @@ plugins {
     signing
 }
 
-repositories {
-    mavenCentral()
-}
-
 group = "com.zegreatrob.testmints"
 
 publishing.publications.withType<MavenPublication>().configureEach {

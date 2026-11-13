@@ -2,6 +2,12 @@ plugins {
     id("com.gradle.develocity") version "4.0.2"
 }
 
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
 rootProject.name = "testmints-root"
 
 includeBuild("libraries")

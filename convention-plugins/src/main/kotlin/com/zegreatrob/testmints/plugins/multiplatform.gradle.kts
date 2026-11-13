@@ -15,7 +15,3 @@ kotlin {
         allWarningsAsErrors = true
     }
 }
-
-repositories {
-    mavenCentral()
-}
