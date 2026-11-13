@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 class StringDiffTest {
 
     @Test
-    fun givenEqualWillReturnEmptyString() = setup(object {
+    fun equalStringsProduceAnEmptyDiff() = setup(object {
         val l = "Hello world"
         val r = "Hello world"
     }) exercise {
@@ -23,7 +23,7 @@ class StringDiffTest {
         }
 
         @Test
-        fun willIndicateWhereFirstDifferenceOccurs() = setup(Setup) exercise {
+        fun reportsTheStartIndexOfTheDifference() = setup(Setup) exercise {
             stringDiff(L, R)
         } verify { result ->
             val t = result.split("\n")[0]
@@ -31,7 +31,7 @@ class StringDiffTest {
         }
 
         @Test
-        fun willShowDifferenceSection() = setup(Setup) exercise {
+        fun showsTheExpectedAndActualDifferingText() = setup(Setup) exercise {
             stringDiff(L, R)
         } verify { result ->
             val expected = listOf(
@@ -51,7 +51,7 @@ class StringDiffTest {
         }
 
         @Test
-        fun willIndicateWhereFirstDifferenceOccurs() = setup(Setup) exercise {
+        fun reportsTheStartIndexOfTheDifference() = setup(Setup) exercise {
             stringDiff(L, R)
         } verify { result ->
             val t = result.split("\n")[0]
@@ -59,7 +59,7 @@ class StringDiffTest {
         }
 
         @Test
-        fun willShowDifferenceSection() = setup(Setup) exercise {
+        fun showsTheExpectedAndActualDifferingText() = setup(Setup) exercise {
             stringDiff(L, R)
         } verify { result ->
             val expected = listOf(
@@ -79,7 +79,7 @@ class StringDiffTest {
         }
 
         @Test
-        fun willIndicateFirstDifference() = setup(Setup) exercise {
+        fun reportsTheFirstDifferenceIndexAndText() = setup(Setup) exercise {
             stringDiff(L, R)
         } verify { result ->
             val lines = result.split("\n")
@@ -94,7 +94,7 @@ class StringDiffTest {
         }
 
         @Test
-        fun willIndicateSecondDifference() = setup(Setup) exercise {
+        fun reportsTheSecondDifferenceIndexAndText() = setup(Setup) exercise {
             stringDiff(L, R)
         } verify { result ->
             val lines = result.split("\n")
@@ -111,7 +111,7 @@ class StringDiffTest {
 
     class WhenDifferencesAreExtreme {
         @Test
-        fun willReportSomethingInsteadOfFallingBackToNothing() = setup(object {
+        fun reportsADifferenceStartingAtIndexZero() = setup(object {
             val l = "gdsqvpydhwphokmvkkphwscjuliox"
             val r = "auvfbokjkrlvtosbanispdspaipemigklgp"
         }) exercise {
@@ -125,7 +125,7 @@ class StringDiffTest {
     class ObservedProblemCases {
 
         @Test
-        fun canHandleRadicalDifferencesInLengthAndProduceDiff() = setup(object {
+        fun whenTheActualStringIsMuchLongerReportsTheDifferenceIndexAndText() = setup(object {
             val l = "{noLink= }"
             val r = "{noLink= , canCancel= , canMarkLate= }"
         }) exercise {

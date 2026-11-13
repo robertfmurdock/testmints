@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 class DiffTest {
 
     @Test
-    fun givenSingleCharacterStringsThatAreTheSameWillDeclareNoDiff() = setup(object {
+    fun matchingCharactersAreMarkedWithADot() = setup(object {
         val l = "1"
         val r = "1"
     }) exercise {
@@ -17,7 +17,7 @@ class DiffTest {
     }
 
     @Test
-    fun givenSingleCharacterStringsThatAreDifferentWillDeclareDifferent() = setup(object {
+    fun mismatchedCharactersAreMarkedWithAnX() = setup(object {
         val l = "1"
         val r = "0"
     }) exercise {
@@ -27,7 +27,7 @@ class DiffTest {
     }
 
     @Test
-    fun givenManyCharactersWillShowMatchesAndDifferences() = setup(object {
+    fun marksTheSharedPrefixBeforeTheMismatches() = setup(object {
         val l = "I do that thing"
         val r = "I do the thing"
     }) exercise {
@@ -37,7 +37,7 @@ class DiffTest {
     }
 
     @Test
-    fun givenManyCharactersMixedAndMatched() = setup(object {
+    fun marksInterleavedMatchesAndMismatchesIncludingExtraCharacters() = setup(object {
         val l = "I do that thing"
         val r = "U dO Thot thang please"
     }) exercise {

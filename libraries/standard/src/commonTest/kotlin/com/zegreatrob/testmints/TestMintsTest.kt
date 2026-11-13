@@ -36,7 +36,7 @@ class TestMintsTest {
         }
 
         @Test
-        fun exerciseShouldHaveAccessToScopeOfSetupObject() = setup(object {
+        fun exposesTheSetupContextToExercise() = setup(object {
             val expectedValue: Int = Random.nextInt()
             var actualValue: Int? = null
 
@@ -53,7 +53,7 @@ class TestMintsTest {
         }
 
         @Test
-        fun whenExerciseReturnsLegalNullWillStillRunVerify() = setup(object {
+        fun whenExerciseReturnsNullItStillRunsVerify() = setup(object {
             var verifyWasCalled = false
             fun testThatReturnsNull() = setup() exercise {
                 null
@@ -67,7 +67,7 @@ class TestMintsTest {
         }
 
         @Test
-        fun verifyShouldReceiveTheResultOfExerciseAsParameter() = setup(object {
+        fun passesTheExerciseResultToVerify() = setup(object {
             val expectedValue = Random.nextInt()
             var actualValue: Int? = null
 
@@ -81,7 +81,7 @@ class TestMintsTest {
         }
 
         @Test
-        fun verifyShouldHaveAccessToSetupContext() = setup(object {
+        fun exposesTheSetupContextToVerify() = setup(object {
             val expectedValue: Int = Random.nextInt()
             var actualValue: Int? = null
 
@@ -619,7 +619,7 @@ class TestMintsTest {
             }
 
             @Test
-            fun exerciseStartWillLogContext() = setup(object : StandardMintDispatcher {
+            fun passesTheSetupContextToTheExerciseStartCallback() = setup(object : StandardMintDispatcher {
                 override val reporter = object : MintReporter {
                     var exerciseStartPayload: Any? = null
                     override fun exerciseStart(context: Any) {
@@ -637,7 +637,7 @@ class TestMintsTest {
             }
 
             @Test
-            fun verifyStartWillLogThePayload() = setup(object : StandardMintDispatcher {
+            fun passesTheExerciseResultToTheVerifyStartCallback() = setup(object : StandardMintDispatcher {
                 override val reporter = object : MintReporter {
                     var verifyStartPayload: Any? = null
                     override fun verifyStart(payload: Any?) {

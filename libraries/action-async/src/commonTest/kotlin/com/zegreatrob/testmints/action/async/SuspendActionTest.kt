@@ -24,7 +24,7 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
     }
 
     @Test
-    fun usingTheActionWithTheDispatcherDoesTheWorkOfTheDispatchFunction() = asyncSetup(object {
+    fun returnsTheProductFromTheMultiplyDispatcher() = asyncSetup(object {
         val action = MultiplyAction(2, 3)
         val dispatcher = object : MultiplyActionDispatcher {}
     }) exercise {
@@ -34,7 +34,7 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
     }
 
     @Test
-    fun executingActionMerelyPassesActionToDispatcherWhereWorkCanBeDone() = asyncSetup(object {
+    fun passesTheActionToTheDispatcherAndReturnsItsResult() = asyncSetup(object {
         val action = MultiplyAction(2, 3)
         val expectedReturn = 42
         val spy = SpyData<MultiplyAction, Int>().apply { spyWillReturn(expectedReturn) }
@@ -61,7 +61,7 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
         }
 
         @Test
-        fun singleDispatcherObjectCanExecuteManyActions() = asyncSetup(object {
+        fun dispatchesDifferentActionTypesThroughOneDispatcher() = asyncSetup(object {
             val dispatcher = object : AddActionDispatcher, MultiplyActionDispatcher {}
             val addAction = AddAction(7, 22)
             val multiplyAction = MultiplyAction(13, 41)
@@ -86,7 +86,7 @@ class SuspendActionTest : SuspendActionExecuteSyntax {
         }
 
         @Test
-        fun singleDispatcherObjectCanWorkWithBothExecuteAndSuspendActions() = asyncSetup(object {
+        fun dispatchesBothExecutableAndSuspendActions() = asyncSetup(object {
             val dispatcher = object : AddActionDispatcher, SubtractActionDispatcher {}
             val addAction = AddAction(7, 22)
             val subtractAction = SubtractAction(41, 13)

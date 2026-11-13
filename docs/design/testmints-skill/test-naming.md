@@ -26,6 +26,18 @@ Leading with the input helps readers compare cases even when the outcome also ea
 
 In [StringDiffTest](../../../libraries/mindiff/src/commonTest/kotlin/com/zegreatrob/mindiff/StringDiffTest.kt), both `WhenStartsSameEndsDifferent` and `WhenMiddleSectionIsDifferent` contain `willIndicateWhereFirstDifferenceOccurs`. The enclosing class supplies the distinguishing input before the method names the outcome. Repeated method names reveal the shared checks and make the potential for a case table visible. In [AssertionsTest](../../../libraries/minassert/src/commonTest/kotlin/com/zegreatrob/minassert/AssertionsTest.kt), `assertNotEqualWorks` leaves both the equal inputs and the expected failure to the reader to discover.
 
+## Representative cases and when to add tests
+
+> **RoB:** “feels reasonable to me to have a test name try to illustrate a slightly generalized rule and have the literal case within be an instance of that rule. not every rule needs a matrix of scenarios when the rule is simple / linear”
+>
+> **RoB:** “different projects and cultures will handle that pretty differently”
+>
+> **RoB:** “i myself tend to prefer only adding test cases that force an implementation to improve and avoid adding test cases for their own sake.”
+
+A name can state an observable rule that the body illustrates with a representative case. For example, a name can say that a much longer actual string produces a difference index and text. The body supplies one pair of strings and the expected index and text.
+
+Keep decisions about when to create additional test cases with the project. The skill can help reviewers check whether the example illustrates the named rule and whether its assertions would catch a plausible failure. Whether that failure merits a new case depends on the project’s testing conventions. RoB’s preference is to add a case when it would force an improvement to the implementation.
+
 ## Candidate skill wording
 
 - Read the name in its enclosing context first. What distinguishes this case, and what would you expect the body to show? Then read the body on its own terms. What would you call this case? Check that both readings point to the same distinguishing behavior. Follow the project’s naming conventions. Consider leading with the input or starting condition when it helps readers compare cases, and let the enclosing context carry what the cases share.

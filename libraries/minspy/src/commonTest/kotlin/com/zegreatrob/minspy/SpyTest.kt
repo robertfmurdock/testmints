@@ -7,7 +7,7 @@ import kotlin.test.Test
 class SpyTest {
 
     @Test
-    fun givenNullableOptionsWillCorrectlyReturnThem() = setup(object {
+    fun inputStubbedWithNullReturnsNull() = setup(object {
         val spy = SpyData<String, Int?>().apply {
             whenever("1", 1)
             whenever("Nah", null)
@@ -19,7 +19,7 @@ class SpyTest {
     }
 
     @Test
-    fun hasEasyCallFunctionForWhenThereIsNoInput() = setup(object {
+    fun argumentlessCallReturnsTheStubbedValue() = setup(object {
         val spy = SpyData<Unit, Int>().apply { whenever(Unit, 1) }
     }) exercise {
         spy.spyFunction()
@@ -28,7 +28,7 @@ class SpyTest {
     }
 
     @Test
-    fun doesNotRequireSetupWhenThereIsNoReturn() = setup(object {
+    fun unstubbedUnitReturnSpyRecordsItsInput() = setup(object {
         val spy = SpyData<Int, Unit>()
     }) exercise {
         spy.spyFunction(77)
@@ -39,7 +39,7 @@ class SpyTest {
     }
 
     @Test
-    fun whenNoArgsNoReturnDoesNotRequireSetup() = setup(object {
+    fun unstubbedArgumentlessUnitSpyCountsCalls() = setup(object {
         val spy = SpyData<Unit, Unit>()
         val timesToCall = 3
     }) exercise {

@@ -6,7 +6,7 @@ import kotlin.test.Test
 class AssertionsTest {
 
     @Test
-    fun onFailureContainsMessageIsCorrect() = setup(object {
+    fun assertContainsWithAMissingValueReportsTheListAndValue() = setup(object {
         val actual = listOf("A", "B", "C")
         val expected = "Z"
     }) exercise {
@@ -18,7 +18,7 @@ class AssertionsTest {
     }
 
     @Test
-    fun onFailureSupportsNulls() = setup(object {
+    fun assertContainsWithANullListExplainsWhyItFailed() = setup(object {
         val actual = null
         val expected = "Z"
     }) exercise {
@@ -30,7 +30,7 @@ class AssertionsTest {
     }
 
     @Test
-    fun assertNotEqualWorks() = setup(object {
+    fun assertIsNotEqualToWithIdenticalValuesReportsTheValue() = setup(object {
         val thing = "a"
         val sameThing = "a"
     }) exercise {

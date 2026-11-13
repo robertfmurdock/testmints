@@ -92,7 +92,7 @@ class AsyncMintsTest {
         }
 
         @Test
-        fun exerciseShouldHaveAccessToScopeOfSetupObject() = asyncSetup(object {
+        fun exposesTheSetupContextToExercise() = asyncSetup(object {
             val expectedValue: Int = Random.nextInt()
             var actualValue: Int? = null
 
@@ -108,7 +108,7 @@ class AsyncMintsTest {
         }
 
         @Test
-        fun verifyShouldReceiveTheResultOfExerciseAsParameter() = asyncSetup(object {
+        fun passesTheExerciseResultToVerify() = asyncSetup(object {
             val expectedValue = Random.nextInt()
             var actualValue: Int? = null
 
@@ -124,7 +124,7 @@ class AsyncMintsTest {
         }
 
         @Test
-        fun verifyShouldHaveAccessToScopeOfSetupObject() = asyncSetup(object {
+        fun exposesTheSetupContextToVerify() = asyncSetup(object {
             val expectedValue = Random.nextInt()
             var actualValue: Int? = null
 
@@ -190,7 +190,7 @@ class AsyncMintsTest {
         }
 
         @Test
-        fun whenExerciseReturnsLegalNullWillStillRunVerify() = asyncSetup(object {
+        fun whenExerciseReturnsNullItStillRunsVerify() = asyncSetup(object {
 
             var verifyWasCalled = false
             fun testThatReturnsNull() = asyncSetup() exercise {
@@ -912,7 +912,7 @@ class AsyncMintsTest {
         }
 
         @Test
-        fun exerciseStartWillLogContext() = asyncSetup(object : AsyncMintDispatcher {
+        fun passesTheSetupContextToTheExerciseStartCallback() = asyncSetup(object : AsyncMintDispatcher {
             var exerciseStartPayload: Any? = null
             override val reporter = object : MintReporter {
                 override fun exerciseStart(context: Any) {
@@ -929,7 +929,7 @@ class AsyncMintsTest {
         }
 
         @Test
-        fun verifyStartWillLogThePayload() = asyncSetup(object : AsyncMintDispatcher {
+        fun passesTheExerciseResultToTheVerifyStartCallback() = asyncSetup(object : AsyncMintDispatcher {
             var verifyStartPayload: Any? = null
 
             override val reporter = object : MintReporter {

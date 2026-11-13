@@ -20,7 +20,7 @@ class ExecutableActionTest : ExecutableActionExecuteSyntax {
     }
 
     @Test
-    fun usingTheActionWithTheDispatcherDoesTheWorkOfTheDispatchFunction() = setup(object {
+    fun returnsTheProductFromTheMultiplyDispatcher() = setup(object {
         val action = MultiplyAction(2, 3)
         val dispatcher: MultiplyActionDispatcher = object : MultiplyActionDispatcher {}
     }) exercise {
@@ -30,7 +30,7 @@ class ExecutableActionTest : ExecutableActionExecuteSyntax {
     }
 
     @Test
-    fun executingActionMerelyPassesActionToDispatcherWhereWorkCanBeDone() = setup(object {
+    fun passesTheActionToTheDispatcherAndReturnsItsResult() = setup(object {
         val action = MultiplyAction(2, 3)
         val expectedReturn = 42
         val spy = SpyData<MultiplyAction, Int>().apply { spyWillReturn(expectedReturn) }
@@ -53,7 +53,7 @@ class ExecutableActionTest : ExecutableActionExecuteSyntax {
     }
 
     @Test
-    fun singleDispatcherObjectCanExecuteManyActions() = setup(object {
+    fun dispatchesDifferentActionTypesThroughOneDispatcher() = setup(object {
         val dispatcher = object : AddActionDispatcher, MultiplyActionDispatcher {}
         val addAction = AddAction(7, 22)
         val multiplyAction = MultiplyAction(13, 41)

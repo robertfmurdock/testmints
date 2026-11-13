@@ -16,7 +16,7 @@ class GeneralSuspendActionDispatcherTest {
     }
 
     @Test
-    fun syntaxAllowsInterceptionOfActionExecutionIncludingReplacingResult() = asyncSetup(object : GeneralSuspendActionDispatcherSyntax {
+    fun returnsTheInterceptorResultWithoutCallingTheActionDispatcher() = asyncSetup(object : GeneralSuspendActionDispatcherSyntax {
         val expectedReplacedResult = 127
         override val generalDispatcher = generalDispatcherSpy().apply { spyWillReturn(expectedReplacedResult) }
         val action = DivideAction(6, 7)
