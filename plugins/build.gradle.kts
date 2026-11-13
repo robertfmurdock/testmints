@@ -84,3 +84,11 @@ configurations.consumable("dashboardBuildTestCountsElements") {
     }
     outgoing.artifact(tasks.named<MergeJUnitCounts>("collectDashboardBuildTestCounts").flatMap { it.countsFile })
 }
+
+configurations.consumable("collectedReportsElements") {
+    attributes {
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.VERIFICATION))
+        attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named("collected-test-reports"))
+    }
+    outgoing.artifact(tasks.named<Copy>("collectResults").map { it.destinationDir })
+}

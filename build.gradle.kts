@@ -24,11 +24,26 @@ dashboardBuildTestCounts.configure {
     extendsFrom(dashboardBuildTestCountsDependencies.get())
 }
 
+val collectedReports = configurations.resolvable("collectedReports") {
+    attributes {
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.VERIFICATION))
+        attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named("collected-test-reports"))
+    }
+}
+val collectedReportsDependencies = configurations.dependencyScope("collectedReportsDependencies")
+collectedReports.configure {
+    extendsFrom(collectedReportsDependencies.get())
+}
+
 dependencies {
     add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints:testmints:1")
+    add("collectedReportsDependencies", "com.zegreatrob.testmints:testmints:1")
     add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:plugins:1")
+    add("collectedReportsDependencies", "com.zegreatrob.testmints.dashboard:plugins:1")
     add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:plugins-test:1")
+    add("collectedReportsDependencies", "com.zegreatrob.testmints.dashboard:plugins-test:1")
     add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:convention-plugins:1")
+    add("collectedReportsDependencies", "com.zegreatrob.testmints.dashboard:convention-plugins:1")
 }
 
 dashboardTestSummary {
@@ -81,9 +96,7 @@ tasks {
     register<Copy>("collectResults") {
         group = "verification"
         description = "Collects test reports and results."
-        dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
-        dependsOn(provider { includedBuilds.map { it.task(":collectResults") } })
-        from(includedBuilds.map { it.projectDir.resolve("build/test-output") })
+        from(collectedReports)
         into(rootProject.layout.buildDirectory.dir("test-output/${project.path}".replace(":", "/")))
     }
     register("formatKotlin") {
