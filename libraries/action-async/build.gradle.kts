@@ -12,9 +12,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":action"))
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
-                implementation(libs.org.jetbrains.kotlinx.kotlinx.serialization.json)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
         commonTest {
@@ -37,23 +36,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("reflect"))
                 implementation("org.slf4j:slf4j-simple")
-                implementation("org.junit.jupiter:junit-jupiter-api")
-                implementation("org.junit.jupiter:junit-jupiter-engine")
-                runtimeOnly("org.junit.platform:junit-platform-launcher")
             }
         }
 
-        jsMain {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
-            }
-        }
-    }
-}
-
-tasks {
-    jvmTest {
-        systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-        useJUnitPlatform()
     }
 }

@@ -9,11 +9,11 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(libs.org.jetbrains.kotlin.kotlin.bom))
+    implementation(platform(libs.kotlin.bom))
     implementation(kotlin("stdlib"))
-    implementation(libs.org.jetbrains.kotlin.kotlin.gradle.plugin)
+    implementation(libs.kotlin.gradle.plugin)
     implementation(libs.nl.littlerobots.vcu.plugin)
-    implementation(libs.org.jmailen.gradle.kotlinter.gradle)
+    implementation(libs.kotlinter.gradle)
 }
 
 tasks {

@@ -7,11 +7,6 @@ plugins {
 kotlin {
 
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-            }
-        }
         commonTest {
             dependencies {
                 implementation(project(":standard"))
@@ -33,22 +28,8 @@ kotlin {
                 implementation(kotlin("reflect"))
                 implementation("org.slf4j:slf4j-simple")
                 implementation(kotlin("test"))
-                implementation("org.junit.jupiter:junit-jupiter-api")
-                implementation("org.junit.jupiter:junit-jupiter-engine")
             }
         }
 
-        jsMain {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
-            }
-        }
-    }
-}
-
-tasks {
-    jvmTest {
-        systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-        useJUnitPlatform()
     }
 }

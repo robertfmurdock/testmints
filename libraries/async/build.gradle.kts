@@ -15,20 +15,14 @@ kotlin {
             dependencies {
                 api(project(":standard"))
                 api(project(":report"))
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation(kotlin("test"))
-                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
-                api(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
+                implementation(libs.kotlinx.coroutines.core)
+                api(libs.kotlinx.coroutines.test)
             }
         }
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
-            }
-        }
-        jvmMain {
-            dependencies {
-                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
             }
         }
     }

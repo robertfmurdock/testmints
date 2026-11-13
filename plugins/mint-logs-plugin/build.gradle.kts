@@ -29,5 +29,5 @@ dependencies {
     implementation(kotlin("gradle-plugin", embeddedKotlinVersion))
     implementation(kotlin("test", embeddedKotlinVersion))
 
-    "functionalTestImplementation"(platform(libs.org.junit.junit.bom))
+    "functionalTestImplementation"(platform(libs.junit.bom))
 }

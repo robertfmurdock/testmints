@@ -19,13 +19,13 @@ group = "com.zegreatrob.testmints"
 // Keep it local to this included build so its task outputs are not shared with plugins-test.
 extra["kotlin.user.home"] = layout.projectDirectory.dir(".kotlin-user-home").asFile.absolutePath
 
-val kotlinVersion = libs.versions.org.jetbrains.kotlin.get()
-val coroutinesVersion = libs.versions.org.jetbrains.kotlinx.coroutines.get()
-val serializationVersion = libs.versions.org.jetbrains.kotlinx.serialization.get()
-val kotlinLoggingVersion = libs.versions.io.github.oshai.kotlin.logging.get()
-val testBalloonVersion = libs.versions.de.infix.testballoon.get()
-val slf4jVersion = libs.versions.org.slf4j.get()
-val junitVersion = libs.versions.org.junit.get()
+val kotlinVersion = libs.versions.kotlin.toolchain.get()
+val coroutinesVersion = libs.versions.kotlinx.coroutines.get()
+val serializationVersion = libs.versions.kotlinx.serialization.get()
+val kotlinLoggingVersion = libs.versions.kotlin.logging.get()
+val testBalloonVersion = libs.versions.testballoon.get()
+val slf4jVersion = libs.versions.slf4j.get()
+val junitVersion = libs.versions.junit.get()
 
 allprojects {
     configurations.configureEach {

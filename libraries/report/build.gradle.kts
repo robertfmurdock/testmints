@@ -7,13 +7,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation(kotlin("test"))
-            }
-        }
-        jsMain {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
             }
         }
     }

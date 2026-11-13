@@ -8,7 +8,6 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib")
                 implementation(kotlin("test"))
             }
         }

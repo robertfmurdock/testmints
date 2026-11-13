@@ -24,11 +24,10 @@ kotlin {
             dependencies {
                 implementation(project(":standard"))
                 implementation(project(":report"))
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation(kotlin("test"))
-                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
-                api(libs.org.jetbrains.kotlinx.kotlinx.coroutines.test)
-                api(libs.io.github.oshai.kotlin.logging)
+                implementation(libs.kotlinx.coroutines.core)
+                api(libs.kotlinx.coroutines.test)
+                api(libs.kotlin.logging)
             }
         }
         commonTest {
@@ -38,21 +37,14 @@ kotlin {
         }
         jvmMain {
             dependencies {
-                implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
-                implementation(libs.org.junit.jupiter.junit.jupiter.api)
-                implementation(libs.org.junit.jupiter.junit.jupiter.engine)
+                implementation(libs.junit.jupiter.api)
+                implementation(libs.junit.jupiter.engine)
             }
         }
     }
 }
 
-tasks {
-    jvmTest {
-        useJUnitPlatform()
-        systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-    }
-}
 
 dependencies {
-    jvmTestImplementation(libs.org.slf4j.slf4j.simple)
+    jvmTestImplementation(libs.slf4j.simple)
 }

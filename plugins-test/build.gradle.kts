@@ -8,9 +8,9 @@ plugins {
 // Keep it local to this included build so its task outputs are not shared with libraries.
 extra["kotlin.user.home"] = layout.projectDirectory.dir(".kotlin-user-home").asFile.absolutePath
 
-val kotlinVersion = libs.versions.org.jetbrains.kotlin.get()
-val coroutinesVersion = libs.versions.org.jetbrains.kotlinx.coroutines.get()
-val serializationVersion = libs.versions.org.jetbrains.kotlinx.serialization.get()
+val kotlinVersion = libs.versions.kotlin.toolchain.get()
+val coroutinesVersion = libs.versions.kotlinx.coroutines.get()
+val serializationVersion = libs.versions.kotlinx.serialization.get()
 
 allprojects {
     configurations.configureEach {

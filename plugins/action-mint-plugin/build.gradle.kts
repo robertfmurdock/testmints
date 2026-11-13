@@ -26,9 +26,9 @@ gradlePlugin {
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$embeddedKotlinVersion"))
-    implementation(libs.com.google.devtools.ksp)
+    implementation(libs.ksp)
     implementation(kotlin("gradle-plugin", embeddedKotlinVersion))
     implementation(kotlin("test", embeddedKotlinVersion))
 
-    "functionalTestImplementation"(platform(libs.org.junit.junit.bom))
+    "functionalTestImplementation"(platform(libs.junit.bom))
 }
