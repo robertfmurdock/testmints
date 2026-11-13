@@ -46,6 +46,7 @@ afterEvaluate {
         val hooksConfiguration: Configuration = configurations.create("hooks") {
             isCanBeResolved = true
             isCanBeConsumed = false
+            isTransitive = false
 //            @Suppress("OPT_IN_USAGE")
 //            attributes.attribute(KlibPackaging.ATTRIBUTE, project.objects.named(KlibPackaging.PACKED))
             attributes.attribute(
@@ -59,21 +60,26 @@ afterEvaluate {
             hooksConfiguration("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
         }
 
+        val extractMintLogsHooks = tasks.register<Sync>("extractMintLogsHooks") {
+            from(zipTree(hooksConfiguration.elements.map { it.single().asFile }))
+            into(layout.buildDirectory.dir("mint-logs/hooks"))
+        }
+        val extractedHooks = extractMintLogsHooks.map { it.destinationDir }
+
         kotlinMultiplatform.js(configure = fun KotlinJsTargetDsl.() {
             val compilation = compilations["test"]
 
             (this as? KotlinJsIrTarget)?.let {
-                it.whenBrowserConfigured { setupKarmaLogging(hooksConfiguration) }
+                it.whenBrowserConfigured { setupKarmaLogging(extractedHooks) }
                 it.whenNodejsConfigured {
-                    val target = compilation.compileTaskProvider.get().compilerOptions.target.get()
+                    val target = compilation.compileTaskProvider.flatMap { it.compilerOptions.target }
                     applyMochaSettings(compilation, target)
                 }
             }
 
             tasks {
                 named<DefaultIncrementalSyncTask>("jsTestTestDevelopmentExecutableCompileSync") {
-                    dependsOn(hooksConfiguration)
-                    from.from(zipTree(hooksConfiguration.first()))
+                    from.from(extractedHooks)
                 }
             }
 
@@ -97,16 +103,14 @@ afterEvaluate {
     }
 }
 
-fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
+fun KotlinJsBrowserDsl.setupKarmaLogging(extractedHooks: Provider<File>) {
     val newKarmaConfigDir = project.layout.buildDirectory.dir("karma.config.d")
     project.tasks {
         val karmaPrepare = register("karmaPrepare", ProcessResources::class) {
-            dependsOn(hooksConfiguration)
             from(project.projectDir.resolve("karma.config.d"))
-            from(
-                project.zipTree(hooksConfiguration.first())
-                    .filter { file -> file.name == "karma-mint-logs.js" }
-            )
+            from(extractedHooks) {
+                include("**/karma-mint-logs.js")
+            }
             into(newKarmaConfigDir)
         }
         testTask(Action<KotlinJsTest>(fun KotlinJsTest.() {
@@ -120,7 +124,7 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(hooksConfiguration: Configuration) {
     }
 }
 
-fun applyMochaSettings(compilation: KotlinJsCompilation, target: String) {
+fun applyMochaSettings(compilation: KotlinJsCompilation, target: Provider<String>) {
     compilation.packageJson {
         val gson: Gson = GsonBuilder()
             .setPrettyPrinting()
@@ -142,7 +146,7 @@ fun applyMochaSettings(compilation: KotlinJsCompilation, target: String) {
             }
         }
             ?: emptyList()
-        val suffix = if (target == "es5") "js" else "mjs"
+        val suffix = if (target.get() == "es5") "js" else "mjs"
         val requires = previousRequires + JsonPrimitive("./kotlin/testmints-mint-logs.$suffix")
         mochaSettings.add("require", JsonArray().apply { requires.forEach(::add) })
         customField("mocha", gson.toJson(mochaSettings).let { gson.fromJson(it, Map::class.java) })
