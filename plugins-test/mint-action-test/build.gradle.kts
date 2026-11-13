@@ -28,13 +28,9 @@ NodeJsRootPlugin.apply(project.rootProject)
 
 tasks {
     withType(FormatTask::class) {
-        dependsOn("kspKotlinJs")
-        dependsOn("kspTestKotlinJs")
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
     withType(LintTask::class) {
-        dependsOn("kspKotlinJs")
-        dependsOn("kspTestKotlinJs")
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
 }

@@ -10,7 +10,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
 import org.jetbrains.kotlin.gradle.plugin.usesPlatformOf
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
-import org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
 import org.jetbrains.kotlin.gradle.targets.js.npm.PackageJsonTypeAdapter
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
@@ -60,6 +59,11 @@ pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
 
         compilations.named("test") {
             val compilation = this
+            tasks.named<ProcessResources>(processResourcesTaskName) {
+                from(extractedHooks) {
+                    include("browser-mocha-mint-logs.js", "karma-mint-logs.js")
+                }
+            }
             jsTarget.whenBrowserConfigured { setupKarmaLogging(extractedHooks) }
             jsTarget.whenNodejsConfigured {
                 val target = compilation.compileTaskProvider.flatMap { it.compilerOptions.target }
@@ -67,12 +71,6 @@ pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
             }
             defaultSourceSet.dependencies {
                 implementation("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
-            }
-        }
-
-        tasks.withType<DefaultIncrementalSyncTask>().configureEach {
-            if (name == "jsTestTestDevelopmentExecutableCompileSync") {
-                from.from(extractedHooks)
             }
         }
     }
