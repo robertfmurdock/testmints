@@ -1,3 +1,4 @@
+import com.zegreatrob.tools.dashboard.MergeJUnitCounts
 import nl.littlerobots.vcu.plugin.versionSelector
 
 repositories {
@@ -49,4 +50,15 @@ versionCatalogUpdate {
     versionSelector { versionCandidate ->
         !rejectRegex.matches(versionCandidate.candidate.version)
     }
+}
+
+
+group = "com.zegreatrob.testmints.dashboard"
+
+configurations.consumable("dashboardBuildTestCountsElements") {
+    attributes {
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.VERIFICATION))
+        attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named("dashboard-build-test-counts"))
+    }
+    outgoing.artifact(tasks.named<MergeJUnitCounts>("collectDashboardBuildTestCounts").flatMap { it.countsFile })
 }

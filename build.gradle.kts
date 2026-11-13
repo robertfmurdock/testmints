@@ -13,22 +13,26 @@ plugins {
 
 group = "com.zegreatrob.testmints"
 
-dashboardTestSummary {
-    includedCounts.from(
-        layout.projectDirectory.file("libraries/build/dashboard/build-test-counts.json"),
-        layout.projectDirectory.file("plugins/build/dashboard/build-test-counts.json"),
-        layout.projectDirectory.file("plugins-test/build/dashboard/build-test-counts.json"),
-        layout.projectDirectory.file("convention-plugins/build/dashboard/build-test-counts.json"),
-    )
+val dashboardBuildTestCounts = configurations.resolvable("dashboardBuildTestCounts") {
+    attributes {
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.VERIFICATION))
+        attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named("dashboard-build-test-counts"))
+    }
+}
+val dashboardBuildTestCountsDependencies = configurations.dependencyScope("dashboardBuildTestCountsDependencies")
+dashboardBuildTestCounts.configure {
+    extendsFrom(dashboardBuildTestCountsDependencies.get())
 }
 
-tasks.named("dashboardTestSummary") {
-    dependsOn(
-        gradle.includedBuild("libraries").task(":dashboardTestSummaryCounts"),
-        gradle.includedBuild("plugins").task(":dashboardTestSummaryCounts"),
-        gradle.includedBuild("plugins-test").task(":dashboardTestSummaryCounts"),
-        gradle.includedBuild("convention-plugins").task(":dashboardTestSummaryCounts"),
-    )
+dependencies {
+    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints:testmints:1")
+    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:plugins:1")
+    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:plugins-test:1")
+    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:convention-plugins:1")
+}
+
+dashboardTestSummary {
+    includedCounts.from(dashboardBuildTestCounts)
 }
 
 tagger {
