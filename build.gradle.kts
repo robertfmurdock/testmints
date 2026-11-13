@@ -73,10 +73,10 @@ tasks {
     register("kotlinUpgradeYarnLock") {
         group = "build setup"
         description = "Updates Yarn lockfiles for the included Kotlin builds."
-        dependsOn(provider {
-            librariesBuild.task(":kotlinUpgradeYarnLock")
-            pluginsTestBuild.task(":kotlinUpgradeYarnLock")
-        })
+        dependsOn(
+            librariesBuild.task(":kotlinUpgradeYarnLock"),
+            pluginsTestBuild.task(":kotlinUpgradeYarnLock"),
+        )
     }
     register<Copy>("collectResults") {
         group = "verification"
