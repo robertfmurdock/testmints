@@ -41,7 +41,6 @@ allprojects {
 }
 
 tasks {
-    register("versionCatalogUpdate") {}
     register("collectResults") {
         group = "verification"
         description = "Collects test reports and results."

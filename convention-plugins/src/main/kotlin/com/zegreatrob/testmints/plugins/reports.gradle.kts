@@ -9,7 +9,7 @@ tasks {
     register<Copy>("collectResults") {
         group = "verification"
         description = "Collects this project's reports and test results."
-        mustRunAfter(check)
+        mustRunAfter(check, tasks.withType<AbstractTestTask>())
         from(layout.buildDirectory.dir("reports"))
         from(layout.buildDirectory.dir("test-results"))
         into(projectResultPath)

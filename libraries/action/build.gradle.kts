@@ -26,7 +26,7 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation(kotlin("reflect"))
-                implementation("org.slf4j:slf4j-simple")
+                implementation(libs.slf4j.simple)
                 implementation(kotlin("test"))
             }
         }

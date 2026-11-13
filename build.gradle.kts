@@ -65,10 +65,8 @@ tasks {
         gradle.includedBuild("plugins"),
     )
     val pluginsTestBuild = gradle.includedBuild("plugins-test")
-    val includedBuilds = publishableBuilds + listOf(
-        gradle.includedBuild("convention-plugins"),
-        pluginsTestBuild
-    )
+    val catalogOwnerBuilds = publishableBuilds + gradle.includedBuild("convention-plugins")
+    val includedBuilds = catalogOwnerBuilds + pluginsTestBuild
     val publish = register("publish") {
         group = "publishing"
         description = "Publishes the libraries and Gradle plugins."
@@ -81,7 +79,7 @@ tasks {
         }
     }
     "versionCatalogUpdate" {
-        dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
+        dependsOn(provider { catalogOwnerBuilds.map { it.task(":versionCatalogUpdate") } })
     }
     register("kotlinUpgradeYarnLock") {
         group = "build setup"
