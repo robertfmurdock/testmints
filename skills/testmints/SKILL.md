@@ -24,6 +24,8 @@ For example, a test titled “generates a deterministic schema” used `readFile
 - **Verify** asserts on observable results, state, or collaborator interactions from that execution. When the subject has no completion handle, use a bounded wait for a live condition. Keep subject calls outside retrying assertions.
 - **Teardown** releases resources owned by the scenario. Pair acquisition and cleanup with the supported lifecycle mechanism. Keep shared mock, global, or timer restoration in existing runner hooks.
 
+- Read the name in its enclosing context first. What distinguishes this case, and what would you expect the body to show? Then read the body on its own terms. What would you call this case? Check that both readings point to the same distinguishing behavior. Follow the project’s naming conventions. Consider leading with the input or starting condition when it helps readers compare cases, and let the enclosing context carry what the cases share.
+
 Prefer helpers that arrange a reusable world or name a stable assertion while leaving registration and the subject action visible. Use named, branch-free case tables for uniform input-to-outcome mappings. Keep fresh mutable collaborators in each case's setup.
 
 ## Check that the evidence can fail
