@@ -6,10 +6,10 @@ import org.jetbrains.kotlin.com.google.gson.JsonArray
 import org.jetbrains.kotlin.com.google.gson.JsonElement
 import org.jetbrains.kotlin.com.google.gson.JsonObject
 import org.jetbrains.kotlin.com.google.gson.JsonPrimitive
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
 import org.jetbrains.kotlin.gradle.plugin.usesPlatformOf
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
-import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
 import org.jetbrains.kotlin.gradle.targets.js.npm.PackageJsonTypeAdapter
@@ -22,27 +22,19 @@ plugins {
     base
 }
 
-afterEvaluate {
-
-    val kotlinJvm = extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-
-    kotlinJvm?.apply {
-        tasks {
-            named<Test>("test") {
-                systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-            }
-        }
-        dependencies {
-            "testImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
-        }
+pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+    tasks.named<Test>("test") {
+        systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
     }
+    dependencies {
+        "testImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
+    }
+}
 
-    val kotlinMultiplatform =
-        extensions.getByName("kotlin") as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-
-    if (kotlinMultiplatform?.targets?.findByName("js") != null) {
-
-
+pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+    val kotlin = extensions.getByType<KotlinMultiplatformExtension>()
+    kotlin.targets.withType<KotlinJsIrTarget>().matching { it.name == "js" }.all {
+        val jsTarget = this
         val hooksConfiguration: Configuration = configurations.create("hooks") {
             isCanBeResolved = true
             isCanBeConsumed = false
@@ -53,7 +45,7 @@ afterEvaluate {
                 Usage.USAGE_ATTRIBUTE,
                 project.objects.named<Usage>(Usage::class.java, "kotlin-runtime")
             )
-            usesPlatformOf(kotlinMultiplatform.js().compilations.getByName("test").target)
+            usesPlatformOf(jsTarget)
         }
 
         dependencies {
@@ -66,38 +58,34 @@ afterEvaluate {
         }
         val extractedHooks = extractMintLogsHooks.map { it.destinationDir }
 
-        kotlinMultiplatform.js(configure = fun KotlinJsTargetDsl.() {
-            val compilation = compilations["test"]
-
-            (this as? KotlinJsIrTarget)?.let {
-                it.whenBrowserConfigured { setupKarmaLogging(extractedHooks) }
-                it.whenNodejsConfigured {
-                    val target = compilation.compileTaskProvider.flatMap { it.compilerOptions.target }
-                    applyMochaSettings(compilation, target)
-                }
+        compilations.named("test") {
+            val compilation = this
+            jsTarget.whenBrowserConfigured { setupKarmaLogging(extractedHooks) }
+            jsTarget.whenNodejsConfigured {
+                val target = compilation.compileTaskProvider.flatMap { it.compilerOptions.target }
+                applyMochaSettings(compilation, target)
             }
-
-            tasks {
-                named<DefaultIncrementalSyncTask>("jsTestTestDevelopmentExecutableCompileSync") {
-                    from.from(extractedHooks)
-                }
+            defaultSourceSet.dependencies {
+                implementation("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
             }
+        }
 
-            dependencies {
-                "jsTestImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
+        tasks.withType<DefaultIncrementalSyncTask>().configureEach {
+            if (name == "jsTestTestDevelopmentExecutableCompileSync") {
+                from.from(extractedHooks)
             }
-        })
+        }
     }
 
-    kotlinMultiplatform?.targets?.findByName("jvm")?.let {
-        kotlinMultiplatform.jvm {
-            tasks {
-                named<Test>("jvmTest") {
-                    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-                }
+    kotlin.targets.matching { it.name == "jvm" }.all {
+        compilations.named("test") {
+            defaultSourceSet.dependencies {
+                implementation("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
             }
-            dependencies {
-                "jvmTestImplementation"("com.zegreatrob.testmints:mint-logs:${PluginVersions.bomVersion}")
+        }
+        tasks.withType<Test>().configureEach {
+            if (name == "jvmTest") {
+                systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
             }
         }
     }
