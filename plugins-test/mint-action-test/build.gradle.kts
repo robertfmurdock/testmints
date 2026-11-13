@@ -27,10 +27,10 @@ kotlin {
 NodeJsRootPlugin.apply(project.rootProject)
 
 tasks {
-    withType(FormatTask::class) {
+    withType<FormatTask>().configureEach {
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
-    withType(LintTask::class) {
+    withType<LintTask>().configureEach {
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
 }

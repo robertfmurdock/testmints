@@ -13,15 +13,16 @@ plugins {
 
 group = "com.zegreatrob.testmints"
 
+val includedBuildVerificationDependencies = configurations.dependencyScope("includedBuildVerificationDependencies")
+
 val dashboardBuildTestCounts = configurations.resolvable("dashboardBuildTestCounts") {
     attributes {
         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.VERIFICATION))
         attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named("dashboard-build-test-counts"))
     }
 }
-val dashboardBuildTestCountsDependencies = configurations.dependencyScope("dashboardBuildTestCountsDependencies")
 dashboardBuildTestCounts.configure {
-    extendsFrom(dashboardBuildTestCountsDependencies.get())
+    extendsFrom(includedBuildVerificationDependencies.get())
 }
 
 val collectedReports = configurations.resolvable("collectedReports") {
@@ -30,20 +31,15 @@ val collectedReports = configurations.resolvable("collectedReports") {
         attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named("collected-test-reports"))
     }
 }
-val collectedReportsDependencies = configurations.dependencyScope("collectedReportsDependencies")
 collectedReports.configure {
-    extendsFrom(collectedReportsDependencies.get())
+    extendsFrom(includedBuildVerificationDependencies.get())
 }
 
 dependencies {
-    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints:testmints:1")
-    add("collectedReportsDependencies", "com.zegreatrob.testmints:testmints:1")
-    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:plugins:1")
-    add("collectedReportsDependencies", "com.zegreatrob.testmints.dashboard:plugins:1")
-    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:plugins-test:1")
-    add("collectedReportsDependencies", "com.zegreatrob.testmints.dashboard:plugins-test:1")
-    add("dashboardBuildTestCountsDependencies", "com.zegreatrob.testmints.dashboard:convention-plugins:1")
-    add("collectedReportsDependencies", "com.zegreatrob.testmints.dashboard:convention-plugins:1")
+    add("includedBuildVerificationDependencies", "com.zegreatrob.testmints:testmints:1")
+    add("includedBuildVerificationDependencies", "com.zegreatrob.testmints.dashboard:plugins:1")
+    add("includedBuildVerificationDependencies", "com.zegreatrob.testmints.dashboard:plugins-test:1")
+    add("includedBuildVerificationDependencies", "com.zegreatrob.testmints.dashboard:convention-plugins:1")
 }
 
 dashboardTestSummary {

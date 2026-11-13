@@ -2,7 +2,6 @@
 gradle-nexus-publish-plugin = "io.github.gradle-nexus:publish-plugin:2.0.0"
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlinter-gradle = "org.jmailen.gradle:kotlinter-gradle:5.7.0"
 nl-littlerobots-vcu-plugin = "nl.littlerobots.vcu:plugin:1.1.2"
 

@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.withType
 import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
@@ -20,10 +19,10 @@ kotlin {
 }
 
 tasks {
-    withType(FormatTask::class) {
+    withType<FormatTask>().configureEach {
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
-    withType(LintTask::class) {
+    withType<LintTask>().configureEach {
         exclude { spec -> spec.file.absolutePath.contains("generated") }
     }
     wasmJsNodeTest {
