@@ -101,8 +101,9 @@ fun KotlinJsBrowserDsl.setupKarmaLogging(extractedHooks: Provider<File>) {
             }
             into(newKarmaConfigDir)
         }
+        val preparedConfig = karmaPrepare.map { it.destinationDir }
         testTask(Action<KotlinJsTest>(fun KotlinJsTest.() {
-            dependsOn(karmaPrepare)
+            inputs.dir(preparedConfig).withPropertyName("mintLogsKarmaConfig")
             onTestFrameworkSet(fun(framework: KotlinJsTestFramework?) {
                 if (framework is KotlinKarma) {
                     framework.useConfigDirectory(newKarmaConfigDir.get().asFile)

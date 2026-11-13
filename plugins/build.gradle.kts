@@ -36,16 +36,19 @@ tasks {
         }
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
-    register<Copy>("collectResults") {
+    val collectResults = register<Copy>("collectResults") {
         group = "verification"
         description = "Collects test reports and results."
-        dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
-        from(provider { (getTasksByName("collectResults", true) - this).toList() }.map {
-            it.map { task -> task.project }
-                .toSet()
-                .map { project -> project.layout.buildDirectory.dir("test-output").get() }
-        })
-        into(rootProject.layout.buildDirectory.dir("test-output/${project.path}".replace(":", "/")))
+        into(layout.buildDirectory.dir("test-output"))
+    }
+    subprojects {
+        val reportPath = path.trimStart(':').replace(':', '/')
+        pluginManager.withPlugin("com.zegreatrob.testmints.plugins.published-gradle-plugin") {
+            val projectReports = tasks.named<Copy>("collectResults")
+            collectResults.configure {
+                from(projectReports.map { it.destinationDir }) { into("$reportPath/results") }
+            }
+        }
     }
 
     register("formatKotlin") {
