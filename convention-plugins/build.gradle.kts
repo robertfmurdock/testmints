@@ -8,6 +8,12 @@ plugins {
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 dependencies {
     implementation(platform(libs.kotlin.bom))
     implementation(libs.kotlin.gradle.plugin)
