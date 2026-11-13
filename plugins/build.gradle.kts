@@ -3,23 +3,11 @@ import nl.littlerobots.vcu.plugin.versionSelector
 
 plugins {
     base
-    alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
+    id("com.zegreatrob.testmints.plugins.sonatype-publishing")
     `maven-publish`
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     alias(libs.plugins.com.zegreatrob.tools.fingerprint)
     alias(libs.plugins.com.zegreatrob.tools.dashboard.test.summary)
-}
-
-nexusPublishing {
-    this@nexusPublishing.repositories {
-        sonatype {
-            username.set(System.getenv("SONATYPE_USERNAME"))
-            password.set(System.getenv("SONATYPE_PASSWORD"))
-            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
-            stagingProfileId.set("59331990bed4c")
-        }
-    }
 }
 
 tasks {

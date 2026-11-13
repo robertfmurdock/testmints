@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.nl.littlerobots.vcu.plugin)
     implementation(libs.kotlinter.gradle)
+    implementation(libs.gradle.nexus.publish.plugin)
 }
 
 tasks {

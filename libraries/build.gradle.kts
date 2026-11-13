@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
     id("com.zegreatrob.testmints.plugins.versioning")
     alias(libs.plugins.com.zegreatrob.tools.fingerprint)
-    alias(libs.plugins.io.github.gradle.nexus.publish.plugin)
+    id("com.zegreatrob.testmints.plugins.sonatype-publishing")
     alias(libs.plugins.com.zegreatrob.tools.dashboard.test.summary)
     `maven-publish`
     signing
@@ -57,18 +57,6 @@ allprojects {
                     }
                 }
             }
-        }
-    }
-}
-
-nexusPublishing {
-    this@nexusPublishing.repositories {
-        sonatype {
-            username.set(System.getenv("SONATYPE_USERNAME"))
-            password.set(System.getenv("SONATYPE_PASSWORD"))
-            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
-            stagingProfileId.set("59331990bed4c")
         }
     }
 }
