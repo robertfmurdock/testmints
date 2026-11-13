@@ -89,19 +89,14 @@ tasks {
 
     val projectResultPath = project.layout.buildDirectory.dir("test-output/${project.path}/results".replace(":", "/"))
 
-    val check = getByName("check")
-    val copyReportsToRootDirectory = register<Copy>("copyReportsToRootDirectory") {
+    val check = named("check")
+    register<Copy>("collectResults") {
+        group = "verification"
+        description = "Collects this project's reports and test results."
         mustRunAfter(check)
-        from("build/reports")
+        from(layout.buildDirectory.dir("reports"))
+        from(layout.buildDirectory.dir("test-results"))
         into(projectResultPath)
-    }
-    val copyTestResultsToRootDirectory = register<Copy>("copyTestResultsToRootDirectory") {
-        mustRunAfter(check)
-        from("build/test-results")
-        into(projectResultPath)
-    }
-    register("collectResults") {
-        dependsOn(copyReportsToRootDirectory, copyTestResultsToRootDirectory)
     }
 }
 

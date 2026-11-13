@@ -28,7 +28,7 @@ runs. Commits stay local.
 | ID | Status | Acceptance and focused verification | Result or follow-up |
 |---|---|---|---|
 | 0 | Verified | Run the commit gate before changing build logic and commit this tracker. | Java 21.0.1 (Corretto), Gradle 9.9.1, no version override. Clean passed in 42s. Assemble and check passed in 4m 30s (858 tasks). |
-| 1 | Pending | Give each project report directory one owner. Run `./gradlew collectResults` after the full build and verify reports and test results under the existing CI artifact paths. | — |
+| 1 | Verified | Give each project report directory one owner. Run `./gradlew collectResults` after the full build and verify reports and test results under the existing CI artifact paths. | Java 21.0.1, Gradle 9.9.1, no version override. Clean passed in 29s, assemble and check in 7m 2s, and collection in 5s. Found 116 test XML files and 357 HTML indexes under the existing artifact root. |
 | 2 | Pending | Resolve the Mint Logs hooks archive lazily and wire its extracted output into the JS consumers. Run `./gradlew :plugins:mint-logs-plugin:functionalTest` and confirm the Node and browser cases. | — |
 | 3a | Pending | Configure consumer plugins through plugin and target callbacks. Run the Mint Logs functional suite and the `plugins-test` checks. | — |
 | 3b | Pending | Configure POM metadata lazily. Run the representative Maven publication POM generation tasks locally and inspect the generated metadata. | — |
