@@ -10,7 +10,6 @@ plugins {
 
 dependencies {
     implementation(platform(libs.kotlin.bom))
-    implementation(kotlin("stdlib"))
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.nl.littlerobots.vcu.plugin)
     implementation(libs.kotlinter.gradle)
