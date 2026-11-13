@@ -20,6 +20,18 @@ jobs:
         with:
           gradle-version: current
       - run: gradle wrapper --distribution-type bin
+      - uses: gradle/actions/wrapper-validation@v4
+      - name: Validate distribution checksum
+        shell: bash
+        run: |
+          properties=gradle/wrapper/gradle-wrapper.properties
+          distribution=$(sed -n 's|^distributionUrl=https\\://services.gradle.org/distributions/||p' "$properties")
+          expected=$(curl -fsSL "https://services.gradle.org/distributions/${distribution}.sha256")
+          actual=$(sed -n 's/^distributionSha256Sum=//p' "$properties")
+          if [[ -z "$expected" || "$actual" != "$expected" ]]; then
+            echo "Distribution checksum mismatch for $distribution." >&2
+            exit 1
+          fi
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
