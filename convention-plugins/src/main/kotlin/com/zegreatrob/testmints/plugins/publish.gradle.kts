@@ -1,6 +1,5 @@
 package com.zegreatrob.testmints.plugins
 
-import java.nio.charset.Charset
 import java.util.*
 
 plugins {
@@ -15,7 +14,7 @@ signing {
     val signingPassword = project.findProperty("signingPassword") as String?
 
     if (signingKey != null) {
-        val decodedKey = Base64.getDecoder().decode(signingKey).toString(Charset.defaultCharset())
+        val decodedKey = Base64.getDecoder().decode(signingKey).toString(Charsets.UTF_8)
         useInMemoryPgpKeys(
             decodedKey,
             signingPassword

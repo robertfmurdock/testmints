@@ -71,12 +71,16 @@ tasks {
         dependsOn(provider { includedBuilds.map { it.task(":versionCatalogUpdate") } })
     }
     register("kotlinUpgradeYarnLock") {
+        group = "build setup"
+        description = "Updates Yarn lockfiles for the included Kotlin builds."
         dependsOn(provider {
             librariesBuild.task(":kotlinUpgradeYarnLock")
             pluginsTestBuild.task(":kotlinUpgradeYarnLock")
         })
     }
     register<Copy>("collectResults") {
+        group = "verification"
+        description = "Collects test reports and results."
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
         dependsOn(provider { includedBuilds.map { it.task(":collectResults") } })
         from(includedBuilds.map { it.projectDir.resolve("build/test-output") })

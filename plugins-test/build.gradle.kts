@@ -43,6 +43,8 @@ allprojects {
 tasks {
     register("versionCatalogUpdate") {}
     register("collectResults") {
+        group = "verification"
+        description = "Collects test reports and results."
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
     }
     register("formatKotlin") {

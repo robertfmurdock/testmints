@@ -1,3 +1,5 @@
+rootProject.name = "plugins-test"
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral()

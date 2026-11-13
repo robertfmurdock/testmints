@@ -37,6 +37,8 @@ tasks {
         finalizedBy(closeAndReleaseSonatypeStagingRepository)
     }
     register<Copy>("collectResults") {
+        group = "verification"
+        description = "Collects test reports and results."
         dependsOn(provider { (getTasksByName("collectResults", true) - this).toList() })
         from(provider { (getTasksByName("collectResults", true) - this).toList() }.map {
             it.map { task -> task.project }

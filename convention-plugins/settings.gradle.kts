@@ -1,3 +1,5 @@
+rootProject.name = "convention-plugins"
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
