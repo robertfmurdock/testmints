@@ -76,12 +76,6 @@ tasks {
         }
         into(project.layout.buildDirectory.dir("generated-sources/templates/kotlin/main"))
     }
-    compileKotlin {
-        dependsOn(copyTemplates)
-    }
-    "compileFunctionalTestKotlin" {
-        dependsOn(compileKotlin)
-    }
     sourceSets {
         main {
             java.srcDirs(copyTemplates)
