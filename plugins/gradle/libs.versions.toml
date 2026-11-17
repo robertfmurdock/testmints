@@ -4,6 +4,6 @@ ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:2.3.14"
 
 [plugins]
 com-gradle-plugin-publish = "com.gradle.plugin-publish:2.2.1"
-com-zegreatrob-tools-dashboard-test-summary = "com.zegreatrob.tools.dashboard-test-summary:3.9.4"
-com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:3.9.4"
+com-zegreatrob-tools-dashboard-test-summary = "com.zegreatrob.tools.dashboard-test-summary:3.9.5"
+com-zegreatrob-tools-fingerprint = "com.zegreatrob.tools.fingerprint:3.9.5"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.2"
